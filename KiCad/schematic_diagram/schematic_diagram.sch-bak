@@ -267,7 +267,7 @@ Wire Wire Line
 Wire Wire Line
 	5950 3950 5300 3950
 Wire Wire Line
-	5950 4250 5750 4250
+	5950 4250 5300 4250
 Wire Wire Line
 	5300 2850 5800 2850
 Wire Wire Line
@@ -730,23 +730,16 @@ Wire Wire Line
 Wire Wire Line
 	1550 1750 1550 1900
 NoConn ~ 2600 1950
-Text Notes 3650 2750 0    50   Italic 0
-PRG
-Text Notes 3650 2850 0    50   Italic 0
-PRG
-Text Notes 2150 7050 0    50   Italic 0
-RESET_LCD & READ POWER FAILURE
-Wire Wire Line
-	5950 4050 5750 4050
-Wire Wire Line
-	5750 4050 5750 4250
 Wire Bus Line
 	7650 900  7650 4150
 Wire Bus Line
 	5200 900  5200 4150
 Wire Bus Line
 	4500 900  4500 6950
-Connection ~ 5750 4250
-Wire Wire Line
-	5750 4250 5300 4250
+Text Notes 3650 2750 0    50   Italic 0
+PRG
+Text Notes 3650 2850 0    50   Italic 0
+PRG
+Text Notes 2150 7050 0    50   Italic 0
+RESET_LCD & READ POWER FAILURE
 $EndSCHEMATC
