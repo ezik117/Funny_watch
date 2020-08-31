@@ -1,0 +1,8 @@
+C:\_MY\PROJECTS\MCU\CPP\UART_to_SPI_MEM\UART_to_SPI_MEM\bin\Release\UART_to_SPI_MEM.exe.config
+C:\_MY\PROJECTS\MCU\CPP\UART_to_SPI_MEM\UART_to_SPI_MEM\bin\Release\UART_to_SPI_MEM.exe
+C:\_MY\PROJECTS\MCU\CPP\UART_to_SPI_MEM\UART_to_SPI_MEM\bin\Release\UART_to_SPI_MEM.pdb
+C:\_MY\PROJECTS\MCU\CPP\UART_to_SPI_MEM\UART_to_SPI_MEM\obj\Release\UART_to_SPI_MEM.Form1.resources
+C:\_MY\PROJECTS\MCU\CPP\UART_to_SPI_MEM\UART_to_SPI_MEM\obj\Release\UART_to_SPI_MEM.Properties.Resources.resources
+C:\_MY\PROJECTS\MCU\CPP\UART_to_SPI_MEM\UART_to_SPI_MEM\obj\Release\UART_to_SPI_MEM.csproj.GenerateResource.Cache
+C:\_MY\PROJECTS\MCU\CPP\UART_to_SPI_MEM\UART_to_SPI_MEM\obj\Release\UART_to_SPI_MEM.exe
+C:\_MY\PROJECTS\MCU\CPP\UART_to_SPI_MEM\UART_to_SPI_MEM\obj\Release\UART_to_SPI_MEM.pdb

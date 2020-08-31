@@ -1,0 +1,17 @@
+C:\_MY\PROJECTS\CPP\MCU_ILI9341_Picture_Editor\MCU_ILI9341_Picture_Editor\bin\Debug\MCU_ILI9341_Picture_Editor.exe.config
+C:\_MY\PROJECTS\CPP\MCU_ILI9341_Picture_Editor\MCU_ILI9341_Picture_Editor\bin\Debug\MCU_ILI9341_Picture_Editor.exe
+C:\_MY\PROJECTS\CPP\MCU_ILI9341_Picture_Editor\MCU_ILI9341_Picture_Editor\bin\Debug\MCU_ILI9341_Picture_Editor.pdb
+C:\_MY\PROJECTS\CPP\MCU_ILI9341_Picture_Editor\MCU_ILI9341_Picture_Editor\obj\Debug\MCU_ILI9341_Picture_Editor.Form1.resources
+C:\_MY\PROJECTS\CPP\MCU_ILI9341_Picture_Editor\MCU_ILI9341_Picture_Editor\obj\Debug\MCU_ILI9341_Picture_Editor.Properties.Resources.resources
+C:\_MY\PROJECTS\CPP\MCU_ILI9341_Picture_Editor\MCU_ILI9341_Picture_Editor\obj\Debug\MCU_ILI9341_Picture_Editor.csproj.GenerateResource.Cache
+C:\_MY\PROJECTS\CPP\MCU_ILI9341_Picture_Editor\MCU_ILI9341_Picture_Editor\obj\Debug\MCU_ILI9341_Picture_Editor.exe
+C:\_MY\PROJECTS\CPP\MCU_ILI9341_Picture_Editor\MCU_ILI9341_Picture_Editor\obj\Debug\MCU_ILI9341_Picture_Editor.pdb
+C:\_MY\PROJECTS\CPP\MCU_ILI9341_Picture_Editor\MCU_ILI9341_Picture_Editor\obj\Debug\MCU_ILI9341_Picture_Editor.csprojResolveAssemblyReference.cache
+C:\_MY\PROJECTS\MCU\CPP\MCU_ILI9341_Picture_Editor\MCU_ILI9341_Picture_Editor\bin\Debug\MCU_ILI9341_Picture_Editor.exe.config
+C:\_MY\PROJECTS\MCU\CPP\MCU_ILI9341_Picture_Editor\MCU_ILI9341_Picture_Editor\obj\Debug\MCU_ILI9341_Picture_Editor.exe
+C:\_MY\PROJECTS\MCU\CPP\MCU_ILI9341_Picture_Editor\MCU_ILI9341_Picture_Editor\obj\Debug\MCU_ILI9341_Picture_Editor.pdb
+C:\_MY\PROJECTS\MCU\CPP\MCU_ILI9341_Picture_Editor\MCU_ILI9341_Picture_Editor\bin\Debug\MCU_ILI9341_Picture_Editor.exe
+C:\_MY\PROJECTS\MCU\CPP\MCU_ILI9341_Picture_Editor\MCU_ILI9341_Picture_Editor\bin\Debug\MCU_ILI9341_Picture_Editor.pdb
+C:\_MY\PROJECTS\MCU\CPP\MCU_ILI9341_Picture_Editor\MCU_ILI9341_Picture_Editor\obj\Debug\MCU_ILI9341_Picture_Editor.Form1.resources
+C:\_MY\PROJECTS\MCU\CPP\MCU_ILI9341_Picture_Editor\MCU_ILI9341_Picture_Editor\obj\Debug\MCU_ILI9341_Picture_Editor.Properties.Resources.resources
+C:\_MY\PROJECTS\MCU\CPP\MCU_ILI9341_Picture_Editor\MCU_ILI9341_Picture_Editor\obj\Debug\MCU_ILI9341_Picture_Editor.csproj.GenerateResource.Cache
