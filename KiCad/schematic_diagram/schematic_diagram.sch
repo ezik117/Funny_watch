@@ -4,9 +4,9 @@ EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
 Sheet 1 1
-Title ""
-Date ""
-Rev ""
+Title "FUNNY WATCH"
+Date "2020-08-31"
+Rev "1"
 Comp ""
 Comment1 ""
 Comment2 ""
@@ -557,22 +557,11 @@ Wire Wire Line
 Wire Wire Line
 	2200 5750 2100 5750
 $Comp
-L Device:Q_PMOS_DSG Q3
-U 1 1 5F56BEB5
-P 2950 6000
-F 0 "Q3" H 3155 6046 50  0000 L CNN
-F 1 "Q_PMOS_DSG" H 3155 5955 50  0000 L CNN
-F 2 "" H 3150 6100 50  0001 C CNN
-F 3 "~" H 2950 6000 50  0001 C CNN
-	1    2950 6000
-	1    0    0    -1  
-$EndComp
-$Comp
 L Device:CP C0
 U 1 1 5F568D12
 P 3850 5700
 F 0 "C0" H 3968 5746 50  0000 L CNN
-F 1 "CP" H 3968 5655 50  0000 L CNN
+F 1 "100uF" H 3968 5655 50  0000 L CNN
 F 2 "" H 3888 5550 50  0001 C CNN
 F 3 "~" H 3850 5700 50  0001 C CNN
 	1    3850 5700
@@ -594,7 +583,7 @@ L Device:R R5
 U 1 1 5F56768F
 P 2500 6350
 F 0 "R5" H 2570 6396 50  0000 L CNN
-F 1 "4k7" H 2570 6305 50  0000 L CNN
+F 1 "10k" H 2570 6305 50  0000 L CNN
 F 2 "" V 2430 6350 50  0001 C CNN
 F 3 "~" H 2500 6350 50  0001 C CNN
 	1    2500 6350
@@ -605,7 +594,7 @@ L Device:R R3
 U 1 1 5F566CD8
 P 1800 5750
 F 0 "R3" V 1593 5750 50  0000 C CNN
-F 1 "1k..5k1" V 1684 5750 50  0000 C CNN
+F 1 "1k" V 1684 5750 50  0000 C CNN
 F 2 "" V 1730 5750 50  0001 C CNN
 F 3 "~" H 1800 5750 50  0001 C CNN
 	1    1800 5750
@@ -616,7 +605,7 @@ L Device:R R4
 U 1 1 5F5665EF
 P 2100 6350
 F 0 "R4" H 2170 6396 50  0000 L CNN
-F 1 "10k..100k" H 2170 6305 50  0000 L CNN
+F 1 "100k" H 2170 6305 50  0000 L CNN
 F 2 "" V 2030 6350 50  0001 C CNN
 F 3 "~" H 2100 6350 50  0001 C CNN
 	1    2100 6350
@@ -633,19 +622,8 @@ F 3 "http://www.fairchildsemi.com/ds/PN/PN2222A.pdf" H 2400 5750 50  0001 L CNN
 	1    2400 5750
 	1    0    0    -1  
 $EndComp
-$Comp
-L Device:D D2
-U 1 1 5F560D66
-P 1800 5400
-F 0 "D2" H 1800 5183 50  0000 C CNN
-F 1 "D" H 1800 5274 50  0000 C CNN
-F 2 "" H 1800 5400 50  0001 C CNN
-F 3 "~" H 1800 5400 50  0001 C CNN
-	1    1800 5400
-	-1   0    0    1   
-$EndComp
 Wire Wire Line
-	1450 6500 1450 7050
+	1450 6500 1450 6700
 Entry Wire Line
 	4400 7050 4500 6950
 Wire Wire Line
@@ -696,9 +674,9 @@ Connection ~ 1100 5050
 Wire Wire Line
 	1100 5050 1100 5400
 Text Notes 3650 5050 2    50   Italic 0
-MAIN_POWER
-Text Notes 3700 5400 2    50   Italic 0
-BACKUP_POWER
+POWER SUPPLY (LCD, MEM)
+Text Notes 3800 5400 2    50   Italic 0
+BACKUPED_POWER_SUPPLY
 $Comp
 L Device:R R0
 U 1 1 5F5F858D
@@ -730,7 +708,7 @@ PRG
 Text Notes 3650 2850 0    50   Italic 0
 PRG
 Text Notes 2150 7050 0    50   Italic 0
-RESET_LCD & READ POWER FAILURE
+POWER FAILURE DETECTION
 Wire Wire Line
 	5950 4050 5750 4050
 Wire Wire Line
@@ -739,6 +717,43 @@ Connection ~ 5750 4250
 Wire Wire Line
 	5750 4250 5300 4250
 NoConn ~ 2600 1750
+$Comp
+L Transistor_FET:AO3401A Q3
+U 1 1 5F4CF8F5
+P 2950 6000
+F 0 "Q3" H 3155 6046 50  0000 L CNN
+F 1 "AO3401A" H 3155 5955 50  0000 L CNN
+F 2 "Package_TO_SOT_SMD:SOT-23" H 3150 5925 50  0001 L CIN
+F 3 "http://www.aosmd.com/pdfs/datasheet/AO3401A.pdf" H 2950 6000 50  0001 L CNN
+	1    2950 6000
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:D D3
+U 1 1 5F4D28EC
+P 1450 6850
+F 0 "D3" V 1496 6770 50  0000 R CNN
+F 1 "1N4148.133" V 1405 6770 50  0000 R CNN
+F 2 "" H 1450 6850 50  0001 C CNN
+F 3 "~" H 1450 6850 50  0001 C CNN
+	1    1450 6850
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	1450 7000 1450 7050
+$Comp
+L Device:D_Schottky D2
+U 1 1 5F4E0C7D
+P 1800 5400
+F 0 "D2" H 1800 5183 50  0000 C CNN
+F 1 "SS12" H 1800 5274 50  0000 C CNN
+F 2 "" H 1800 5400 50  0001 C CNN
+F 3 "~" H 1800 5400 50  0001 C CNN
+	1    1800 5400
+	-1   0    0    1   
+$EndComp
+Text Notes 6200 6000 0    50   ~ 0
+Note: PA10 is used for both: LCD reset and power failure detection. During the start the pin behavour is changed.
 Wire Bus Line
 	7650 900  7650 4150
 Wire Bus Line
