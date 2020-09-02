@@ -4,9 +4,9 @@ EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
 Sheet 1 1
-Title "FUNNY WATCH"
-Date "2020-08-31"
-Rev "1"
+Title ""
+Date ""
+Rev ""
 Comp ""
 Comment1 ""
 Comment2 ""
@@ -139,11 +139,11 @@ Connection ~ 5700 1750
 Text Label 5300 1750 0    50   ~ 0
 a5
 Text Label 5300 2350 0    50   ~ 0
-a9
+a15
 Text Label 5300 2450 0    50   ~ 0
-a10
+a9
 Text Label 5300 2550 0    50   ~ 0
-a4
+a10
 Text Label 5300 2750 0    50   ~ 0
 b0
 Text Label 5300 2850 0    50   ~ 0
@@ -349,11 +349,11 @@ Text Notes 3650 1750 0    50   Italic 0
 MEM_HOLD
 Text Notes 3650 2050 0    50   Italic 0
 T_IRQ
-Text Notes 3650 2150 0    50   Italic 0
-LCD_SEL
-Text Notes 3650 2550 0    50   Italic 0
-LCD_CMD
 Text Notes 3650 2650 0    50   Italic 0
+LCD_SEL
+Text Notes 3650 3350 0    50   Italic 0
+LCD_CMD
+Text Notes 3650 2550 0    50   Italic 0
 LCD_RESET
 Wire Wire Line
 	2000 2450 2100 2450
@@ -375,93 +375,89 @@ $EndComp
 $Comp
 L Device:Buzzer BZ1
 U 1 1 5F518C0D
-P 3900 3850
-F 0 "BZ1" H 4053 3879 50  0000 L CNN
-F 1 "1kHz Buzz" H 4053 3788 50  0000 L CNN
-F 2 "" V 3875 3950 50  0001 C CNN
-F 3 "~" V 3875 3950 50  0001 C CNN
-	1    3900 3850
+P 2500 3850
+F 0 "BZ1" H 2653 3879 50  0000 L CNN
+F 1 "1kHz Buzzer" H 2653 3788 50  0000 L CNN
+F 2 "" V 2475 3950 50  0001 C CNN
+F 3 "~" V 2475 3950 50  0001 C CNN
+	1    2500 3850
 	1    0    0    -1  
 $EndComp
 $Comp
 L Device:D D1
 U 1 1 5F5196B3
-P 3500 3850
-F 0 "D1" V 3500 3650 50  0000 L CNN
-F 1 "1N4148.133" V 3600 3350 50  0000 L CNN
-F 2 "" H 3500 3850 50  0001 C CNN
-F 3 "~" H 3500 3850 50  0001 C CNN
-	1    3500 3850
+P 2100 3850
+F 0 "D1" V 2100 3650 50  0000 L CNN
+F 1 "1N4148.133" V 2200 3350 50  0000 L CNN
+F 2 "" H 2100 3850 50  0001 C CNN
+F 3 "~" H 2100 3850 50  0001 C CNN
+	1    2100 3850
 	0    1    1    0   
 $EndComp
 $Comp
 L Device:R R1
 U 1 1 5F519A22
-P 3050 4350
-F 0 "R1" V 2843 4350 50  0000 C CNN
-F 1 "1k" V 2934 4350 50  0000 C CNN
-F 2 "" V 2980 4350 50  0001 C CNN
-F 3 "~" H 3050 4350 50  0001 C CNN
-	1    3050 4350
+P 2550 4350
+F 0 "R1" V 2343 4350 50  0000 C CNN
+F 1 "1k" V 2434 4350 50  0000 C CNN
+F 2 "" V 2480 4350 50  0001 C CNN
+F 3 "~" H 2550 4350 50  0001 C CNN
+	1    2550 4350
 	0    1    1    0   
 $EndComp
 $Comp
 L Transistor_BJT:PN2222A Q1
 U 1 1 5F51A00A
-P 3400 4350
-F 0 "Q1" H 3590 4396 50  0000 L CNN
-F 1 "PN2222A" H 3590 4305 50  0000 L CNN
-F 2 "Package_TO_SOT_THT:TO-92_Inline" H 3600 4275 50  0001 L CIN
-F 3 "http://www.fairchildsemi.com/ds/PN/PN2222A.pdf" H 3400 4350 50  0001 L CNN
-	1    3400 4350
-	1    0    0    -1  
+P 2200 4350
+F 0 "Q1" H 2390 4396 50  0000 L CNN
+F 1 "PN2222A" H 2390 4305 50  0000 L CNN
+F 2 "Package_TO_SOT_THT:TO-92_Inline" H 2400 4275 50  0001 L CIN
+F 3 "http://www.fairchildsemi.com/ds/PN/PN2222A.pdf" H 2200 4350 50  0001 L CNN
+	1    2200 4350
+	-1   0    0    -1  
 $EndComp
 Wire Wire Line
-	3500 4150 3500 4000
+	2100 4150 2100 4000
 Wire Wire Line
-	3500 4000 3800 4000
+	2100 4000 2400 4000
 Wire Wire Line
-	3800 4000 3800 3950
-Connection ~ 3500 4000
+	2400 4000 2400 3950
+Connection ~ 2100 4000
 Wire Wire Line
-	3500 3700 3800 3700
+	2100 3700 2400 3700
 Wire Wire Line
-	3800 3700 3800 3750
+	2400 3700 2400 3750
 $Comp
 L power:GND #PWR0102
 U 1 1 5F5271D6
-P 3500 4650
-F 0 "#PWR0102" H 3500 4400 50  0001 C CNN
-F 1 "GND" H 3505 4477 50  0000 C CNN
-F 2 "" H 3500 4650 50  0001 C CNN
-F 3 "" H 3500 4650 50  0001 C CNN
-	1    3500 4650
+P 2100 4650
+F 0 "#PWR0102" H 2100 4400 50  0001 C CNN
+F 1 "GND" H 2105 4477 50  0000 C CNN
+F 2 "" H 2100 4650 50  0001 C CNN
+F 3 "" H 2100 4650 50  0001 C CNN
+	1    2100 4650
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	3500 4550 3500 4650
+	2100 4550 2100 4650
 $Comp
 L power:+3.3V #PWR0103
 U 1 1 5F5294F5
-P 3500 3600
-F 0 "#PWR0103" H 3500 3450 50  0001 C CNN
-F 1 "+3.3V" H 3515 3773 50  0000 C CNN
-F 2 "" H 3500 3600 50  0001 C CNN
-F 3 "" H 3500 3600 50  0001 C CNN
-	1    3500 3600
+P 2100 3600
+F 0 "#PWR0103" H 2100 3450 50  0001 C CNN
+F 1 "+3.3V" H 2115 3773 50  0000 C CNN
+F 2 "" H 2100 3600 50  0001 C CNN
+F 3 "" H 2100 3600 50  0001 C CNN
+	1    2100 3600
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	3500 3600 3500 3700
-Connection ~ 3500 3700
+	2100 3600 2100 3700
+Connection ~ 2100 3700
 Wire Wire Line
 	2600 2850 2500 2850
-Wire Wire Line
-	2500 2850 2500 4350
-Text Notes 2500 3800 1    50   Italic 0
+Text Notes 3950 2150 2    50   Italic 0
 BEEPER
-Wire Wire Line
-	2500 4350 2900 4350
 Entry Wire Line
 	7650 1100 7750 1200
 Entry Wire Line
@@ -471,9 +467,9 @@ Wire Wire Line
 Wire Wire Line
 	8350 1300 7750 1300
 Text Label 7750 1200 0    50   ~ 0
-a13
-Text Label 7750 1300 0    50   ~ 0
 a14
+Text Label 7750 1300 0    50   ~ 0
+a13
 $Comp
 L Connector_Generic:Conn_01x03 J1
 U 1 1 5F544ACF
@@ -617,7 +613,7 @@ Entry Wire Line
 Wire Wire Line
 	1100 7050 4400 7050
 Text Label 4400 7050 2    50   ~ 0
-a10
+a9
 $Comp
 L power:GND #PWR0104
 U 1 1 5F5CF551
@@ -1055,6 +1051,20 @@ Wire Wire Line
 Wire Wire Line
 	1600 6650 1600 6500
 Connection ~ 1600 6650
+Wire Wire Line
+	2500 2850 2500 3350
+Wire Wire Line
+	2500 3350 4400 3350
+Entry Wire Line
+	4500 3250 4400 3350
+Text Label 4400 3350 2    50   ~ 0
+a15
+Entry Wire Line
+	4500 4250 4400 4350
+Text Label 4400 4350 2    50   ~ 0
+a4
+Wire Wire Line
+	2700 4350 4400 4350
 Wire Bus Line
 	7650 900  7650 4150
 Wire Bus Line

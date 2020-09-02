@@ -471,9 +471,9 @@ Wire Wire Line
 Wire Wire Line
 	8350 1300 7750 1300
 Text Label 7750 1200 0    50   ~ 0
-a13
-Text Label 7750 1300 0    50   ~ 0
 a14
+Text Label 7750 1300 0    50   ~ 0
+a13
 $Comp
 L Connector_Generic:Conn_01x03 J1
 U 1 1 5F544ACF
