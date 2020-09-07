@@ -23,9 +23,9 @@
 
 if ($debugfile -eq "")
 {
-& "C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.2\common\bin\cspybat" -f "C:\SYSTEM\_PROJECTS\MCU\Funny_watch\VISUAL_STUDIO\Flash memory programmator\IAR\settings\programmator_wp.Debug.general.xcl" --backend -f "C:\SYSTEM\_PROJECTS\MCU\Funny_watch\VISUAL_STUDIO\Flash memory programmator\IAR\settings\programmator_wp.Debug.driver.xcl" 
+& "C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.2\common\bin\cspybat" -f "D:\PROJECTS\MCU\___\PROJECTS\Funny_watch\VISUAL_STUDIO\Flash memory programmator\IAR\settings\programmator_wp.Debug.general.xcl" --backend -f "D:\PROJECTS\MCU\___\PROJECTS\Funny_watch\VISUAL_STUDIO\Flash memory programmator\IAR\settings\programmator_wp.Debug.driver.xcl" 
 }
 else
 {
-& "C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.2\common\bin\cspybat" -f "C:\SYSTEM\_PROJECTS\MCU\Funny_watch\VISUAL_STUDIO\Flash memory programmator\IAR\settings\programmator_wp.Debug.general.xcl" --debug_file=$debugfile --backend -f "C:\SYSTEM\_PROJECTS\MCU\Funny_watch\VISUAL_STUDIO\Flash memory programmator\IAR\settings\programmator_wp.Debug.driver.xcl" 
+& "C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.2\common\bin\cspybat" -f "D:\PROJECTS\MCU\___\PROJECTS\Funny_watch\VISUAL_STUDIO\Flash memory programmator\IAR\settings\programmator_wp.Debug.general.xcl" --debug_file=$debugfile --backend -f "D:\PROJECTS\MCU\___\PROJECTS\Funny_watch\VISUAL_STUDIO\Flash memory programmator\IAR\settings\programmator_wp.Debug.driver.xcl" 
 }

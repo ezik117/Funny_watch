@@ -1,26 +1,26 @@
 ###############################################################################
 #
-# IAR ELF Linker V8.32.1.169/W32 for ARM                  07/Sep/2020  15:02:41
+# IAR ELF Linker V8.32.1.169/W32 for ARM                  07/Sep/2020  22:46:19
 # Copyright 2007-2018 IAR Systems AB.
 #
 #    Output file  =  
-#        C:\SYSTEM\_PROJECTS\MCU\Funny_watch\VISUAL_STUDIO\Flash memory
+#        D:\PROJECTS\MCU\___\PROJECTS\Funny_watch\VISUAL_STUDIO\Flash memory
 #        programmator\IAR\Debug\Exe\programmator_wp.out
 #    Map file     =  
-#        C:\SYSTEM\_PROJECTS\MCU\Funny_watch\VISUAL_STUDIO\Flash memory
+#        D:\PROJECTS\MCU\___\PROJECTS\Funny_watch\VISUAL_STUDIO\Flash memory
 #        programmator\IAR\Debug\List\programmator_wp.map
 #    Command line =  
-#        -f C:\Users\ermolaea\AppData\Local\Temp\EWEA7A.tmp
-#        ("C:\SYSTEM\_PROJECTS\MCU\Funny_watch\VISUAL_STUDIO\Flash memory
+#        -f C:\Users\USER~1.PC-\AppData\Local\Temp\EW6EA5.tmp
+#        ("D:\PROJECTS\MCU\___\PROJECTS\Funny_watch\VISUAL_STUDIO\Flash memory
 #        programmator\IAR\Debug\Obj\main.o"
-#        "C:\SYSTEM\_PROJECTS\MCU\Funny_watch\VISUAL_STUDIO\Flash memory
+#        "D:\PROJECTS\MCU\___\PROJECTS\Funny_watch\VISUAL_STUDIO\Flash memory
 #        programmator\IAR\Debug\Obj\startup_stm32f030x6.o" --no_out_extension
-#        -o "C:\SYSTEM\_PROJECTS\MCU\Funny_watch\VISUAL_STUDIO\Flash memory
-#        programmator\IAR\Debug\Exe\programmator_wp.out" --redirect
+#        -o "D:\PROJECTS\MCU\___\PROJECTS\Funny_watch\VISUAL_STUDIO\Flash
+#        memory programmator\IAR\Debug\Exe\programmator_wp.out" --redirect
 #        _Printf=_PrintfFullNoMb --redirect _Scanf=_ScanfFullNoMb --map
-#        "C:\SYSTEM\_PROJECTS\MCU\Funny_watch\VISUAL_STUDIO\Flash memory
+#        "D:\PROJECTS\MCU\___\PROJECTS\Funny_watch\VISUAL_STUDIO\Flash memory
 #        programmator\IAR\Debug\List\programmator_wp.map" --config
-#        "C:\SYSTEM\_PROJECTS\MCU\Funny_watch\VISUAL_STUDIO\Flash memory
+#        "D:\PROJECTS\MCU\___\PROJECTS\Funny_watch\VISUAL_STUDIO\Flash memory
 #        programmator\IAR/stm32f030x6_flash.icf" --semihosting --entry
 #        __iar_program_start --vfe --text_out locale)
 #
@@ -141,7 +141,7 @@ command line/config:
     ------------------------------------------------
     Total:
 
-C:\SYSTEM\_PROJECTS\MCU\Funny_watch\VISUAL_STUDIO\Flash memory programmator\IAR\Debug\Obj: [1]
+D:\PROJECTS\MCU\___\PROJECTS\Funny_watch\VISUAL_STUDIO\Flash memory programmator\IAR\Debug\Obj: [1]
     main.o                     520                12
     startup_stm32f030x6.o      232
     ------------------------------------------------
@@ -186,9 +186,9 @@ CSTACK$$Limit           0x2000'0410          --   Gb  - Linker created -
 NVIC_EnableIRQ           0x800'00b1    0xe  Code  Lc  main.o [1]
 Region$$Table$$Base      0x800'031c          --   Gb  - Linker created -
 Region$$Table$$Limit     0x800'032c          --   Gb  - Linker created -
-SendSPI                  0x800'023d   0x1c  Code  Gb  main.o [1]
-SendUData                0x800'0229   0x14  Code  Gb  main.o [1]
-USART1_IRQHandler        0x800'0211   0x18  Code  Gb  main.o [1]
+SendSPI                  0x800'023f   0x1c  Code  Gb  main.o [1]
+SendUData                0x800'022b   0x14  Code  Gb  main.o [1]
+USART1_IRQHandler        0x800'0213   0x18  Code  Gb  main.o [1]
 __ICFEDIT_region_RAM_end__ {Abs}
                         0x2000'0fff         Data  Gb  <internal module>
 __ICFEDIT_region_RAM_start__ {Abs}
@@ -204,11 +204,11 @@ _call_main               0x800'0339         Code  Gb  cmain.o [3]
 _exit                    0x800'0359         Code  Gb  cexit.o [3]
 _main                    0x800'0347         Code  Gb  cmain.o [3]
 exit                     0x800'034f    0x8  Code  Gb  exit.o [2]
-main                     0x800'00bf  0x152  Code  Gb  main.o [1]
+main                     0x800'00bf  0x154  Code  Gb  main.o [1]
 v                       0x2000'0000    0xc  Data  Lc  main.o [1]
 
 
-[1] = C:\SYSTEM\_PROJECTS\MCU\Funny_watch\VISUAL_STUDIO\Flash memory programmator\IAR\Debug\Obj
+[1] = D:\PROJECTS\MCU\___\PROJECTS\Funny_watch\VISUAL_STUDIO\Flash memory programmator\IAR\Debug\Obj
 [2] = dl6M_tln.a
 [3] = rt6M_tl.a
 [4] = shb_l.a

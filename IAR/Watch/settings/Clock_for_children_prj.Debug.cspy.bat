@@ -25,7 +25,7 @@ if not "%~1" == "" goto debugFile
 
 @echo on 
 
-"C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.2\common\bin\cspybat" -f "C:\SYSTEM\_PROJECTS\MCU\Funny_watch\IAR\Watch\settings\Clock_for_children_prj.Debug.general.xcl" --backend -f "C:\SYSTEM\_PROJECTS\MCU\Funny_watch\IAR\Watch\settings\Clock_for_children_prj.Debug.driver.xcl" 
+"C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.2\common\bin\cspybat" -f "D:\PROJECTS\MCU\___\PROJECTS\Funny_watch\IAR\Watch\settings\Clock_for_children_prj.Debug.general.xcl" --backend -f "D:\PROJECTS\MCU\___\PROJECTS\Funny_watch\IAR\Watch\settings\Clock_for_children_prj.Debug.driver.xcl" 
 
 @echo off 
 goto end 
@@ -34,7 +34,7 @@ goto end
 
 @echo on 
 
-"C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.2\common\bin\cspybat" -f "C:\SYSTEM\_PROJECTS\MCU\Funny_watch\IAR\Watch\settings\Clock_for_children_prj.Debug.general.xcl" "--debug_file=%~1" --backend -f "C:\SYSTEM\_PROJECTS\MCU\Funny_watch\IAR\Watch\settings\Clock_for_children_prj.Debug.driver.xcl" 
+"C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.2\common\bin\cspybat" -f "D:\PROJECTS\MCU\___\PROJECTS\Funny_watch\IAR\Watch\settings\Clock_for_children_prj.Debug.general.xcl" "--debug_file=%~1" --backend -f "D:\PROJECTS\MCU\___\PROJECTS\Funny_watch\IAR\Watch\settings\Clock_for_children_prj.Debug.driver.xcl" 
 
 @echo off 
 :end

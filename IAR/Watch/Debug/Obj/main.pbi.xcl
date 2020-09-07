@@ -1,21 +1,21 @@
-"C:\SYSTEM\_PROJECTS\MCU\Funny_watch\IAR\Watch\main.c"
+"D:\PROJECTS\MCU\___\PROJECTS\Funny_watch\IAR\Watch\main.c"
 -std=c11
 -ferror-limit=0
 -fbracket-depth=512
 -I
-C:\SYSTEM\_PROJECTS\MCU\Funny_watch\IAR\Watch
+D:\PROJECTS\MCU\___\PROJECTS\Funny_watch\IAR\Watch
 -I
-C:\SYSTEM\_PROJECTS\MCU\Funny_watch\IAR\Watch/CMSIS
+D:\PROJECTS\MCU\___\PROJECTS\Funny_watch\IAR\Watch/CMSIS
 -I
-C:\SYSTEM\_PROJECTS\MCU\Funny_watch\IAR\Watch/Drivers
+D:\PROJECTS\MCU\___\PROJECTS\Funny_watch\IAR\Watch/Drivers
 -I
 C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.2\arm\inc
 -I
 C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.2\arm\inc\c
 -I
-C:\SYSTEM\_PROJECTS\MCU\Funny_watch\IAR\Watch\CMSIS
+D:\PROJECTS\MCU\___\PROJECTS\Funny_watch\IAR\Watch\CMSIS
 -I
-C:\SYSTEM\_PROJECTS\MCU\Funny_watch\IAR\Watch\Drivers
+D:\PROJECTS\MCU\___\PROJECTS\Funny_watch\IAR\Watch\Drivers
 -D__CHAR_BITS__=8
 -D__CHAR_MAX__=0xff
 -D__CHAR_MIN__=0

@@ -62,36 +62,33 @@ struct
       
 int main()
 {
-  //--- перевести MCU на тактовую частоту 48МГц ---
-  RCC->CFGR =RCC->CFGR & (~RCC_CFGR_PLLMUL) | (RCC_CFGR_PLLMUL12); //задать множитель PLL x12 (48MHz)
-  RCC->CR |=RCC_CR_PLLON; //включить PLL
-  while((RCC->CR &RCC_CR_PLLRDY) == 0); //дождаться включения PLL
-  
-  RCC->CFGR |= (uint32_t) (RCC_CFGR_SW_PLL); //выбрать PLL источником SYSCLK
-  while ((RCC->CFGR &RCC_CFGR_SWS) !=RCC_CFGR_SWS_PLL); //дожаться пока PLL не включится как источник SYSCLK
+  __enable_irq(); //включить все прерывания
+    
+  // HSE. SYSCLK = 48MHz (via PLL)
+  for (int i=0; i<1000; i++);
+  SET_BIT(RCC->CR, RCC_CR_HSEON); // ???????? ????????? HSE ? ????????
+  while (!(RCC->CR & RCC_CR_HSERDY)); // ???????? ?????????? HSE.
+  SET_BIT(RCC->CFGR, (RCC_CFGR_PLLMUL6 | RCC_CFGR_PLLSRC_HSE_PREDIV)); //?????? ????????? PLL x12 (HSE/1*6=48MHz)
+  SET_BIT(RCC->CR, RCC_CR_PLLON); //???????? PLL
+  while((RCC->CR & RCC_CR_PLLRDY) == 0); //????????? ????????? PLL
+  SET_BIT(RCC->CFGR, (uint32_t)RCC_CFGR_SW_PLL); //??????? PLL ?????????? SYSCLK
+  while ((RCC->CFGR & RCC_CFGR_SWS) != RCC_CFGR_SWS_PLL); //????????? ???? PLL ?? ????????? ??? ???????? SYSCLK
   //---
   
   //--- включить тактирование периферии 
-  RCC->AHBENR |= (RCC_AHBENR_GPIOAEN | RCC_AHBENR_GPIOBEN); //включить тактирование GPIO PORT A, B
-  RCC->APB2ENR |= (RCC_APB2ENR_SPI1EN); //включить тактирование SPI1
-  RCC->APB1ENR |= RCC_APB1ENR_PWREN; //включить тактирование интерфейса power
-  for (v.i=0; v.i<100; v.i++); //небольшой цикл что бы включить тактирование
+  SET_BIT(RCC->AHBENR, (RCC_AHBENR_GPIOAEN | RCC_AHBENR_GPIOBEN)); //включить тактирование GPIO PORT A, B
+  SET_BIT(RCC->APB2ENR, (RCC_APB2ENR_SPI1EN)); //включить тактирование SPI1
+  SET_BIT(RCC->APB1ENR, (RCC_APB1ENR_PWREN)); //включить тактирование интерфейса power
   //---  
   
   //--- включить RTC
   PWR->CR |= PWR_CR_DBP; //включить доступ к регистру RCC->BDCR
-    RCC->CSR |= RCC_CSR_LSION; //включить внутренний тактовый генератор 40кгц
-    while((RCC->CSR &RCC_CSR_LSIRDY) == 0); //дождаться включения LSI 
-    //RCC->BDCR |= RCC_BDCR_LSEON; //включить внешний тактовый генератор 32768 гц
-    //while((RCC->BDCR &RCC_BDCR_LSERDY) == 0); //дождаться включения LSE
-    RCC->BDCR |= RCC_BDCR_RTCSEL_LSI | RCC_BDCR_RTCEN; //LSE source, RTC on
-    //RCC->BDCR |= RCC_BDCR_RTCSEL_LSE | RCC_BDCR_RTCEN; //LSE source, RTC on
+  RCC->CSR |= RCC_CSR_LSION; //включить внутренний тактовый генератор 40кгц
+  while((RCC->CSR &RCC_CSR_LSIRDY) == 0); //дождаться включения LSI 
+  RCC->BDCR |= RCC_BDCR_RTCSEL_LSI | RCC_BDCR_RTCEN; //LSE source, RTC on
   //---
 
   //--- настраиваем пины
-//  GPIOA->MODER |= (GPIO_MODER_MODER0_0 | GPIO_MODER_MODER1_0 | GPIO_MODER_MODER2_0 | 
-//                   GPIO_MODER_MODER4_0 | GPIO_MODER_MODER5_1 | GPIO_MODER_MODER6_1 | 
-//                   GPIO_MODER_MODER7_1 | GPIO_MODER_MODER9_0 | GPIO_MODER_MODER10_0);
   SET_BIT(GPIOA->MODER, (GPIO_MODER_MODER0_0 | GPIO_MODER_MODER1_0 | GPIO_MODER_MODER2_0 |
                          GPIO_MODER_MODER4_0 | GPIO_MODER_MODER5_1 | GPIO_MODER_MODER6_1 |
                          GPIO_MODER_MODER7_1 | GPIO_MODER_MODER9_0 | GPIO_MODER_MODER10_0));
@@ -103,15 +100,7 @@ int main()
                            GPIO_OSPEEDR_OSPEEDR10));
   SET_BIT(GPIOB->OSPEEDR, GPIO_OSPEEDR_OSPEEDR1);
   
-  SET_BIT(GPIOA->PUPDR, (GPIO_PUPDR_PUPDR0_0 | GPIO_PUPDR_PUPDR1_0 | GPIO_PUPDR_PUPDR2_0 |
-                         GPIO_PUPDR_PUPDR4_0 | GPIO_PUPDR_PUPDR9_0 | GPIO_PUPDR_PUPDR10_0));
-  SET_BIT(GPIOB->PUPDR, GPIO_PUPDR_PUPDR1_0);
-  
-  SET_BIT(GPIOA->OTYPER, GPIO_OTYPER_OT_6);
-
-  
-  //  GPIOB->MODER |= GPIO_MODER_MODER1_0;
-  //GPIOB->OSPEEDR |= GPIO_OSPEEDR_OSPEEDR1;
+  //SET_BIT(GPIOA->OTYPER, (GPIO_OTYPER_OT_6));
   
   //--- конфигурируем SPI
   SPI1->CR1 |= SPI_CR1_MSTR | SPI_CR1_SSM | SPI_CR1_SSI | SPI_CR1_SPE; //Master mode, Fpclk/2 = 48/2, SPI on
@@ -130,8 +119,7 @@ int main()
   EXTI->RTSR |= EXTI_RTSR_RT17;
   NVIC_EnableIRQ(RTC_IRQn);
   NVIC_SetPriority(SysTick_IRQn, 1); //выше приоритет только у перехода в сон
-  __enable_irq(); //включить все прерывания
-  
+
   MEM_CS(CS_DISABLE);
   MEM_RESUME;
   LCD_CS(CS_DISABLE);  
@@ -152,14 +140,13 @@ int main()
   SPI1->CR1 ^= SPI_CR1_BR_2;
   //
   LCD_Init();
-  LCD_SetWindow(0,319, 0,239);
-  LCD_FillBackground(LCD_BLUE);
+
   
   //активируем режим контроля перехода в сон при пропадании напряжения
-  EXTI->IMR |= EXTI_IMR_MR10; //line 10 (PA10)
-  EXTI->FTSR |= EXTI_FTSR_TR10; //falling edge
-  NVIC_EnableIRQ(EXTI4_15_IRQn);
-  NVIC_SetPriority(EXTI4_15_IRQn, 0);
+  //EXTI->IMR |= EXTI_IMR_MR10; //line 10 (PA10)
+  //EXTI->FTSR |= EXTI_FTSR_TR10; //falling edge
+  //NVIC_EnableIRQ(EXTI4_15_IRQn);
+  //NVIC_SetPriority(EXTI4_15_IRQn, 0);
   
   
   //начальные значения
@@ -919,14 +906,14 @@ void LCD_FillRectangle(uint16_t x0, uint16_t x1, uint16_t y0, uint16_t y1, uint1
 void SPI_Send(uint8_t data)
 {
   SPI_WAIT_TX_READY;
-  *(uint8_t *)&(SPI1->DR) = data; //отправляем в буфер 
+  *(uint8_t *)&(SPI1->DR) = (uint8_t)data; //отправляем в буфер 
 }
 
 //------------------------------------------------------------------------------
 uint8_t SPI_Exchange(uint8_t data)
 {
   //while ((SPI1->SR & SPI_SR_TXE) != SPI_SR_TXE); это лишнее, мы передаем в режиме безбуферности
-  *(uint8_t *)&(SPI1->DR) = data;  //8bit data transfer!!!!
+  *(uint8_t *)&(SPI1->DR) = (uint8_t)data;  //8bit data transfer!!!!
   while ((SPI1->SR & SPI_SR_RXNE) != SPI_SR_RXNE);
   return (uint8_t)SPI1->DR;
 }
@@ -935,7 +922,7 @@ uint8_t SPI_Exchange(uint8_t data)
 /* вывод картинки из MEM */
 void LCD_ShowImage16FromMem(uint16_t x, uint8_t y, uint32_t address)
 {
-  uint8_t c;
+  uint32_t c;
   
   //опустошим буфер приема (1) и закончим все передачи (2)
   while ((SPI1->SR & SPI_SR_RXNE) == SPI_SR_RXNE) c = SPI1->DR; //1
@@ -944,7 +931,6 @@ void LCD_ShowImage16FromMem(uint16_t x, uint8_t y, uint32_t address)
   //выберем MEM
   LCD_CS(CS_DISABLE);
   MEM_CS(CS_ENABLE);
-  MEM_RESUME;
   
   //команда: считать данные
   SPI_Exchange(0x0B);
@@ -961,14 +947,21 @@ void LCD_ShowImage16FromMem(uint16_t x, uint8_t y, uint32_t address)
   }
   
   //установка окна вывода LCD
-  MEM_PAUSE;
+  MEM_CS(CS_DISABLE);
   LCD_CS(CS_ENABLE);
   LCD_SetWindow(x, x+BmpHeader16->width-1, y, y+BmpHeader16->height-1);
   LCD_CS(CS_DISABLE);
-  MEM_RESUME;
+  MEM_CS(CS_ENABLE);
   
   while ((SPI1->SR & SPI_SR_RXNE) == SPI_SR_RXNE) c = SPI1->DR; //очистить Rx буфер
   while ((SPI1->SR & SPI_SR_BSY) == SPI_SR_BSY);
+  
+  address +=8;
+  SPI_Exchange(0x0B);
+  SPI_Exchange((uint8_t)(address >> 16));
+  SPI_Exchange((uint8_t)(address >> 8));
+  SPI_Exchange((uint8_t)(address));
+  SPI_Exchange(0x00);
   
   //----- потоковыый обмен -----
   c = SPI_Exchange(0x00); //считали 1 байт

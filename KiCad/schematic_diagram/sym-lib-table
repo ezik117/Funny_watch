@@ -1,3 +1,4 @@
 (sym_lib_table
   (lib (name ez_library)(type Legacy)(uri C:/SYSTEM/_PROJECTS/MCU/Funny_watch/KiCad/Libraries/ez_library.lib)(options "")(descr ""))
+  (lib (name schematic_diagram_v2-rescue)(type Legacy)(uri ${KIPRJMOD}/schematic_diagram_v2-rescue.lib)(options "")(descr ""))
 )
