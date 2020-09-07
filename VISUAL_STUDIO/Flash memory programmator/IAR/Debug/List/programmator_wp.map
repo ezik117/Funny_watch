@@ -1,0 +1,221 @@
+###############################################################################
+#
+# IAR ELF Linker V8.32.1.169/W32 for ARM                  07/Sep/2020  15:02:41
+# Copyright 2007-2018 IAR Systems AB.
+#
+#    Output file  =  
+#        C:\SYSTEM\_PROJECTS\MCU\Funny_watch\VISUAL_STUDIO\Flash memory
+#        programmator\IAR\Debug\Exe\programmator_wp.out
+#    Map file     =  
+#        C:\SYSTEM\_PROJECTS\MCU\Funny_watch\VISUAL_STUDIO\Flash memory
+#        programmator\IAR\Debug\List\programmator_wp.map
+#    Command line =  
+#        -f C:\Users\ermolaea\AppData\Local\Temp\EWEA7A.tmp
+#        ("C:\SYSTEM\_PROJECTS\MCU\Funny_watch\VISUAL_STUDIO\Flash memory
+#        programmator\IAR\Debug\Obj\main.o"
+#        "C:\SYSTEM\_PROJECTS\MCU\Funny_watch\VISUAL_STUDIO\Flash memory
+#        programmator\IAR\Debug\Obj\startup_stm32f030x6.o" --no_out_extension
+#        -o "C:\SYSTEM\_PROJECTS\MCU\Funny_watch\VISUAL_STUDIO\Flash memory
+#        programmator\IAR\Debug\Exe\programmator_wp.out" --redirect
+#        _Printf=_PrintfFullNoMb --redirect _Scanf=_ScanfFullNoMb --map
+#        "C:\SYSTEM\_PROJECTS\MCU\Funny_watch\VISUAL_STUDIO\Flash memory
+#        programmator\IAR\Debug\List\programmator_wp.map" --config
+#        "C:\SYSTEM\_PROJECTS\MCU\Funny_watch\VISUAL_STUDIO\Flash memory
+#        programmator\IAR/stm32f030x6_flash.icf" --semihosting --entry
+#        __iar_program_start --vfe --text_out locale)
+#
+###############################################################################
+
+*******************************************************************************
+*** RUNTIME MODEL ATTRIBUTES
+***
+
+CppFlavor       = *
+__SystemLibrary = DLib
+__dlib_version  = 6
+
+
+*******************************************************************************
+*** HEAP SELECTION
+***
+
+The basic heap was selected because no calls to memory allocation
+functions were found in the application outside of system library
+functions, and there are calls to deallocation functions in the
+application.
+
+
+*******************************************************************************
+*** PLACEMENT SUMMARY
+***
+
+"A0":  place at 0x800'0000 { ro section .intvec };
+"P1":  place in [from 0x800'0000 to 0x800'7fff] { ro };
+define block CSTACK with size = 1K, alignment = 8 { };
+define block HEAP with size = 512, alignment = 8 { };
+"P2":  place in [from 0x2000'0000 to 0x2000'0fff] {
+          rw, block CSTACK, block HEAP };
+
+  Section          Kind         Address   Size  Object
+  -------          ----         -------   ----  ------
+"A0":                                     0xb0
+  .intvec          ro code   0x800'0000   0xb0  startup_stm32f030x6.o [1]
+                           - 0x800'00b0   0xb0
+
+"P1":                                    0x308
+  .text            ro code   0x800'00b0  0x208  main.o [1]
+  .text            ro code   0x800'02b8   0x3c  zero_init3.o [3]
+  .text            ro code   0x800'02f4   0x28  data_init.o [3]
+  .iar.init_table  const     0x800'031c   0x10  - Linker created -
+  .text            ro code   0x800'032c   0x1e  cmain.o [3]
+  .text            ro code   0x800'034a    0x4  low_level_init.o [2]
+  .text            ro code   0x800'034e    0x8  exit.o [2]
+  .text            ro code   0x800'0356    0x2  startup_stm32f030x6.o [1]
+  .text            ro code   0x800'0358    0xa  cexit.o [3]
+  .text            ro code   0x800'0362    0x2  startup_stm32f030x6.o [1]
+  .text            ro code   0x800'0364   0x14  exit.o [4]
+  .text            ro code   0x800'0378    0xc  cstartup_M.o [3]
+  .text            ro code   0x800'0384    0x8  startup_stm32f030x6.o [1]
+  .text            ro code   0x800'038c    0x2  startup_stm32f030x6.o [1]
+  .text            ro code   0x800'038e    0x2  startup_stm32f030x6.o [1]
+  .text            ro code   0x800'0390    0x2  startup_stm32f030x6.o [1]
+  .text            ro code   0x800'0392    0x2  startup_stm32f030x6.o [1]
+  .text            ro code   0x800'0394    0x2  startup_stm32f030x6.o [1]
+  .text            ro code   0x800'0396    0x2  startup_stm32f030x6.o [1]
+  .text            ro code   0x800'0398    0x2  startup_stm32f030x6.o [1]
+  .text            ro code   0x800'039a    0x2  startup_stm32f030x6.o [1]
+  .text            ro code   0x800'039c    0x2  startup_stm32f030x6.o [1]
+  .text            ro code   0x800'039e    0x2  startup_stm32f030x6.o [1]
+  .text            ro code   0x800'03a0    0x2  startup_stm32f030x6.o [1]
+  .text            ro code   0x800'03a2    0x2  startup_stm32f030x6.o [1]
+  .text            ro code   0x800'03a4    0x2  startup_stm32f030x6.o [1]
+  .text            ro code   0x800'03a6    0x2  startup_stm32f030x6.o [1]
+  .text            ro code   0x800'03a8    0x2  startup_stm32f030x6.o [1]
+  .text            ro code   0x800'03aa    0x2  startup_stm32f030x6.o [1]
+  .text            ro code   0x800'03ac    0x2  startup_stm32f030x6.o [1]
+  .text            ro code   0x800'03ae    0x2  startup_stm32f030x6.o [1]
+  .text            ro code   0x800'03b0    0x2  startup_stm32f030x6.o [1]
+  .text            ro code   0x800'03b2    0x2  startup_stm32f030x6.o [1]
+  .text            ro code   0x800'03b4    0x2  startup_stm32f030x6.o [1]
+  .text            ro code   0x800'03b6    0x2  startup_stm32f030x6.o [1]
+  .rodata          const     0x800'03b8    0x0  zero_init3.o [3]
+                           - 0x800'03b8  0x308
+
+"P2", part 1 of 2:                         0xc
+  .bss             zero     0x2000'0000    0xc  main.o [1]
+                          - 0x2000'000c    0xc
+
+"P2", part 2 of 2:                       0x400
+  CSTACK                    0x2000'0010  0x400  <Block>
+    CSTACK         uninit   0x2000'0010  0x400  <Block tail>
+                          - 0x2000'0410  0x400
+
+Unused ranges:
+
+         From           To    Size
+         ----           --    ----
+   0x800'03b8   0x800'7fff  0x7c48
+  0x2000'000c  0x2000'000f     0x4
+  0x2000'0410  0x2000'0fff   0xbf0
+
+
+*******************************************************************************
+*** INIT TABLE
+***
+
+          Address      Size
+          -------      ----
+Zero (__iar_zero_init3)
+    1 destination range, total size 0xc:
+          0x2000'0000   0xc
+
+
+
+*******************************************************************************
+*** MODULE SUMMARY
+***
+
+    Module                 ro code  ro data  rw data
+    ------                 -------  -------  -------
+command line/config:
+    ------------------------------------------------
+    Total:
+
+C:\SYSTEM\_PROJECTS\MCU\Funny_watch\VISUAL_STUDIO\Flash memory programmator\IAR\Debug\Obj: [1]
+    main.o                     520                12
+    startup_stm32f030x6.o      232
+    ------------------------------------------------
+    Total:                     752                12
+
+dl6M_tln.a: [2]
+    exit.o                       8
+    low_level_init.o             4
+    ------------------------------------------------
+    Total:                      12
+
+rt6M_tl.a: [3]
+    cexit.o                     10
+    cmain.o                     30
+    cstartup_M.o                12
+    data_init.o                 40
+    zero_init3.o                60
+    ------------------------------------------------
+    Total:                     152
+
+shb_l.a: [4]
+    exit.o                      20
+    ------------------------------------------------
+    Total:                      20
+
+    Linker created                       16    1 024
+----------------------------------------------------
+    Grand Total:               936       16    1 036
+
+
+*******************************************************************************
+*** ENTRY LIST
+***
+
+Entry                       Address   Size  Type      Object
+-----                       -------   ----  ----      ------
+.iar.init_table$$Base    0x800'031c          --   Gb  - Linker created -
+.iar.init_table$$Limit   0x800'032c          --   Gb  - Linker created -
+?main                    0x800'032d         Code  Gb  cmain.o [3]
+CSTACK$$Base            0x2000'0010          --   Gb  - Linker created -
+CSTACK$$Limit           0x2000'0410          --   Gb  - Linker created -
+NVIC_EnableIRQ           0x800'00b1    0xe  Code  Lc  main.o [1]
+Region$$Table$$Base      0x800'031c          --   Gb  - Linker created -
+Region$$Table$$Limit     0x800'032c          --   Gb  - Linker created -
+SendSPI                  0x800'023d   0x1c  Code  Gb  main.o [1]
+SendUData                0x800'0229   0x14  Code  Gb  main.o [1]
+USART1_IRQHandler        0x800'0211   0x18  Code  Gb  main.o [1]
+__ICFEDIT_region_RAM_end__ {Abs}
+                        0x2000'0fff         Data  Gb  <internal module>
+__ICFEDIT_region_RAM_start__ {Abs}
+                        0x2000'0000         Data  Gb  <internal module>
+__cmain                  0x800'032d         Code  Gb  cmain.o [3]
+__exit                   0x800'0365   0x14  Code  Gb  exit.o [4]
+__iar_data_init3         0x800'02f5   0x28  Code  Gb  data_init.o [3]
+__iar_program_start      0x800'0379         Code  Gb  cstartup_M.o [3]
+__iar_zero_init3         0x800'02b9   0x3c  Code  Gb  zero_init3.o [3]
+__low_level_init         0x800'034b    0x4  Code  Gb  low_level_init.o [2]
+__vector_table           0x800'0000         Data  Gb  startup_stm32f030x6.o [1]
+_call_main               0x800'0339         Code  Gb  cmain.o [3]
+_exit                    0x800'0359         Code  Gb  cexit.o [3]
+_main                    0x800'0347         Code  Gb  cmain.o [3]
+exit                     0x800'034f    0x8  Code  Gb  exit.o [2]
+main                     0x800'00bf  0x152  Code  Gb  main.o [1]
+v                       0x2000'0000    0xc  Data  Lc  main.o [1]
+
+
+[1] = C:\SYSTEM\_PROJECTS\MCU\Funny_watch\VISUAL_STUDIO\Flash memory programmator\IAR\Debug\Obj
+[2] = dl6M_tln.a
+[3] = rt6M_tl.a
+[4] = shb_l.a
+
+    936 bytes of readonly  code memory
+     16 bytes of readonly  data memory
+  1 036 bytes of readwrite data memory
+
+Errors: none
+Warnings: none

@@ -4,9 +4,9 @@ EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
 Sheet 1 1
-Title ""
-Date ""
-Rev ""
+Title "FUNNY WATCH"
+Date "2020-09-03"
+Rev "2"
 Comp ""
 Comment1 ""
 Comment2 ""
@@ -475,7 +475,7 @@ L Connector_Generic:Conn_01x03 J1
 U 1 1 5F544ACF
 P 8550 1300
 F 0 "J1" H 8630 1342 50  0000 L CNN
-F 1 "PROGRAM" H 8630 1251 50  0000 L CNN
+F 1 "MCU PROGRAMMING" H 8630 1251 50  0000 L CNN
 F 2 "" H 8550 1300 50  0001 C CNN
 F 3 "~" H 8550 1300 50  0001 C CNN
 	1    8550 1300
@@ -1065,10 +1065,50 @@ Text Label 4400 4350 2    50   ~ 0
 a4
 Wire Wire Line
 	2700 4350 4400 4350
+Entry Wire Line
+	7650 3100 7750 3200
+Entry Wire Line
+	7650 3200 7750 3300
+Wire Wire Line
+	7750 3200 8500 3200
+Wire Wire Line
+	7750 3300 8500 3300
 Wire Bus Line
 	7650 900  7650 4150
 Wire Bus Line
 	5200 900  5200 4150
 Wire Bus Line
 	4500 900  4500 6950
+Text Label 7750 3300 0    50   ~ 0
+a3
+Text Label 7750 3200 0    50   ~ 0
+a2
+Text Notes 8100 3200 0    50   ~ 0
+USART_TX
+Text Notes 8100 3300 0    50   ~ 0
+USART_RX
+$Comp
+L Connector:TestPoint_Small to_TX
+U 1 1 5F56EBC8
+P 8500 3300
+F 0 "to_TX" H 8548 3300 50  0000 L CNN
+F 1 "TestPoint_Small" H 8548 3255 50  0001 L CNN
+F 2 "" H 8700 3300 50  0001 C CNN
+F 3 "~" H 8700 3300 50  0001 C CNN
+	1    8500 3300
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector:TestPoint_Small to_RX
+U 1 1 5F56F5A0
+P 8500 3200
+F 0 "to_RX" H 8548 3200 50  0000 L CNN
+F 1 "TestPoint_Small" H 8548 3155 50  0001 L CNN
+F 2 "" H 8700 3200 50  0001 C CNN
+F 3 "~" H 8700 3200 50  0001 C CNN
+	1    8500 3200
+	1    0    0    -1  
+$EndComp
+Text Notes 8800 3300 0    50   ~ 0
+SPI Memory programming
 $EndSCHEMATC

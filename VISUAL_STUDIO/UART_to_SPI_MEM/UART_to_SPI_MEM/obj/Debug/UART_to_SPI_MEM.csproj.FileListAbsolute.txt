@@ -15,3 +15,12 @@ D:\MY\CPP\UART_to_SPI_MEM\UART_to_SPI_MEM\obj\Debug\UART_to_SPI_MEM.csprojResolv
 D:\MY\CPP\UART_to_SPI_MEM\UART_to_SPI_MEM\obj\Debug\UART_to_SPI_MEM.Form1.resources
 D:\MY\CPP\UART_to_SPI_MEM\UART_to_SPI_MEM\obj\Debug\UART_to_SPI_MEM.Properties.Resources.resources
 D:\MY\CPP\UART_to_SPI_MEM\UART_to_SPI_MEM\obj\Debug\UART_to_SPI_MEM.csproj.GenerateResource.Cache
+C:\SYSTEM\_PROJECTS\MCU\Funny_watch\VISUAL_STUDIO\UART_to_SPI_MEM\UART_to_SPI_MEM\bin\Debug\UART_to_SPI_MEM.exe.config
+C:\SYSTEM\_PROJECTS\MCU\Funny_watch\VISUAL_STUDIO\UART_to_SPI_MEM\UART_to_SPI_MEM\bin\Debug\UART_to_SPI_MEM.exe
+C:\SYSTEM\_PROJECTS\MCU\Funny_watch\VISUAL_STUDIO\UART_to_SPI_MEM\UART_to_SPI_MEM\bin\Debug\UART_to_SPI_MEM.pdb
+C:\SYSTEM\_PROJECTS\MCU\Funny_watch\VISUAL_STUDIO\UART_to_SPI_MEM\UART_to_SPI_MEM\obj\Debug\UART_to_SPI_MEM.Form1.resources
+C:\SYSTEM\_PROJECTS\MCU\Funny_watch\VISUAL_STUDIO\UART_to_SPI_MEM\UART_to_SPI_MEM\obj\Debug\UART_to_SPI_MEM.Properties.Resources.resources
+C:\SYSTEM\_PROJECTS\MCU\Funny_watch\VISUAL_STUDIO\UART_to_SPI_MEM\UART_to_SPI_MEM\obj\Debug\UART_to_SPI_MEM.csproj.GenerateResource.cache
+C:\SYSTEM\_PROJECTS\MCU\Funny_watch\VISUAL_STUDIO\UART_to_SPI_MEM\UART_to_SPI_MEM\obj\Debug\UART_to_SPI_MEM.csproj.CoreCompileInputs.cache
+C:\SYSTEM\_PROJECTS\MCU\Funny_watch\VISUAL_STUDIO\UART_to_SPI_MEM\UART_to_SPI_MEM\obj\Debug\UART_to_SPI_MEM.exe
+C:\SYSTEM\_PROJECTS\MCU\Funny_watch\VISUAL_STUDIO\UART_to_SPI_MEM\UART_to_SPI_MEM\obj\Debug\UART_to_SPI_MEM.pdb
