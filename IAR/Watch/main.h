@@ -2,37 +2,37 @@
 #define true 1
 #define false 0
 
-//макросы управления бипером
+//РјР°РєСЂРѕСЃС‹ СѓРїСЂР°РІР»РµРЅРёСЏ Р±РёРїРµСЂРѕРј
 #define BEEP(x) (x == 0 ? (GPIOA->BSRR = GPIO_BSRR_BR_4) : (GPIOA->BSRR = GPIO_BSRR_BS_4))
 
-//макросы управления пинами микросхемы памяти
+//РјР°РєСЂРѕСЃС‹ СѓРїСЂР°РІР»РµРЅРёСЏ РїРёРЅР°РјРё РјРёРєСЂРѕСЃС…РµРјС‹ РїР°РјСЏС‚Рё
 #define MEM_HOLD(x) (x == 0 ? (GPIOA->BSRR = GPIO_BSRR_BR_0) : (GPIOA->BSRR = GPIO_BSRR_BS_0))
 #define MEM_CS(x) (x == 0 ? (GPIOA->BSRR = GPIO_BSRR_BR_1) : (GPIOA->BSRR = GPIO_BSRR_BS_1))
 #define MEM_PAUSE MEM_HOLD(0)
 #define MEM_RESUME MEM_HOLD(1)
 
-//макросы управления пинами экрана
+//РјР°РєСЂРѕСЃС‹ СѓРїСЂР°РІР»РµРЅРёСЏ РїРёРЅР°РјРё СЌРєСЂР°РЅР°
 #define LCD_CS(x) (x == 0 ? (GPIOA->BSRR = GPIO_BSRR_BR_10) : (GPIOA->BSRR = GPIO_BSRR_BS_10))
 #define LCD_DC(x) (x == 0 ? (GPIOB->BSRR = GPIO_BSRR_BR_1) : (GPIOB->BSRR = GPIO_BSRR_BS_1))
 #define LCD_RESET(x) (x == 0 ? (GPIOA->BSRR = GPIO_BSRR_BR_9) : (GPIOA->BSRR = GPIO_BSRR_BS_9))
 
-//макросы управления контроллером сенсорного экрана
+//РјР°РєСЂРѕСЃС‹ СѓРїСЂР°РІР»РµРЅРёСЏ РєРѕРЅС‚СЂРѕР»Р»РµСЂРѕРј СЃРµРЅСЃРѕСЂРЅРѕРіРѕ СЌРєСЂР°РЅР°
 #define TOUCH_CS(x) (x == 0 ? (GPIOA->BSRR = GPIO_BSRR_BR_2) : (GPIOA->BSRR = GPIO_BSRR_BS_2))
 #define TOUCH_PRESSED (!(GPIOA->IDR & GPIO_IDR_3)) //0-touched, 1-free
 
-//константы управления сигналом /CS
+//РєРѕРЅСЃС‚Р°РЅС‚С‹ СѓРїСЂР°РІР»РµРЅРёСЏ СЃРёРіРЅР°Р»РѕРј /CS
 #define CS_ENABLE 0
 #define CS_DISABLE 1
 
-//константы управления сигналом /RESTART
+//РєРѕРЅСЃС‚Р°РЅС‚С‹ СѓРїСЂР°РІР»РµРЅРёСЏ СЃРёРіРЅР°Р»РѕРј /RESTART
 #define RST_LO 0
 #define RST_HI 1
 
-//константы управления пинами микросхемы памяти
+//РєРѕРЅСЃС‚Р°РЅС‚С‹ СѓРїСЂР°РІР»РµРЅРёСЏ РїРёРЅР°РјРё РјРёРєСЂРѕСЃС…РµРјС‹ РїР°РјСЏС‚Рё
 #define MEM_HOLD_ON 0
 #define MEM_HOLD_OFF 1
 
-//константы управления пинами экрана
+//РєРѕРЅСЃС‚Р°РЅС‚С‹ СѓРїСЂР°РІР»РµРЅРёСЏ РїРёРЅР°РјРё СЌРєСЂР°РЅР°
 #define LCD_CMD 0
 #define LCD_DATA 1
 
@@ -54,7 +54,7 @@ static const uint32_t memMap[] =
    0x000537E0, 0x00054D02, 0x0007A50A //23[sunny], 24[about], 25[alarm]
   };
 
-//---- ПРОТОТИПЫ ФУНКЦИЙ -------------------------------------------------------
+//---- РџР РћРўРћРўРРџР« Р¤РЈРќРљР¦РР™ -------------------------------------------------------
 void Delay(uint32_t msTime);
 void LCD_Init();
 void SPI_Send(uint8_t data);
@@ -69,8 +69,8 @@ void LCD_ShowText(uint16_t x, uint8_t y, uint8_t* address, uint8_t font, uint16_
 void LCD_ShowDigits(uint16_t x, uint8_t y, uint16_t value, uint8_t digits);
 
 void Time_Show(bool updateAll, bool realTime, uint8_t HHMM);
-#define TS_HH 0x01U //бит показывает что отобразим только разряды часов
-#define TS_MM 0x02U //бит показывает что отобразим только разряды минут (допустимо комбинирование)
+#define TS_HH 0x01U //Р±РёС‚ РїРѕРєР°Р·С‹РІР°РµС‚ С‡С‚Рѕ РѕС‚РѕР±СЂР°Р·РёРј С‚РѕР»СЊРєРѕ СЂР°Р·СЂСЏРґС‹ С‡Р°СЃРѕРІ
+#define TS_MM 0x02U //Р±РёС‚ РїРѕРєР°Р·С‹РІР°РµС‚ С‡С‚Рѕ РѕС‚РѕР±СЂР°Р·РёРј С‚РѕР»СЊРєРѕ СЂР°Р·СЂСЏРґС‹ РјРёРЅСѓС‚ (РґРѕРїСѓСЃС‚РёРјРѕ РєРѕРјР±РёРЅРёСЂРѕРІР°РЅРёРµ)
 uint32_t Time_Add(uint32_t time, uint8_t HH, uint8_t MM);
 uint32_t Time_Sub(uint32_t time, uint8_t HH, uint8_t MM);
 void Time_SetCalendarTM(uint32_t newTime, uint32_t newDate);

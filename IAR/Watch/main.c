@@ -3,58 +3,58 @@
 #include "images.h"
 #include "main.h"
 
-//------ переменные ------------------------------------------------------------
+//------ РїРµСЂРµРјРµРЅРЅС‹Рµ ------------------------------------------------------------
 volatile struct
 {
-  uint8_t TimeChanged : 1; //индикатор того, что время изменилось на 1 секунду
-  uint8_t DateChanged : 1; //индикатор того, что дата изменилась
-  uint8_t isTouched : 1; //показывает есть ли касание в текущий момент
-  uint8_t needRepeat: 1; //показывает что не нужно выполнять условие while (TOUCH_PRESSED)
-  uint8_t menuIsShowed : 1; //панель кнопок изменения времени\даты показана
-  uint8_t systemState; //флаг состояния системы
+  uint8_t TimeChanged : 1; //РёРЅРґРёРєР°С‚РѕСЂ С‚РѕРіРѕ, С‡С‚Рѕ РІСЂРµРјСЏ РёР·РјРµРЅРёР»РѕСЃСЊ РЅР° 1 СЃРµРєСѓРЅРґСѓ
+  uint8_t DateChanged : 1; //РёРЅРґРёРєР°С‚РѕСЂ С‚РѕРіРѕ, С‡С‚Рѕ РґР°С‚Р° РёР·РјРµРЅРёР»Р°СЃСЊ
+  uint8_t isTouched : 1; //РїРѕРєР°Р·С‹РІР°РµС‚ РµСЃС‚СЊ Р»Рё РєР°СЃР°РЅРёРµ РІ С‚РµРєСѓС‰РёР№ РјРѕРјРµРЅС‚
+  uint8_t needRepeat: 1; //РїРѕРєР°Р·С‹РІР°РµС‚ С‡С‚Рѕ РЅРµ РЅСѓР¶РЅРѕ РІС‹РїРѕР»РЅСЏС‚СЊ СѓСЃР»РѕРІРёРµ while (TOUCH_PRESSED)
+  uint8_t menuIsShowed : 1; //РїР°РЅРµР»СЊ РєРЅРѕРїРѕРє РёР·РјРµРЅРµРЅРёСЏ РІСЂРµРјРµРЅРё\РґР°С‚С‹ РїРѕРєР°Р·Р°РЅР°
+  uint8_t systemState; //С„Р»Р°Рі СЃРѕСЃС‚РѕСЏРЅРёСЏ СЃРёСЃС‚РµРјС‹
 } flags;
 /*systemState:
-  0: отображение времени
-  1: редактирование часов (НH)
-  2: редактирование часов (MM)
-  3: редактирование даты (YYYY)
-  4: редактирование даты (MM)
-  5: редактирование даты (DD)
-  6: сервисное меню
-  7: справка
-  8: будильник - установка часов (НН)
-  9: будильник - установка минут (ММ)
-  10: будильник - установка дней недели
+  0: РѕС‚РѕР±СЂР°Р¶РµРЅРёРµ РІСЂРµРјРµРЅРё
+  1: СЂРµРґР°РєС‚РёСЂРѕРІР°РЅРёРµ С‡Р°СЃРѕРІ (РќH)
+  2: СЂРµРґР°РєС‚РёСЂРѕРІР°РЅРёРµ С‡Р°СЃРѕРІ (MM)
+  3: СЂРµРґР°РєС‚РёСЂРѕРІР°РЅРёРµ РґР°С‚С‹ (YYYY)
+  4: СЂРµРґР°РєС‚РёСЂРѕРІР°РЅРёРµ РґР°С‚С‹ (MM)
+  5: СЂРµРґР°РєС‚РёСЂРѕРІР°РЅРёРµ РґР°С‚С‹ (DD)
+  6: СЃРµСЂРІРёСЃРЅРѕРµ РјРµРЅСЋ
+  7: СЃРїСЂР°РІРєР°
+  8: Р±СѓРґРёР»СЊРЅРёРє - СѓСЃС‚Р°РЅРѕРІРєР° С‡Р°СЃРѕРІ (РќРќ)
+  9: Р±СѓРґРёР»СЊРЅРёРє - СѓСЃС‚Р°РЅРѕРІРєР° РјРёРЅСѓС‚ (РњРњ)
+  10: Р±СѓРґРёР»СЊРЅРёРє - СѓСЃС‚Р°РЅРѕРІРєР° РґРЅРµР№ РЅРµРґРµР»Рё
 */
 
 struct
 {
-  uint8_t i; //временная переменная для циклов и т.п.
-  uint8_t j; //временная переменная для циклов и т.п.
-  volatile uint32_t DelayCounter; //для SysTick
+  uint8_t i; //РІСЂРµРјРµРЅРЅР°СЏ РїРµСЂРµРјРµРЅРЅР°СЏ РґР»СЏ С†РёРєР»РѕРІ Рё С‚.Рї.
+  uint8_t j; //РІСЂРµРјРµРЅРЅР°СЏ РїРµСЂРµРјРµРЅРЅР°СЏ РґР»СЏ С†РёРєР»РѕРІ Рё С‚.Рї.
+  volatile uint32_t DelayCounter; //РґР»СЏ SysTick
   
-  volatile uint8_t bStatus; //бипер. статус. 0-выключен, 1-запуск. устанавливается пользователем.
-  volatile uint16_t bCycle; //бипер. внутренний цикл тактов
-  volatile uint8_t bCount; //бипер. количество повторений сигнала. задается пользователем.
+  volatile uint8_t bStatus; //Р±РёРїРµСЂ. СЃС‚Р°С‚СѓСЃ. 0-РІС‹РєР»СЋС‡РµРЅ, 1-Р·Р°РїСѓСЃРє. СѓСЃС‚Р°РЅР°РІР»РёРІР°РµС‚СЃСЏ РїРѕР»СЊР·РѕРІР°С‚РµР»РµРј.
+  volatile uint16_t bCycle; //Р±РёРїРµСЂ. РІРЅСѓС‚СЂРµРЅРЅРёР№ С†РёРєР» С‚Р°РєС‚РѕРІ
+  volatile uint8_t bCount; //Р±РёРїРµСЂ. РєРѕР»РёС‡РµСЃС‚РІРѕ РїРѕРІС‚РѕСЂРµРЅРёР№ СЃРёРіРЅР°Р»Р°. Р·Р°РґР°РµС‚СЃСЏ РїРѕР»СЊР·РѕРІР°С‚РµР»РµРј.
     
   uint32_t mCalendarTime;
   uint32_t mCalendarDate;
   uint32_t mLastCalendar;
-  uint32_t mCalendarAlarmTime; //время будильника
-  uint32_t  mCalendarAlarmDays[7]; //дни будильника
-  uint8_t  mDoW_Checked[7]; //временный массив выбранных дней
+  uint32_t mCalendarAlarmTime; //РІСЂРµРјСЏ Р±СѓРґРёР»СЊРЅРёРєР°
+  uint32_t  mCalendarAlarmDays[7]; //РґРЅРё Р±СѓРґРёР»СЊРЅРёРєР°
+  uint8_t  mDoW_Checked[7]; //РІСЂРµРјРµРЅРЅС‹Р№ РјР°СЃСЃРёРІ РІС‹Р±СЂР°РЅРЅС‹С… РґРЅРµР№
   
   uint16_t mYear;
   uint8_t  mMonth;
   uint8_t  mDay;
   
-  uint8_t tXX[2]; //массив X для обработки touch screen 
-  uint8_t tYY[2]; //массив Y для обработки touch screen
-  uint8_t tObjectID; //код нажатого объекта
+  uint8_t tXX[2]; //РјР°СЃСЃРёРІ X РґР»СЏ РѕР±СЂР°Р±РѕС‚РєРё touch screen 
+  uint8_t tYY[2]; //РјР°СЃСЃРёРІ Y РґР»СЏ РѕР±СЂР°Р±РѕС‚РєРё touch screen
+  uint8_t tObjectID; //РєРѕРґ РЅР°Р¶Р°С‚РѕРіРѕ РѕР±СЉРµРєС‚Р°
   
   uint8_t digitsOffset;
   
-  uint8_t arrBmpHeader16[8]; //буфер для загрузки bmp header 
+  uint8_t arrBmpHeader16[8]; //Р±СѓС„РµСЂ РґР»СЏ Р·Р°РіСЂСѓР·РєРё bmp header 
   
   
 } v;
@@ -62,69 +62,80 @@ struct
       
 int main()
 {
-  __enable_irq(); //включить все прерывания
+  __enable_irq(); //РІРєР»СЋС‡РёС‚СЊ РІСЃРµ РїСЂРµСЂС‹РІР°РЅРёСЏ
     
   // HSE. SYSCLK = 48MHz (via PLL)
-  for (int i=0; i<1000; i++);
-  SET_BIT(RCC->CR, RCC_CR_HSEON); // ???????? ????????? HSE ? ????????
-  while (!(RCC->CR & RCC_CR_HSERDY)); // ???????? ?????????? HSE.
-  SET_BIT(RCC->CFGR, (RCC_CFGR_PLLMUL6 | RCC_CFGR_PLLSRC_HSE_PREDIV)); //?????? ????????? PLL x12 (HSE/1*6=48MHz)
-  SET_BIT(RCC->CR, RCC_CR_PLLON); //???????? PLL
-  while((RCC->CR & RCC_CR_PLLRDY) == 0); //????????? ????????? PLL
-  SET_BIT(RCC->CFGR, (uint32_t)RCC_CFGR_SW_PLL); //??????? PLL ?????????? SYSCLK
-  while ((RCC->CFGR & RCC_CFGR_SWS) != RCC_CFGR_SWS_PLL); //????????? ???? PLL ?? ????????? ??? ???????? SYSCLK
-  //---
+  if ((RCC->CR & RCC_CR_HSEON_Msk) != RCC_CR_HSEON)
+  {
+    SET_BIT(RCC->CR, RCC_CR_CSSON | RCC_CR_HSEON); // Р’РєР»СЋС‡РёС‚СЊ РіРµРЅРµСЂР°С‚РѕСЂ HSE Рё РєРѕРЅС‚СЂРѕР»СЊ РЅР°Рґ РїСЂРѕРїР°РґР°РЅРёРµРј
+    while (!(RCC->CR & RCC_CR_HSERDY)); // РћР¶РёРґР°РЅРёРµ РіРѕС‚РѕРІРЅРѕСЃС‚Рё HSE.
+  }
   
-  //--- включить тактирование периферии 
-  SET_BIT(RCC->AHBENR, (RCC_AHBENR_GPIOAEN | RCC_AHBENR_GPIOBEN)); //включить тактирование GPIO PORT A, B
-  SET_BIT(RCC->APB2ENR, (RCC_APB2ENR_SPI1EN)); //включить тактирование SPI1
-  SET_BIT(RCC->APB1ENR, (RCC_APB1ENR_PWREN)); //включить тактирование интерфейса power
-  //---  
+  // (2) -----------------------------------------------------------------------
   
-  //--- включить RTC
-  PWR->CR |= PWR_CR_DBP; //включить доступ к регистру RCC->BDCR
-  RCC->CSR |= RCC_CSR_LSION; //включить внутренний тактовый генератор 40кгц
-  while((RCC->CSR &RCC_CSR_LSIRDY) == 0); //дождаться включения LSI 
-  RCC->BDCR |= RCC_BDCR_RTCSEL_LSI | RCC_BDCR_RTCEN; //LSE source, RTC on
-  //---
+  if ((RCC->CFGR & RCC_CFGR_SWS) != RCC_CFGR_SWS_PLL)
+  {
+    CLEAR_BIT(RCC->CR, RCC_CR_PLLON); // РёР·РјРµРЅРµРЅРёСЏ РјРѕР¶РЅРѕ РїСЂРѕРёР·РІРѕРґРёС‚СЊ С‚РѕР»СЊРєРѕ РЅР° РІС‹РєР»СЋС‡РµРЅРЅРѕРј PLL
+    while((RCC->CR & RCC_CR_PLLRDY) != 0); // РѕР¶РёРґР°РЅРёРµ РіРѕС‚РѕРІРЅРѕСЃС‚Рё PLL
+    MODIFY_REG(RCC->CFGR, (RCC_CFGR_PLLSRC_Msk | RCC_CFGR_PLLMUL_Msk),
+              (RCC_CFGR_PLLSRC_HSE_PREDIV | RCC_CFGR_PLLMUL6)); //Р·Р°РґР°С‚СЊ РёСЃС‚РѕС‡РЅРёРє Рё РјРЅРѕР¶РёС‚РµР»СЊ PLL x6 (8x6=48MHz)
+    SET_BIT(RCC->CR, RCC_CR_PLLON); //РІРєР»СЋС‡РёС‚СЊ PLL
+    while((RCC->CR & RCC_CR_PLLRDY) != 0); // РѕР¶РёРґР°РЅРёРµ РіРѕС‚РѕРІРЅРѕСЃС‚Рё PLL
+    SET_BIT(RCC->CFGR, (uint32_t)RCC_CFGR_SW_PLL); //РІС‹Р±СЂР°С‚СЊ PLL РёСЃС‚РѕС‡РЅРёРєРѕРј SYSCLK
+    while ((RCC->CFGR & RCC_CFGR_SWS) != RCC_CFGR_SWS_PLL); //РґРѕР¶РґР°С‚СЊСЃСЏ РїРѕРєР° PLL РЅРµ РІРєР»СЋС‡РёС‚СЃСЏ РєР°Рє РёСЃС‚РѕС‡РЅРёРє SYSCLK
+  }
 
-  //--- настраиваем пины
-  SET_BIT(GPIOA->MODER, (GPIO_MODER_MODER0_0 | GPIO_MODER_MODER1_0 | GPIO_MODER_MODER2_0 |
+  
+  //--- РІРєР»СЋС‡РёС‚СЊ С‚Р°РєС‚РёСЂРѕРІР°РЅРёРµ РїРµСЂРёС„РµСЂРёРё 
+  SET_BIT(RCC->AHBENR, (RCC_AHBENR_GPIOAEN | RCC_AHBENR_GPIOBEN)); //РІРєР»СЋС‡РёС‚СЊ С‚Р°РєС‚РёСЂРѕРІР°РЅРёРµ GPIO PORT A, B
+  SET_BIT(RCC->APB2ENR, (RCC_APB2ENR_SPI1EN)); //РІРєР»СЋС‡РёС‚СЊ С‚Р°РєС‚РёСЂРѕРІР°РЅРёРµ SPI1
+  SET_BIT(RCC->APB1ENR, (RCC_APB1ENR_PWREN)); //РІРєР»СЋС‡РёС‚СЊ С‚Р°РєС‚РёСЂРѕРІР°РЅРёРµ РёРЅС‚РµСЂС„РµР№СЃР° power
+  
+  SET_BIT(PWR->CR, PWR_CR_DBP); //СЂР°Р·СЂРµС€РёС‚СЊ Р·Р°РїРёСЃСЊ РІ СЂРµРіРёСЃС‚СЂС‹ RTC Рё Backup (РЅРµ Р·Р°РїСЂРµС‰Р°С‚СЊ РІ С‚РµС‡РµРЅРёРё СЂР°Р±РѕС‚С‹ RTC!)
+  SET_BIT(RCC->BDCR, RCC_BDCR_RTCEN | RCC_BDCR_RTCSEL_HSE); // РІРєР»СЋС‡РёС‚СЊ RTC Рё Р·Р°РґР°С‚СЊ РёСЃС‚РѕС‡РЅРёРєРѕРј HSE/32
+
+  //--- РЅР°СЃС‚СЂР°РёРІР°РµРј РїРёРЅС‹
+  WRITE_REG(GPIOA->MODER, 0x28000000 |
+                        (GPIO_MODER_MODER0_0 | GPIO_MODER_MODER1_0 | GPIO_MODER_MODER2_0 |
                          GPIO_MODER_MODER4_0 | GPIO_MODER_MODER5_1 | GPIO_MODER_MODER6_1 |
                          GPIO_MODER_MODER7_1 | GPIO_MODER_MODER9_0 | GPIO_MODER_MODER10_0));
-  SET_BIT(GPIOB->MODER, GPIO_MODER_MODER1_0);
+  WRITE_REG(GPIOB->MODER, GPIO_MODER_MODER1_0);
 
-  SET_BIT(GPIOA->OSPEEDR, (GPIO_OSPEEDR_OSPEEDR0 | GPIO_OSPEEDR_OSPEEDR1 | GPIO_OSPEEDR_OSPEEDR2 |
+  WRITE_REG(GPIOA->OSPEEDR, 0x0C000000 | 
+                          (GPIO_OSPEEDR_OSPEEDR0 | GPIO_OSPEEDR_OSPEEDR1 | GPIO_OSPEEDR_OSPEEDR2 |
                            GPIO_OSPEEDR_OSPEEDR3 | GPIO_OSPEEDR_OSPEEDR4 | GPIO_OSPEEDR_OSPEEDR5 |
                            GPIO_OSPEEDR_OSPEEDR6 | GPIO_OSPEEDR_OSPEEDR7 | GPIO_OSPEEDR_OSPEEDR9 |
                            GPIO_OSPEEDR_OSPEEDR10));
   SET_BIT(GPIOB->OSPEEDR, GPIO_OSPEEDR_OSPEEDR1);
   
-  //SET_BIT(GPIOA->OTYPER, (GPIO_OTYPER_OT_6));
+  WRITE_REG(GPIOA->OTYPER, (GPIO_OTYPER_OT_6));
   
-  //--- конфигурируем SPI
-  SPI1->CR1 |= SPI_CR1_MSTR | SPI_CR1_SSM | SPI_CR1_SSI | SPI_CR1_SPE; //Master mode, Fpclk/2 = 48/2, SPI on
-  SPI1->CR2 |= SPI_CR2_FRXTH; //8bit FIFO buffer, 8bit data size, NSS pin disabled, no interrupts
   
-  //--- настройка SysTick (1милисек)
+    RTC->WPR = 0xCA;
+  RTC->WPR = 0x53; //enable write
+  SET_BIT(RTC->ISR, RTC_ISR_INIT); // РІС…РѕРґРёРј РІ СЂРµР¶РёРј РёРЅС†РёР°Р»РёР·Р°С†РёРё
+  while ((RTC->ISR & RTC_ISR_INITF) != RTC_ISR_INITF); // Р¶РґРµРј РІС…РѕРґР° РІ СЂРµР¶РёРј
+  
+  //--- РєРѕРЅС„РёРіСѓСЂРёСЂСѓРµРј SPI
+  WRITE_REG(SPI1->CR1, (SPI_CR1_MSTR | SPI_CR1_SSM | SPI_CR1_SSI | SPI_CR1_SPE)); //Master mode, Fpclk/2 = 48/2, SPI on
+  WRITE_REG(SPI1->CR2, 0x0700 | SPI_CR2_FRXTH); //8bit FIFO buffer, 8bit data size, NSS pin disabled, no interrupts
+  
+  //--- РЅР°СЃС‚СЂРѕР№РєР° SysTick (1РјРёР»РёСЃРµРє)
   v.bStatus = 0;
   SysTick->LOAD = (48000UL & SysTick_LOAD_RELOAD_Msk) - 1;
-  SysTick->VAL = 0; //необходимо вызвать для обнуления
-  SysTick->CTRL  = SysTick_CTRL_CLKSOURCE_Msk | //источник тактирования SYSCLK
-                   SysTick_CTRL_TICKINT_Msk   | //запрашивать прерывание по достижению нуля
-                   SysTick_CTRL_ENABLE_Msk;     //включить счетчик 
+  SysTick->VAL = 0; //РЅРµРѕР±С…РѕРґРёРјРѕ РІС‹Р·РІР°С‚СЊ РґР»СЏ РѕР±РЅСѓР»РµРЅРёСЏ
+  SysTick->CTRL  = SysTick_CTRL_CLKSOURCE_Msk | //РёСЃС‚РѕС‡РЅРёРє С‚Р°РєС‚РёСЂРѕРІР°РЅРёСЏ SYSCLK
+                   SysTick_CTRL_TICKINT_Msk   | //Р·Р°РїСЂР°С€РёРІР°С‚СЊ РїСЂРµСЂС‹РІР°РЅРёРµ РїРѕ РґРѕСЃС‚РёР¶РµРЅРёСЋ РЅСѓР»СЏ
+                   SysTick_CTRL_ENABLE_Msk;     //РІРєР»СЋС‡РёС‚СЊ СЃС‡РµС‚С‡РёРє 
   
-  //--- включение таймеров и прерываний ---
-  EXTI->IMR |= EXTI_IMR_IM17; //17ое внешнее прерывание это Alarm A
-  EXTI->RTSR |= EXTI_RTSR_RT17;
-  NVIC_EnableIRQ(RTC_IRQn);
-  NVIC_SetPriority(SysTick_IRQn, 1); //выше приоритет только у перехода в сон
+  NVIC_SetPriority(SysTick_IRQn, 1); //РІС‹С€Рµ РїСЂРёРѕСЂРёС‚РµС‚ С‚РѕР»СЊРєРѕ Сѓ РїРµСЂРµС…РѕРґР° РІ СЃРѕРЅ
 
+  // -
   MEM_CS(CS_DISABLE);
   MEM_RESUME;
   LCD_CS(CS_DISABLE);  
   
-  //инициализируем периферию
+  //РёРЅРёС†РёР°Р»РёР·РёСЂСѓРµРј РїРµСЂРёС„РµСЂРёСЋ
   //S(tart).AAA(ddress).M(ode).S(er/dfr).PP(ower)
   //Start= 1
   //Address= 101(X), 001(Y)
@@ -133,7 +144,7 @@ int main()
   //Power= 00(IRQ on)
   SPI1->CR1 |= SPI_CR1_BR_2; //XPT2046 F_CLK max = 2,5Mhz!!!!
   TOUCH_CS(CS_ENABLE);
-    SPI_Exchange(0xD8); //инициализация для активирования PEN_IRQ
+    SPI_Exchange(0xD8); //РёРЅРёС†РёР°Р»РёР·Р°С†РёСЏ РґР»СЏ Р°РєС‚РёРІРёСЂРѕРІР°РЅРёСЏ PEN_IRQ
     SPI_Exchange(0x00);
     SPI_Exchange(0x00);   
   TOUCH_CS(CS_DISABLE);
@@ -142,32 +153,31 @@ int main()
   LCD_Init();
 
   
-  //активируем режим контроля перехода в сон при пропадании напряжения
+  //Р°РєС‚РёРІРёСЂСѓРµРј СЂРµР¶РёРј РєРѕРЅС‚СЂРѕР»СЏ РїРµСЂРµС…РѕРґР° РІ СЃРѕРЅ РїСЂРё РїСЂРѕРїР°РґР°РЅРёРё РЅР°РїСЂСЏР¶РµРЅРёСЏ
   //EXTI->IMR |= EXTI_IMR_MR10; //line 10 (PA10)
   //EXTI->FTSR |= EXTI_FTSR_TR10; //falling edge
   //NVIC_EnableIRQ(EXTI4_15_IRQn);
   //NVIC_SetPriority(EXTI4_15_IRQn, 0);
   
   
-  //начальные значения
-  BEEP(0);
+  //РЅР°С‡Р°Р»СЊРЅС‹Рµ Р·РЅР°С‡РµРЅРёСЏ
   flags.TimeChanged = false;
   flags.DateChanged = false;
   flags.isTouched = false;
   flags.menuIsShowed = false;
   flags.systemState = (uint8_t)0;
   BmpHeader16 = (TBmpHeader16*)&v.arrBmpHeader16;
-  LoadFromRom(); //загрузка digitsOffset, mCalendarAlarmTime, mCalendarAlarmDays
+  LoadFromRom(); //Р·Р°РіСЂСѓР·РєР° digitsOffset, mCalendarAlarmTime, mCalendarAlarmDays
   
-  //--- настройка RTC ---
+  //--- РЅР°СЃС‚СЂРѕР№РєР° RTC ---
   Time_SetCalendarTM(0x00000000, 0x00000000);
   
-  //задний фон
+  //Р·Р°РґРЅРёР№ С„РѕРЅ
   LCD_CS(CS_ENABLE);
   LCD_SetWindow(0,319, 0,239);
   LCD_FillBackground(BackGroundColor);//(0x4228);
   
-  //вывод картинки
+  //РІС‹РІРѕРґ РєР°СЂС‚РёРЅРєРё
   Time_Show(1, 1, (TS_HH | TS_MM));
   Date_Show();
   
@@ -175,29 +185,29 @@ int main()
   {
     ProcessTouching();
     
-    //действие в зависимости от флага состояния системы
+    //РґРµР№СЃС‚РІРёРµ РІ Р·Р°РІРёСЃРёРјРѕСЃС‚Рё РѕС‚ С„Р»Р°РіР° СЃРѕСЃС‚РѕСЏРЅРёСЏ СЃРёСЃС‚РµРјС‹
     switch (flags.systemState)
     {
-      //часы тикают
+      //С‡Р°СЃС‹ С‚РёРєР°СЋС‚
       case 0: 
       case 6:
         v.j = ~v.j;
         if (v.j) BEEP(1); else BEEP(0);
         Delay(250);
-        //покажем текущее время
+        //РїРѕРєР°Р¶РµРј С‚РµРєСѓС‰РµРµ РІСЂРµРјСЏ
         Time_Show(0, 1, (TS_HH | TS_MM));  
-        //был переход на новую дату - обновим информацию на дисплее 
+        //Р±С‹Р» РїРµСЂРµС…РѕРґ РЅР° РЅРѕРІСѓСЋ РґР°С‚Сѓ - РѕР±РЅРѕРІРёРј РёРЅС„РѕСЂРјР°С†РёСЋ РЅР° РґРёСЃРїР»РµРµ 
         if (flags.DateChanged) 
         {   
-          LCD_FillRectangle(0, 319, 0, base_digits_y - 1, BackGroundColor); //верх
-          LCD_FillRectangle(0,319, 190,239, BackGroundColor); //низ        
+          LCD_FillRectangle(0, 319, 0, base_digits_y - 1, BackGroundColor); //РІРµСЂС…
+          LCD_FillRectangle(0,319, 190,239, BackGroundColor); //РЅРёР·        
           Date_Show();
           flags.DateChanged = false;
         }
-        //проверим срабатывание будильника
+        //РїСЂРѕРІРµСЂРёРј СЃСЂР°Р±Р°С‚С‹РІР°РЅРёРµ Р±СѓРґРёР»СЊРЅРёРєР°
         if (v.mCalendarAlarmTime != 0)
           if ((v.mCalendarTime & 0x003F7F00) == v.mCalendarAlarmTime)
-          { //значение v.mCalendarTime содержит текущее время после выполнения команды Time_Show
+          { //Р·РЅР°С‡РµРЅРёРµ v.mCalendarTime СЃРѕРґРµСЂР¶РёС‚ С‚РµРєСѓС‰РµРµ РІСЂРµРјСЏ РїРѕСЃР»Рµ РІС‹РїРѕР»РЅРµРЅРёСЏ РєРѕРјР°РЅРґС‹ Time_Show
             uint8_t isDayEqual = false;
             for (uint8_t i=0; i<7; i++)
             {
@@ -210,7 +220,7 @@ int main()
             if ((v.bStatus == 0) && isDayEqual)
             {
               v.bCount = 3;
-              v.bStatus = 1; //запустим будильник
+              v.bStatus = 1; //Р·Р°РїСѓСЃС‚РёРј Р±СѓРґРёР»СЊРЅРёРє
             }
           }
         break;
@@ -219,10 +229,10 @@ int main()
         break;
     } //switch  
     
-    //обработаем нажатия на объекты, если есть
+    //РѕР±СЂР°Р±РѕС‚Р°РµРј РЅР°Р¶Р°С‚РёСЏ РЅР° РѕР±СЉРµРєС‚С‹, РµСЃР»Рё РµСЃС‚СЊ
     if (v.tObjectID != 0)
     {
-      //проверим нет ли режима справки
+      //РїСЂРѕРІРµСЂРёРј РЅРµС‚ Р»Рё СЂРµР¶РёРјР° СЃРїСЂР°РІРєРё
       if (flags.systemState == 7)
       {
         LCD_FillRectangle(0, 319, 0, 239, BackGroundColor);
@@ -234,37 +244,37 @@ int main()
         continue;
       }
             
-      //если нажатие на одну из цифр
+      //РµСЃР»Рё РЅР°Р¶Р°С‚РёРµ РЅР° РѕРґРЅСѓ РёР· С†РёС„СЂ
       if ((v.tObjectID & 64) == 64)
       {
-        //если панель не показана - покажем
+        //РµСЃР»Рё РїР°РЅРµР»СЊ РЅРµ РїРѕРєР°Р·Р°РЅР° - РїРѕРєР°Р¶РµРј
         if (!flags.menuIsShowed)
         {
-          //уберем верхнюю информацию
+          //СѓР±РµСЂРµРј РІРµСЂС…РЅСЋСЋ РёРЅС„РѕСЂРјР°С†РёСЋ
           LCD_FillRectangle(0, 319, 0, base_digits_y - 1, BackGroundColor);
-          //уберем секунды
+          //СѓР±РµСЂРµРј СЃРµРєСѓРЅРґС‹
           if (v.digitsOffset == 0)
             LCD_FillRectangle(base_digits_x + 255, base_digits_x + 255 + 15, base_digits_y + 106, base_digits_y + 106 + 6, BackGroundColor);
           else
             LCD_FillRectangle(152, 152+15, 125, 125 + 7, BackGroundColor);
             
-          //выведем панель
+          //РІС‹РІРµРґРµРј РїР°РЅРµР»СЊ
           LCD_ShowImage16FromMem(0, 190, memMap[11]);
           
-          //установим флаги
+          //СѓСЃС‚Р°РЅРѕРІРёРј С„Р»Р°РіРё
           flags.menuIsShowed = true; 
           flags.systemState = v.tObjectID - 64;
           
-          //считаем время из RTC
+          //СЃС‡РёС‚Р°РµРј РІСЂРµРјСЏ РёР· RTC
           while((RTC->ISR &RTC_ISR_RSF) != RTC_ISR_RSF);
           v.mCalendarTime = RTC->TR;
           v.mCalendarDate = RTC->DR;
           
-          //спрячем часы или минуты
+          //СЃРїСЂСЏС‡РµРј С‡Р°СЃС‹ РёР»Рё РјРёРЅСѓС‚С‹
           if (flags.systemState == 1)
           {
-            LCD_ShowText(52, 3+0, (uint8_t*)&TMessages[0], 2, LCD_YELLOW, BackGroundColor); //"УСТАНОВКА"
-            LCD_ShowText(100, 3+30, (uint8_t*)&TMessages[10], 2, LCD_YELLOW, BackGroundColor); //"ЧАСОВ"
+            LCD_ShowText(52, 3+0, (uint8_t*)&TMessages[0], 2, LCD_YELLOW, BackGroundColor); //"РЈРЎРўРђРќРћР’РљРђ"
+            LCD_ShowText(100, 3+30, (uint8_t*)&TMessages[10], 2, LCD_YELLOW, BackGroundColor); //"Р§РђРЎРћР’"
             if (v.digitsOffset == 0)
               LCD_FillRectangle(base_digits_x + 135, base_digits_x + 254, base_digits_y, base_digits_y + 114, BackGroundColor);
             else
@@ -273,8 +283,8 @@ int main()
           
           if (flags.systemState == 2)
           {
-            LCD_ShowText(52, 3+0, (uint8_t*)&TMessages[0], 2, LCD_YELLOW, BackGroundColor); //"УСТАНОВКА"
-            LCD_ShowText(100, 3+30, (uint8_t*)&TMessages[16], 2, LCD_YELLOW, BackGroundColor); //"МИНУТ"
+            LCD_ShowText(52, 3+0, (uint8_t*)&TMessages[0], 2, LCD_YELLOW, BackGroundColor); //"РЈРЎРўРђРќРћР’РљРђ"
+            LCD_ShowText(100, 3+30, (uint8_t*)&TMessages[16], 2, LCD_YELLOW, BackGroundColor); //"РњРРќРЈРў"
             if (v.digitsOffset == 0)
               LCD_FillRectangle(base_digits_x + 0, base_digits_x + 119, base_digits_y, base_digits_y + 114, BackGroundColor);
             else
@@ -284,95 +294,95 @@ int main()
         v.tObjectID = (uint8_t)0;
       }
       
-      //если нажатие на одну из кнонок или нижнюю часть экрана
+      //РµСЃР»Рё РЅР°Р¶Р°С‚РёРµ РЅР° РѕРґРЅСѓ РёР· РєРЅРѕРЅРѕРє РёР»Рё РЅРёР¶РЅСЋСЋ С‡Р°СЃС‚СЊ СЌРєСЂР°РЅР°
       if ((v.tObjectID & 128) == 128)
       {
         if (flags.menuIsShowed)
         {      
           flags.needRepeat = true;
-          //обработка кнопок
+          //РѕР±СЂР°Р±РѕС‚РєР° РєРЅРѕРїРѕРє
           switch (v.tObjectID)
           {
-            //клавиша "+" ******************************************************
+            //РєР»Р°РІРёС€Р° "+" ******************************************************
             case 0x81:
-              //добавить минуту
-              if (flags.systemState == 2 || flags.systemState == 9) //если установка часов времени или будильника
+              //РґРѕР±Р°РІРёС‚СЊ РјРёРЅСѓС‚Сѓ
+              if (flags.systemState == 2 || flags.systemState == 9) //РµСЃР»Рё СѓСЃС‚Р°РЅРѕРІРєР° С‡Р°СЃРѕРІ РІСЂРµРјРµРЅРё РёР»Рё Р±СѓРґРёР»СЊРЅРёРєР°
               {
                 v.mCalendarTime = Time_Add(v.mCalendarTime, 0,1);
                 Time_Show(1, 0, TS_MM);
               }
-              //добавить час
-              if (flags.systemState == 1 || flags.systemState == 8) //если установка часов времени или будильника
+              //РґРѕР±Р°РІРёС‚СЊ С‡Р°СЃ
+              if (flags.systemState == 1 || flags.systemState == 8) //РµСЃР»Рё СѓСЃС‚Р°РЅРѕРІРєР° С‡Р°СЃРѕРІ РІСЂРµРјРµРЅРё РёР»Рё Р±СѓРґРёР»СЊРЅРёРєР°
               {
                 v.mCalendarTime = Time_Add(v.mCalendarTime, 1,0);
                 Time_Show(1, 0, TS_HH);
               }
-              //добавить год
+              //РґРѕР±Р°РІРёС‚СЊ РіРѕРґ
               if (flags.systemState == 3)
               {
                 v.mYear++;
                 if (v.mYear > 9999) v.mYear = 2000;
                 LCD_ShowDigits(40, base_digits_y, v.mYear, 4);
               }
-              //добавить месяц
+              //РґРѕР±Р°РІРёС‚СЊ РјРµСЃСЏС†
               if (flags.systemState == 4)
               {
                 v.mMonth++;
                 if (v.mMonth > 12) v.mMonth = 12;
                 LCD_ShowDigits(100, base_digits_y, v.mMonth, 2);
               }   
-              //добавить день
+              //РґРѕР±Р°РІРёС‚СЊ РґРµРЅСЊ
               if (flags.systemState == 5)
               {
                 v.mDay++;
                 if ((v.mMonth & 0x01U) == 0x01U) 
-                {//нечетные месяцы
+                {//РЅРµС‡РµС‚РЅС‹Рµ РјРµСЃСЏС†С‹
                   if (v.mDay > 31) v.mDay = 31;
                 }
                 else
-                {//четные месяцы
+                {//С‡РµС‚РЅС‹Рµ РјРµСЃСЏС†С‹
                   if (v.mMonth == 2)
-                  {//если февраль
+                  {//РµСЃР»Рё С„РµРІСЂР°Р»СЊ
                     if ((v.mYear & 3) == 0 && ((v.mYear % 25) != 0 || (v.mYear & 15) == 0))
-                    {//високосный год
+                    {//РІРёСЃРѕРєРѕСЃРЅС‹Р№ РіРѕРґ
                       if (v.mDay > 29) v.mDay = 29;
                     }
                     else
-                    {//обычный год
+                    {//РѕР±С‹С‡РЅС‹Р№ РіРѕРґ
                       if (v.mDay > 28) v.mDay = 28;
                     }
                   }
                   else
-                  {//если не февраль
+                  {//РµСЃР»Рё РЅРµ С„РµРІСЂР°Р»СЊ
                     if (v.mDay > 30) v.mDay = 30;
                   }
                 }
                 LCD_ShowDigits(100, base_digits_y, v.mDay, 2);
               }              
-              //установить будильник
+              //СѓСЃС‚Р°РЅРѕРІРёС‚СЊ Р±СѓРґРёР»СЊРЅРёРє
               if (flags.systemState == 6)
               {
-                //загрузим значение будильника
+                //Р·Р°РіСЂСѓР·РёРј Р·РЅР°С‡РµРЅРёРµ Р±СѓРґРёР»СЊРЅРёРєР°
                 v.mCalendarTime = v.mCalendarAlarmTime;
-                //покачем часы будильника MM:xx
+                //РїРѕРєР°С‡РµРј С‡Р°СЃС‹ Р±СѓРґРёР»СЊРЅРёРєР° MM:xx
                 Time_Show(1, 0, TS_HH);
-                //выведем надпись
+                //РІС‹РІРµРґРµРј РЅР°РґРїРёСЃСЊ
                 LCD_FillRectangle(0, 319, 0, base_digits_y - 1, BackGroundColor);
-                LCD_ShowText(52, 3+0, (uint8_t*)&TMessages[0], 2, LCD_YELLOW, BackGroundColor); //"УСТАНОВКА"
-                LCD_ShowText(40, 3+30, (uint8_t*)&TMessages[38], 2, LCD_YELLOW, BackGroundColor); //"БУДИЛЬНИКА"
-                //сотрем минуты
+                LCD_ShowText(52, 3+0, (uint8_t*)&TMessages[0], 2, LCD_YELLOW, BackGroundColor); //"РЈРЎРўРђРќРћР’РљРђ"
+                LCD_ShowText(40, 3+30, (uint8_t*)&TMessages[38], 2, LCD_YELLOW, BackGroundColor); //"Р‘РЈР”РР›Р¬РќРРљРђ"
+                //СЃРѕС‚СЂРµРј РјРёРЅСѓС‚С‹
                 if (v.digitsOffset == 0)
                   LCD_FillRectangle(base_digits_x + 135, base_digits_x + 254, base_digits_y, base_digits_y + 114, BackGroundColor);
                 else
                   LCD_FillRectangle(base_fdigits_x + 166, base_fdigits_x + 119 + 166, base_digits_y, base_digits_y + 114, BackGroundColor);  
-                //уберем секунды
+                //СѓР±РµСЂРµРј СЃРµРєСѓРЅРґС‹
                 if (v.digitsOffset == 0)
                   LCD_FillRectangle(base_digits_x + 255, base_digits_x + 255 + 15, base_digits_y + 106, base_digits_y + 106 + 6, BackGroundColor);
                 else
                   LCD_FillRectangle(152, 152+15, 125, 125 + 7, BackGroundColor);
-                //покажем меню
+                //РїРѕРєР°Р¶РµРј РјРµРЅСЋ
                 LCD_ShowImage16FromMem(0, 190, memMap[11]);
-                //установим флаги
+                //СѓСЃС‚Р°РЅРѕРІРёРј С„Р»Р°РіРё
                 flags.systemState = 8;
                 flags.menuIsShowed = true;
                 v.tObjectID = (uint8_t)0;
@@ -380,65 +390,65 @@ int main()
               }
               break;
               
-            //клавиша "-" или "смена шрифта" ***********************************
+            //РєР»Р°РІРёС€Р° "-" РёР»Рё "СЃРјРµРЅР° С€СЂРёС„С‚Р°" ***********************************
             case 0x82:
-              //отнять минуту
-              if (flags.systemState == 2 || flags.systemState == 9) //если установка часов времени или будильника
+              //РѕС‚РЅСЏС‚СЊ РјРёРЅСѓС‚Сѓ
+              if (flags.systemState == 2 || flags.systemState == 9) //РµСЃР»Рё СѓСЃС‚Р°РЅРѕРІРєР° С‡Р°СЃРѕРІ РІСЂРµРјРµРЅРё РёР»Рё Р±СѓРґРёР»СЊРЅРёРєР°
               {
                 v.mCalendarTime = Time_Sub(v.mCalendarTime, 0,1);
                 Time_Show(1, 0, TS_MM);
               }
-              //отнять час
-              if (flags.systemState == 1 || flags.systemState == 8) //если установка часов времени или будильника
+              //РѕС‚РЅСЏС‚СЊ С‡Р°СЃ
+              if (flags.systemState == 1 || flags.systemState == 8) //РµСЃР»Рё СѓСЃС‚Р°РЅРѕРІРєР° С‡Р°СЃРѕРІ РІСЂРµРјРµРЅРё РёР»Рё Р±СѓРґРёР»СЊРЅРёРєР°
               {
                 v.mCalendarTime = Time_Sub(v.mCalendarTime, 1,0);
                 Time_Show(1, 0, TS_HH);
               }
-              //отнять год
+              //РѕС‚РЅСЏС‚СЊ РіРѕРґ
               if (flags.systemState == 3)
               {
                 v.mYear--;
                 if (v.mYear < 2000) v.mYear = 2000;
                 LCD_ShowDigits(40, base_digits_y, v.mYear, 4);
               }
-              //отнять месяц
+              //РѕС‚РЅСЏС‚СЊ РјРµСЃСЏС†
               if (flags.systemState == 4)
               {
                 v.mMonth--;
                 if (v.mMonth < 1) v.mMonth = 1;
                 LCD_ShowDigits(100, base_digits_y, v.mMonth, 2);
               } 
-              //отнять день
+              //РѕС‚РЅСЏС‚СЊ РґРµРЅСЊ
               if (flags.systemState == 5)
               {
                 v.mDay--;
                 if (v.mDay < 1) v.mDay = 1;
                 LCD_ShowDigits(100, base_digits_y, v.mDay, 2);
               } 
-              //изменить шрифт
+              //РёР·РјРµРЅРёС‚СЊ С€СЂРёС„С‚
               if (flags.systemState == 6)
               {
                 if (v.digitsOffset == 0)
                   v.digitsOffset = 13;
                 else
                   v.digitsOffset = (uint8_t)0;
-                //выведем время и дату
+                //РІС‹РІРµРґРµРј РІСЂРµРјСЏ Рё РґР°С‚Сѓ
                 LCD_FillRectangle(0, 319, 0, 239, BackGroundColor);
                 Time_Show(1, 1, (TS_HH | TS_MM));
                 Date_Show();                
-                //установим флаги
+                //СѓСЃС‚Р°РЅРѕРІРёРј С„Р»Р°РіРё
                 flags.systemState = (uint8_t)0;
                 flags.menuIsShowed = false;
                 flags.needRepeat = false;
-                //сохраним состояние
+                //СЃРѕС…СЂР°РЅРёРј СЃРѕСЃС‚РѕСЏРЅРёРµ
                 SaveToRom();
               }
               break;
                       
-            //клавиша "ОК" или "справка" ***************************************
+            //РєР»Р°РІРёС€Р° "РћРљ" РёР»Рё "СЃРїСЂР°РІРєР°" ***************************************
             case 0x83:
               flags.needRepeat = false;
-              //изменить значение времени
+              //РёР·РјРµРЅРёС‚СЊ Р·РЅР°С‡РµРЅРёРµ РІСЂРµРјРµРЅРё
               if ((flags.systemState == 1) || (flags.systemState == 2))
               {
                 Time_SetCalendarTM(v.mCalendarTime, 0);
@@ -450,47 +460,47 @@ int main()
                 Date_Show();
                 break;
               }
-              //перейти к редактированию месяца
+              //РїРµСЂРµР№С‚Рё Рє СЂРµРґР°РєС‚РёСЂРѕРІР°РЅРёСЋ РјРµСЃСЏС†Р°
               if (flags.systemState == 3)
               {
-                //уберем часть верхней информации
+                //СѓР±РµСЂРµРј С‡Р°СЃС‚СЊ РІРµСЂС…РЅРµР№ РёРЅС„РѕСЂРјР°С†РёРё
                 LCD_FillRectangle(0, 319, 3+30, base_digits_y - 1, BackGroundColor);
-                //выведем надпись
-                LCD_ShowText(88, 3+30, (uint8_t*)&TMessages[27], 2, LCD_YELLOW, BackGroundColor); //"МЕСЯЦА"
-                //выведем месяц
+                //РІС‹РІРµРґРµРј РЅР°РґРїРёСЃСЊ
+                LCD_ShowText(88, 3+30, (uint8_t*)&TMessages[27], 2, LCD_YELLOW, BackGroundColor); //"РњР•РЎРЇР¦Рђ"
+                //РІС‹РІРµРґРµРј РјРµСЃСЏС†
                 LCD_FillRectangle(0, 319, base_digits_y, base_digits_y + 114, BackGroundColor);
                 LCD_ShowDigits(100, base_digits_y, v.mMonth, 2);                
                 flags.systemState = 4;
                 break;
               }
-              //перейти к редактированию дня
+              //РїРµСЂРµР№С‚Рё Рє СЂРµРґР°РєС‚РёСЂРѕРІР°РЅРёСЋ РґРЅСЏ
               if (flags.systemState == 4)
               {
-                //уберем часть верхней информации
+                //СѓР±РµСЂРµРј С‡Р°СЃС‚СЊ РІРµСЂС…РЅРµР№ РёРЅС„РѕСЂРјР°С†РёРё
                 LCD_FillRectangle(0, 319, 3+30, base_digits_y - 1, BackGroundColor);
-                //выведем надпись
-                LCD_ShowText(124, 3+30, (uint8_t*)&TMessages[34], 2, LCD_YELLOW, BackGroundColor); //"ДНЯ"
-                //выведем день
+                //РІС‹РІРµРґРµРј РЅР°РґРїРёСЃСЊ
+                LCD_ShowText(124, 3+30, (uint8_t*)&TMessages[34], 2, LCD_YELLOW, BackGroundColor); //"Р”РќРЇ"
+                //РІС‹РІРµРґРµРј РґРµРЅСЊ
                 LCD_FillRectangle(0, 319, base_digits_y, base_digits_y + 114, BackGroundColor);
                 LCD_ShowDigits(100, base_digits_y, v.mDay, 2);                
                 flags.systemState = 5;
                 break;
               }
-              //перейти к редактированию минут будильника
+              //РїРµСЂРµР№С‚Рё Рє СЂРµРґР°РєС‚РёСЂРѕРІР°РЅРёСЋ РјРёРЅСѓС‚ Р±СѓРґРёР»СЊРЅРёРєР°
               if (flags.systemState == 8)
               {
-                //выведем минуты будильника
+                //РІС‹РІРµРґРµРј РјРёРЅСѓС‚С‹ Р±СѓРґРёР»СЊРЅРёРєР°
                 Time_Show(1, 0, TS_MM);
-                //сотрем часы
+                //СЃРѕС‚СЂРµРј С‡Р°СЃС‹
                 if (v.digitsOffset == 0)
                   LCD_FillRectangle(base_digits_x + 0, base_digits_x + 119, base_digits_y, base_digits_y + 114, BackGroundColor);
                 else
                   LCD_FillRectangle(base_fdigits_x, base_fdigits_x + 119, base_digits_y, base_digits_y + 114, BackGroundColor);
-                //установим флаги
+                //СѓСЃС‚Р°РЅРѕРІРёРј С„Р»Р°РіРё
                 flags.systemState = 9;
                 break;
               }
-              //перейти к редактированию дней недели будильника
+              //РїРµСЂРµР№С‚Рё Рє СЂРµРґР°РєС‚РёСЂРѕРІР°РЅРёСЋ РґРЅРµР№ РЅРµРґРµР»Рё Р±СѓРґРёР»СЊРЅРёРєР°
               if (flags.systemState == 9)
               {
                 LCD_FillRectangle(0, 319, 0, 189, BackGroundColor);
@@ -507,37 +517,37 @@ int main()
                                  (v.digitsOffset == 0 ? (i == 3 ? LCD_YELLOW : LCD_CYAN) : (i == 3 ? LCD_CYAN : LCD_YELLOW)));
                     j += 3;
                 }
-                //отобразим чекбоксы
+                //РѕС‚РѕР±СЂР°Р·РёРј С‡РµРєР±РѕРєСЃС‹
                 for (uint8_t i=0; i<7; i++)
                   v.mDoW_Checked[i] = (uint8_t)(v.mCalendarAlarmDays[i] >> RTC_DR_WDU_Pos);
                 Alarm_ShowDowCheckboxes();
-                //установим флаги
+                //СѓСЃС‚Р°РЅРѕРІРёРј С„Р»Р°РіРё
                 flags.systemState = 10;
                 break;
               }
-              //установим новое значение будильника
+              //СѓСЃС‚Р°РЅРѕРІРёРј РЅРѕРІРѕРµ Р·РЅР°С‡РµРЅРёРµ Р±СѓРґРёР»СЊРЅРёРєР°
               if (flags.systemState == 10)
               {
-                //сохраним значение
+                //СЃРѕС…СЂР°РЅРёРј Р·РЅР°С‡РµРЅРёРµ
                 v.mCalendarAlarmTime = v.mCalendarTime;
                 for (uint8_t i=0; i<7; i++)
                   v.mCalendarAlarmDays[i] = (v.mDoW_Checked[i] << RTC_DR_WDU_Pos);
-                //обновим экран
+                //РѕР±РЅРѕРІРёРј СЌРєСЂР°РЅ
                 LCD_FillRectangle(0, 319, 0, 239, BackGroundColor);
                 Time_Show(1, 1, (TS_HH | TS_MM));
                 Date_Show();
-                //установим флаги
+                //СѓСЃС‚Р°РЅРѕРІРёРј С„Р»Р°РіРё
                 flags.menuIsShowed = false;
                 flags.systemState = 0;
-                //сохраним состояние
+                //СЃРѕС…СЂР°РЅРёРј СЃРѕСЃС‚РѕСЏРЅРёРµ
                 SaveToRom();
                 break;                
               }
               
-              //установим новую дату
+              //СѓСЃС‚Р°РЅРѕРІРёРј РЅРѕРІСѓСЋ РґР°С‚Сѓ
               if (flags.systemState == 5)
               {
-                //заполним структуру даты новыми значениями
+                //Р·Р°РїРѕР»РЅРёРј СЃС‚СЂСѓРєС‚СѓСЂСѓ РґР°С‚С‹ РЅРѕРІС‹РјРё Р·РЅР°С‡РµРЅРёСЏРјРё
                 uint16_t c;
                 c = ConvertToBCD(v.mYear);
                 v.mCalendarDate = 0;
@@ -551,41 +561,41 @@ int main()
                 v.mCalendarDate |= ((c & 0x00F0U) >> 4) << RTC_DR_DT_Pos;  
                 c = Date_GetDayOfWeek(v.mDay, v.mMonth, v.mYear);
                 v.mCalendarDate |= c << RTC_DR_WDU_Pos;
-                //установим время
+                //СѓСЃС‚Р°РЅРѕРІРёРј РІСЂРµРјСЏ
                 Time_SetCalendarTM(0, v.mCalendarDate);
-                //выведем время
+                //РІС‹РІРµРґРµРј РІСЂРµРјСЏ
                 LCD_FillRectangle(0, 319, base_digits_y, base_digits_y + 114, BackGroundColor);
                 Time_Show(1, 1, (TS_HH | TS_MM));
-                //выведем дату и закроем панель
-                LCD_FillRectangle(0, 319, 0, base_digits_y - 1, BackGroundColor); //верх
-                LCD_FillRectangle(0,319, 190,239, BackGroundColor); //низ
+                //РІС‹РІРµРґРµРј РґР°С‚Сѓ Рё Р·Р°РєСЂРѕРµРј РїР°РЅРµР»СЊ
+                LCD_FillRectangle(0, 319, 0, base_digits_y - 1, BackGroundColor); //РІРµСЂС…
+                LCD_FillRectangle(0,319, 190,239, BackGroundColor); //РЅРёР·
                 Date_Show();                
-                //настроим флаги
+                //РЅР°СЃС‚СЂРѕРёРј С„Р»Р°РіРё
                 flags.menuIsShowed = false;
                 flags.systemState = 0;
                 break;                
               }
-              //вызвать справку
+              //РІС‹Р·РІР°С‚СЊ СЃРїСЂР°РІРєСѓ
               if (flags.systemState == 6)
               {              
                 LCD_ShowImage16FromMem(0, 0, memMap[24]);
-                //установим флаги
+                //СѓСЃС‚Р°РЅРѕРІРёРј С„Р»Р°РіРё
                 flags.systemState = 7;
                 flags.menuIsShowed = false;
               }
               break;
               
-            //клавиша "CANCEL" *************************************************
+            //РєР»Р°РІРёС€Р° "CANCEL" *************************************************
             case 0x84:
               LCD_FillRectangle(0,319, 0,239, BackGroundColor);
-              //выведем время
+              //РІС‹РІРµРґРµРј РІСЂРµРјСЏ
               //LCD_FillRectangle(0, 319, base_digits_y, base_digits_y + 114, BackGroundColor);
               Time_Show(1, 1, (TS_HH | TS_MM));
-              //выведем дату и закроем панель
-              //LCD_FillRectangle(0, 319, 0, base_digits_y - 1, BackGroundColor); //верх
-              //LCD_FillRectangle(0,319, 190,239, BackGroundColor); //низ
+              //РІС‹РІРµРґРµРј РґР°С‚Сѓ Рё Р·Р°РєСЂРѕРµРј РїР°РЅРµР»СЊ
+              //LCD_FillRectangle(0, 319, 0, base_digits_y - 1, BackGroundColor); //РІРµСЂС…
+              //LCD_FillRectangle(0,319, 190,239, BackGroundColor); //РЅРёР·
               Date_Show();
-              //установим флаги
+              //СѓСЃС‚Р°РЅРѕРІРёРј С„Р»Р°РіРё
               flags.systemState = 0;
               flags.menuIsShowed = false;
               flags.needRepeat = false;
@@ -594,23 +604,23 @@ int main()
             default:
               break;
           } //switch
-          //подождать пока клавиша не будет отжата
+          //РїРѕРґРѕР¶РґР°С‚СЊ РїРѕРєР° РєР»Р°РІРёС€Р° РЅРµ Р±СѓРґРµС‚ РѕС‚Р¶Р°С‚Р°
           if (!flags.needRepeat)
             while (TOUCH_PRESSED) {Delay(100);}
           else
             Delay(100);
-          v.tObjectID = 0; //обработали
+          v.tObjectID = 0; //РѕР±СЂР°Р±РѕС‚Р°Р»Рё
         }
         else
         {
-          //проверим не сервисное ли меню вызвано
+          //РїСЂРѕРІРµСЂРёРј РЅРµ СЃРµСЂРІРёСЃРЅРѕРµ Р»Рё РјРµРЅСЋ РІС‹Р·РІР°РЅРѕ
           if (flags.systemState == 0)
           {
             if (!flags.menuIsShowed)
             {
-              //покажем меню
-              LCD_ShowImage16FromMem(0, 190, memMap[12]); //будильник
-              //установим флаги
+              //РїРѕРєР°Р¶РµРј РјРµРЅСЋ
+              LCD_ShowImage16FromMem(0, 190, memMap[12]); //Р±СѓРґРёР»СЊРЅРёРє
+              //СѓСЃС‚Р°РЅРѕРІРёРј С„Р»Р°РіРё
               flags.systemState = 6;
               flags.menuIsShowed = true;
               v.tObjectID = 0;
@@ -621,36 +631,36 @@ int main()
         }
       }
       
-      //если нажатие на область даты
+      //РµСЃР»Рё РЅР°Р¶Р°С‚РёРµ РЅР° РѕР±Р»Р°СЃС‚СЊ РґР°С‚С‹
       if ((v.tObjectID & 32) == 32)
-        if (flags.systemState == 0) //система была в состоянии отображения времени
+        if (flags.systemState == 0) //СЃРёСЃС‚РµРјР° Р±С‹Р»Р° РІ СЃРѕСЃС‚РѕСЏРЅРёРё РѕС‚РѕР±СЂР°Р¶РµРЅРёСЏ РІСЂРµРјРµРЅРё
         {
-          //считаем время из RTC
+          //СЃС‡РёС‚Р°РµРј РІСЂРµРјСЏ РёР· RTC
           while((RTC->ISR &RTC_ISR_RSF) != RTC_ISR_RSF);
           v.mCalendarDate = RTC->DR;
           v.mYear = 2000 + 10*((v.mCalendarDate & RTC_DR_YT_Msk) >> RTC_DR_YT_Pos) + ((v.mCalendarDate & RTC_DR_YU_Msk) >> RTC_DR_YU_Pos);
           v.mMonth = 10*((v.mCalendarDate & RTC_DR_MT_Msk) >> RTC_DR_MT_Pos) + ((v.mCalendarDate & RTC_DR_MU_Msk) >> RTC_DR_MU_Pos);
           v.mDay = 10*((v.mCalendarDate & RTC_DR_DT_Msk) >> RTC_DR_DT_Pos) + ((v.mCalendarDate & RTC_DR_DU_Msk) >> RTC_DR_DU_Pos);
-          //уберем верхнюю информацию
+          //СѓР±РµСЂРµРј РІРµСЂС…РЅСЋСЋ РёРЅС„РѕСЂРјР°С†РёСЋ
           LCD_FillRectangle(0, 319, 0, base_digits_y - 1, BackGroundColor);
-          //выведем надпись
-          LCD_ShowText(52, 3+0, (uint8_t*)&TMessages[0], 2, LCD_YELLOW, BackGroundColor); //"УСТАНОВКА"
-          LCD_ShowText(112, 3+30, (uint8_t*)&TMessages[22], 2, LCD_YELLOW, BackGroundColor); //"ГОДА"
-          //выведем год
+          //РІС‹РІРµРґРµРј РЅР°РґРїРёСЃСЊ
+          LCD_ShowText(52, 3+0, (uint8_t*)&TMessages[0], 2, LCD_YELLOW, BackGroundColor); //"РЈРЎРўРђРќРћР’РљРђ"
+          LCD_ShowText(112, 3+30, (uint8_t*)&TMessages[22], 2, LCD_YELLOW, BackGroundColor); //"Р“РћР”Рђ"
+          //РІС‹РІРµРґРµРј РіРѕРґ
           LCD_FillRectangle(0, 319, base_digits_y, base_digits_y + 114, BackGroundColor);
           LCD_ShowDigits(40, base_digits_y, v.mYear, 4);
-          //выведем панель
+          //РІС‹РІРµРґРµРј РїР°РЅРµР»СЊ
           LCD_ShowImage16FromMem(0, 190, memMap[11]);
-          //установим флаги
-          flags.systemState = 3; //установка года
-          flags.menuIsShowed = true; //панель отображена
-          v.tObjectID = 0; //обработали
+          //СѓСЃС‚Р°РЅРѕРІРёРј С„Р»Р°РіРё
+          flags.systemState = 3; //СѓСЃС‚Р°РЅРѕРІРєР° РіРѕРґР°
+          flags.menuIsShowed = true; //РїР°РЅРµР»СЊ РѕС‚РѕР±СЂР°Р¶РµРЅР°
+          v.tObjectID = 0; //РѕР±СЂР°Р±РѕС‚Р°Р»Рё
         }
       
-      //установка чекбоксов выбора дня для будильника
+      //СѓСЃС‚Р°РЅРѕРІРєР° С‡РµРєР±РѕРєСЃРѕРІ РІС‹Р±РѕСЂР° РґРЅСЏ РґР»СЏ Р±СѓРґРёР»СЊРЅРёРєР°
       if ((flags.systemState == 10) && (v.tObjectID != 0))
       {
-        //отметим выборку в массиве (0-день не выбран. 1..7 день выбран и отобразим
+        //РѕС‚РјРµС‚РёРј РІС‹Р±РѕСЂРєСѓ РІ РјР°СЃСЃРёРІРµ (0-РґРµРЅСЊ РЅРµ РІС‹Р±СЂР°РЅ. 1..7 РґРµРЅСЊ РІС‹Р±СЂР°РЅ Рё РѕС‚РѕР±СЂР°Р·РёРј
         if (v.tObjectID != 8)
         {
           if (v.mDoW_Checked[v.tObjectID - 1])
@@ -674,8 +684,8 @@ int main()
   } //while (true)
 }
 
-//=== NVIC функции =============================================================
-/* счетчик для функции Delay */
+//=== NVIC С„СѓРЅРєС†РёРё =============================================================
+/* СЃС‡РµС‚С‡РёРє РґР»СЏ С„СѓРЅРєС†РёРё Delay */
 void SysTick_Handler()
 {
   v.bCycle++;
@@ -741,7 +751,7 @@ void SysTick_Handler()
 }
 
 //------------------------------------------------------------------------------
-/* событие Alarm таймера (не будильника!) - +1 секунда */
+/* СЃРѕР±С‹С‚РёРµ Alarm С‚Р°Р№РјРµСЂР° (РЅРµ Р±СѓРґРёР»СЊРЅРёРєР°!) - +1 СЃРµРєСѓРЅРґР° */
 void RTC_IRQHandler()
 {
   if ((RTC->ISR & RTC_ISR_ALRAF) == RTC_ISR_ALRAF)
@@ -754,19 +764,19 @@ void RTC_IRQHandler()
 }
 
 //------------------------------------------------------------------------------
-/* обработка прерывания на линии PA10 - пропадание основного питания */
+/* РѕР±СЂР°Р±РѕС‚РєР° РїСЂРµСЂС‹РІР°РЅРёСЏ РЅР° Р»РёРЅРёРё PA10 - РїСЂРѕРїР°РґР°РЅРёРµ РѕСЃРЅРѕРІРЅРѕРіРѕ РїРёС‚Р°РЅРёСЏ */
 void EXTI4_15_IRQHandler()
 {
   if (EXTI->PR & EXTI_PR_PR10) //event triggering
   {
-    EXTI->PR |= EXTI_PR_PR10;//не уверен что код дойдет до сюда, но можно скинуть флаг
-    //отключим RTC Alarm что бы не оно не будило ядро 
+    EXTI->PR |= EXTI_PR_PR10;//РЅРµ СѓРІРµСЂРµРЅ С‡С‚Рѕ РєРѕРґ РґРѕР№РґРµС‚ РґРѕ СЃСЋРґР°, РЅРѕ РјРѕР¶РЅРѕ СЃРєРёРЅСѓС‚СЊ С„Р»Р°Рі
+    //РѕС‚РєР»СЋС‡РёРј RTC Alarm С‡С‚Рѕ Р±С‹ РЅРµ РѕРЅРѕ РЅРµ Р±СѓРґРёР»Рѕ СЏРґСЂРѕ 
     RTC->WPR = 0xCA;
     RTC->WPR = 0x53; //enable write
       RTC->CR &=~RTC_CR_ALRAE; //disable alarm A
     RTC->WPR = 0xFE; 
     RTC->WPR = 0x64; //disable write
-    //переведем MCU в режим StandBy
+    //РїРµСЂРµРІРµРґРµРј MCU РІ СЂРµР¶РёРј StandBy
     SCB->SCR |= 4U; //SCB_SCR_SLEEPDEEP
     PWR->CR |= PWR_CR_PDDS;
     PWR->CSR &= ~PWR_CSR_WUF;
@@ -775,8 +785,8 @@ void EXTI4_15_IRQHandler()
   }
 }
 
-//=== функции ==================================================================
-/* блокируемая задержка в мс */
+//=== С„СѓРЅРєС†РёРё ==================================================================
+/* Р±Р»РѕРєРёСЂСѓРµРјР°СЏ Р·Р°РґРµСЂР¶РєР° РІ РјСЃ */
 void Delay(uint32_t msTime)
 {	
       v.DelayCounter = msTime;
@@ -784,25 +794,25 @@ void Delay(uint32_t msTime)
 }
 
 //------------------------------------------------------------------------------
-/* инициализация дисплея */
-/* настройка пина PA10 как вход для анализа перехода в сон */
+/* РёРЅРёС†РёР°Р»РёР·Р°С†РёСЏ РґРёСЃРїР»РµСЏ */
+/* РЅР°СЃС‚СЂРѕР№РєР° РїРёРЅР° PA10 РєР°Рє РІС…РѕРґ РґР»СЏ Р°РЅР°Р»РёР·Р° РїРµСЂРµС…РѕРґР° РІ СЃРѕРЅ */
 void LCD_Init()
 {
-  SPI_WAIT_TX_READY; //ждем завершения любых передач из буфера
+  SPI_WAIT_TX_READY; //Р¶РґРµРј Р·Р°РІРµСЂС€РµРЅРёСЏ Р»СЋР±С‹С… РїРµСЂРµРґР°С‡ РёР· Р±СѓС„РµСЂР°
   
-  //переконфигурируем PA10 как выход
+  //РїРµСЂРµРєРѕРЅС„РёРіСѓСЂРёСЂСѓРµРј PA10 РєР°Рє РІС‹С…РѕРґ
   //GPIOA->MODER |= GPIO_MODER_MODER10_0;
   //GPIOA->PUPDR &= ~GPIO_PUPDR_PUPDR10;
   
   //hardware reset
   LCD_RESET(RST_HI);
   Delay(5);
-  LCD_RESET(RST_LO); //активный - низкий
+  LCD_RESET(RST_LO); //Р°РєС‚РёРІРЅС‹Р№ - РЅРёР·РєРёР№
   Delay(20);
   LCD_RESET(RST_HI);
   Delay(150); 
   
-  //переконфигурируем PA10 как цифровой вход с подтяжкой к земле
+  //РїРµСЂРµРєРѕРЅС„РёРіСѓСЂРёСЂСѓРµРј PA10 РєР°Рє С†РёС„СЂРѕРІРѕР№ РІС…РѕРґ СЃ РїРѕРґС‚СЏР¶РєРѕР№ Рє Р·РµРјР»Рµ
   //GPIOA->MODER &= ~GPIO_MODER_MODER10;	
   //GPIOA->PUPDR |= GPIO_PUPDR_PUPDR10_1;		
 
@@ -813,7 +823,7 @@ void LCD_Init()
   
   //set up driver parameters
   uint32_t len, pos=0;
-  for (v.i=0; v.i<19; v.i++) //строки массива
+  for (v.i=0; v.i<19; v.i++) //СЃС‚СЂРѕРєРё РјР°СЃСЃРёРІР°
   {
     LCD_DC(LCD_CMD);
     SPI_Send(LcdInitData[pos++]);
@@ -838,8 +848,8 @@ void LCD_Init()
 }
 
 //------------------------------------------------------------------------------
-/* заполняет фон указанным цветом
-   Функция LCD_SetWindow(0,319, 0,239) должна быть вызвана вначале */
+/* Р·Р°РїРѕР»РЅСЏРµС‚ С„РѕРЅ СѓРєР°Р·Р°РЅРЅС‹Рј С†РІРµС‚РѕРј
+   Р¤СѓРЅРєС†РёСЏ LCD_SetWindow(0,319, 0,239) РґРѕР»Р¶РЅР° Р±С‹С‚СЊ РІС‹Р·РІР°РЅР° РІРЅР°С‡Р°Р»Рµ */
 void LCD_FillBackground(uint16_t color)
 {
   uint32_t t;
@@ -851,12 +861,12 @@ void LCD_FillBackground(uint16_t color)
 }
 
 //------------------------------------------------------------------------------
-/* устанавливает окно рисования. после данной функции можно отправлять данные сразу
-   без переключения DX сигнала.
-   x0, x1, y0, y1. Рисовать с x0 по x1, и y0 по y1. */
+/* СѓСЃС‚Р°РЅР°РІР»РёРІР°РµС‚ РѕРєРЅРѕ СЂРёСЃРѕРІР°РЅРёСЏ. РїРѕСЃР»Рµ РґР°РЅРЅРѕР№ С„СѓРЅРєС†РёРё РјРѕР¶РЅРѕ РѕС‚РїСЂР°РІР»СЏС‚СЊ РґР°РЅРЅС‹Рµ СЃСЂР°Р·Сѓ
+   Р±РµР· РїРµСЂРµРєР»СЋС‡РµРЅРёСЏ DX СЃРёРіРЅР°Р»Р°.
+   x0, x1, y0, y1. Р РёСЃРѕРІР°С‚СЊ СЃ x0 РїРѕ x1, Рё y0 РїРѕ y1. */
 void LCD_SetWindow(uint16_t x0, uint16_t x1, uint16_t y0, uint16_t y1)
 {
-  //установить границы окна рисования
+  //СѓСЃС‚Р°РЅРѕРІРёС‚СЊ РіСЂР°РЅРёС†С‹ РѕРєРЅР° СЂРёСЃРѕРІР°РЅРёСЏ
   SPI_WAIT_FOR_COMPLETION;
   LCD_DC(LCD_CMD);
   SPI_Send(0x2A);
@@ -883,10 +893,10 @@ void LCD_SetWindow(uint16_t x0, uint16_t x1, uint16_t y0, uint16_t y1)
 }
 
 //------------------------------------------------------------------------------
-/* заполняет указанную область указанным цветом */
+/* Р·Р°РїРѕР»РЅСЏРµС‚ СѓРєР°Р·Р°РЅРЅСѓСЋ РѕР±Р»Р°СЃС‚СЊ СѓРєР°Р·Р°РЅРЅС‹Рј С†РІРµС‚РѕРј */
 void LCD_FillRectangle(uint16_t x0, uint16_t x1, uint16_t y0, uint16_t y1, uint16_t color)
 {
-  //закончим все передачи
+  //Р·Р°РєРѕРЅС‡РёРј РІСЃРµ РїРµСЂРµРґР°С‡Рё
   while ((SPI1->SR & SPI_SR_BSY) == SPI_SR_BSY);
   
   LCD_CS(CS_ENABLE);
@@ -902,58 +912,58 @@ void LCD_FillRectangle(uint16_t x0, uint16_t x1, uint16_t y0, uint16_t y1, uint1
 }
 
 //------------------------------------------------------------------------------
-/* записывает байт данных в буфер TXFIFO интерфейса SPI */
+/* Р·Р°РїРёСЃС‹РІР°РµС‚ Р±Р°Р№С‚ РґР°РЅРЅС‹С… РІ Р±СѓС„РµСЂ TXFIFO РёРЅС‚РµСЂС„РµР№СЃР° SPI */
 void SPI_Send(uint8_t data)
 {
   SPI_WAIT_TX_READY;
-  *(uint8_t *)&(SPI1->DR) = (uint8_t)data; //отправляем в буфер 
+  *(uint8_t *)&(SPI1->DR) = (uint8_t)data; //РѕС‚РїСЂР°РІР»СЏРµРј РІ Р±СѓС„РµСЂ 
 }
 
 //------------------------------------------------------------------------------
 uint8_t SPI_Exchange(uint8_t data)
 {
-  //while ((SPI1->SR & SPI_SR_TXE) != SPI_SR_TXE); это лишнее, мы передаем в режиме безбуферности
+  //while ((SPI1->SR & SPI_SR_TXE) != SPI_SR_TXE); СЌС‚Рѕ Р»РёС€РЅРµРµ, РјС‹ РїРµСЂРµРґР°РµРј РІ СЂРµР¶РёРјРµ Р±РµР·Р±СѓС„РµСЂРЅРѕСЃС‚Рё
   *(uint8_t *)&(SPI1->DR) = (uint8_t)data;  //8bit data transfer!!!!
   while ((SPI1->SR & SPI_SR_RXNE) != SPI_SR_RXNE);
   return (uint8_t)SPI1->DR;
 }
 
 //------------------------------------------------------------------------------
-/* вывод картинки из MEM */
+/* РІС‹РІРѕРґ РєР°СЂС‚РёРЅРєРё РёР· MEM */
 void LCD_ShowImage16FromMem(uint16_t x, uint8_t y, uint32_t address)
 {
   uint32_t c;
   
-  //опустошим буфер приема (1) и закончим все передачи (2)
+  //РѕРїСѓСЃС‚РѕС€РёРј Р±СѓС„РµСЂ РїСЂРёРµРјР° (1) Рё Р·Р°РєРѕРЅС‡РёРј РІСЃРµ РїРµСЂРµРґР°С‡Рё (2)
   while ((SPI1->SR & SPI_SR_RXNE) == SPI_SR_RXNE) c = SPI1->DR; //1
   while ((SPI1->SR & SPI_SR_BSY) == SPI_SR_BSY); //2
   
-  //выберем MEM
+  //РІС‹Р±РµСЂРµРј MEM
   LCD_CS(CS_DISABLE);
   MEM_CS(CS_ENABLE);
   
-  //команда: считать данные
+  //РєРѕРјР°РЅРґР°: СЃС‡РёС‚Р°С‚СЊ РґР°РЅРЅС‹Рµ
   SPI_Exchange(0x0B);
   SPI_Exchange((uint8_t)(address >> 16));
   SPI_Exchange((uint8_t)(address >> 8));
   SPI_Exchange((uint8_t)(address));
   SPI_Exchange(0x00);
   
-  //загрузка header
+  //Р·Р°РіСЂСѓР·РєР° header
   for (uint8_t i=0; i<8; i++)
   {
     c = SPI_Exchange(0xFF);
     v.arrBmpHeader16[i] = c;
   }
   
-  //установка окна вывода LCD
+  //СѓСЃС‚Р°РЅРѕРІРєР° РѕРєРЅР° РІС‹РІРѕРґР° LCD
   MEM_CS(CS_DISABLE);
   LCD_CS(CS_ENABLE);
   LCD_SetWindow(x, x+BmpHeader16->width-1, y, y+BmpHeader16->height-1);
   LCD_CS(CS_DISABLE);
   MEM_CS(CS_ENABLE);
   
-  while ((SPI1->SR & SPI_SR_RXNE) == SPI_SR_RXNE) c = SPI1->DR; //очистить Rx буфер
+  while ((SPI1->SR & SPI_SR_RXNE) == SPI_SR_RXNE) c = SPI1->DR; //РѕС‡РёСЃС‚РёС‚СЊ Rx Р±СѓС„РµСЂ
   while ((SPI1->SR & SPI_SR_BSY) == SPI_SR_BSY);
   
   address +=8;
@@ -963,13 +973,13 @@ void LCD_ShowImage16FromMem(uint16_t x, uint8_t y, uint32_t address)
   SPI_Exchange((uint8_t)(address));
   SPI_Exchange(0x00);
   
-  //----- потоковыый обмен -----
-  c = SPI_Exchange(0x00); //считали 1 байт
+  //----- РїРѕС‚РѕРєРѕРІС‹С‹Р№ РѕР±РјРµРЅ -----
+  c = SPI_Exchange(0x00); //СЃС‡РёС‚Р°Р»Рё 1 Р±Р°Р№С‚
   LCD_CS(CS_ENABLE);
   
-  for (uint32_t count=0; count < BmpHeader16->length; count++) //коррекция для ширины больше 255
+  for (uint32_t count=0; count < BmpHeader16->length; count++) //РєРѕСЂСЂРµРєС†РёСЏ РґР»СЏ С€РёСЂРёРЅС‹ Р±РѕР»СЊС€Рµ 255
   {
-	  c = SPI_Exchange(c); //отправили предыдущий и считали следующий байт	  
+	  c = SPI_Exchange(c); //РѕС‚РїСЂР°РІРёР»Рё РїСЂРµРґС‹РґСѓС‰РёР№ Рё СЃС‡РёС‚Р°Р»Рё СЃР»РµРґСѓСЋС‰РёР№ Р±Р°Р№С‚	  
   }
   
   LCD_CS(CS_DISABLE);
@@ -977,23 +987,23 @@ void LCD_ShowImage16FromMem(uint16_t x, uint8_t y, uint32_t address)
 }
 
 //------------------------------------------------------------------------------
-/* вывод картинки из ROM */
+/* РІС‹РІРѕРґ РєР°СЂС‚РёРЅРєРё РёР· ROM */
 /* font=1 (7x7) =2 (24x27) */
 void LCD_ShowImage2FromRom(uint16_t x, uint8_t y, uint8_t imgIdx, uint8_t font, uint16_t fcolor, uint16_t bcolor)
 {
   uint8_t c;
   
-  //опустошим буфер приема (1) и закончим все передачи (2)
+  //РѕРїСѓСЃС‚РѕС€РёРј Р±СѓС„РµСЂ РїСЂРёРµРјР° (1) Рё Р·Р°РєРѕРЅС‡РёРј РІСЃРµ РїРµСЂРµРґР°С‡Рё (2)
   while ((SPI1->SR & SPI_SR_RXNE) == SPI_SR_RXNE) c = SPI1->DR; //1
   while ((SPI1->SR & SPI_SR_BSY) == SPI_SR_BSY); //2
   
-  //установка окна вывода LCD
+  //СѓСЃС‚Р°РЅРѕРІРєР° РѕРєРЅР° РІС‹РІРѕРґР° LCD
   LCD_CS(CS_ENABLE);
   if (font == 1) LCD_SetWindow(x, x+7, y, y+6);
   if (font == 2) LCD_SetWindow(x, x+23, y, y+26);
   if (font == 3) LCD_SetWindow(x, x+23, y, y+26);
 
-  //вывод изображения
+  //РІС‹РІРѕРґ РёР·РѕР±СЂР°Р¶РµРЅРёСЏ
   uint8_t rows;
   if (font == 1) rows = 7;
   if (font == 2) rows = 81;
@@ -1012,7 +1022,7 @@ void LCD_ShowImage2FromRom(uint16_t x, uint8_t y, uint8_t imgIdx, uint8_t font, 
     if (font < 3)
     {
       for (uint8_t col=0; col<8; col++)
-      { //выводим обычным фонтом
+      { //РІС‹РІРѕРґРёРј РѕР±С‹С‡РЅС‹Рј С„РѕРЅС‚РѕРј
         if (c & 0x80)
         {
           SPI_Exchange((uint8_t)(fcolor>>8));
@@ -1027,7 +1037,7 @@ void LCD_ShowImage2FromRom(uint16_t x, uint8_t y, uint8_t imgIdx, uint8_t font, 
       }
     }
     else
-    { //выводим забавными буквами
+    { //РІС‹РІРѕРґРёРј Р·Р°Р±Р°РІРЅС‹РјРё Р±СѓРєРІР°РјРё
       for (uint8_t col=0; col<8; col++)
       {
         if (c & 0x80)
@@ -1049,9 +1059,9 @@ void LCD_ShowImage2FromRom(uint16_t x, uint8_t y, uint8_t imgIdx, uint8_t font, 
 }
 
 //------------------------------------------------------------------------------
-/* отображает текст с указанного адреса, для выбранного типа шрифта, */
-/* укзанным цветом на указанном фоне */
-/* текст будет перенесен на новую строку если достигнут конец экрана */
+/* РѕС‚РѕР±СЂР°Р¶Р°РµС‚ С‚РµРєСЃС‚ СЃ СѓРєР°Р·Р°РЅРЅРѕРіРѕ Р°РґСЂРµСЃР°, РґР»СЏ РІС‹Р±СЂР°РЅРЅРѕРіРѕ С‚РёРїР° С€СЂРёС„С‚Р°, */
+/* СѓРєР·Р°РЅРЅС‹Рј С†РІРµС‚РѕРј РЅР° СѓРєР°Р·Р°РЅРЅРѕРј С„РѕРЅРµ */
+/* С‚РµРєСЃС‚ Р±СѓРґРµС‚ РїРµСЂРµРЅРµСЃРµРЅ РЅР° РЅРѕРІСѓСЋ СЃС‚СЂРѕРєСѓ РµСЃР»Рё РґРѕСЃС‚РёРіРЅСѓС‚ РєРѕРЅРµС† СЌРєСЂР°РЅР° */
 void LCD_ShowText(uint16_t x, uint8_t y, uint8_t* address, uint8_t font, uint16_t fcolor, uint16_t bcolor)
 {
   uint8_t s;
@@ -1063,24 +1073,24 @@ void LCD_ShowText(uint16_t x, uint8_t y, uint8_t* address, uint8_t font, uint16_
     s = *address;
     if (s == 0x20)
     {
-      s = 255; //пробел
+      s = 255; //РїСЂРѕР±РµР»
     }
     else
     {
       if (s >= 0xC0U)
       {
-        s = ABC[s - 0xC0U];  //буквы
+        s = ABC[s - 0xC0U];  //Р±СѓРєРІС‹
       }
       else
       {
-          s = s - 0x30; //цифры
+          s = s - 0x30; //С†РёС„СЂС‹
       }
     }
     
     if (s != 255) 
       LCD_ShowImage2FromRom(x, y, s, font, fcolor, bcolor);
     else
-      LCD_FillRectangle(x, x+23, y, y+27, bcolor); //пробел
+      LCD_FillRectangle(x, x+23, y, y+27, bcolor); //РїСЂРѕР±РµР»
     if ((font == 2) || (font == 3))
     {
       x += 24;
@@ -1108,8 +1118,8 @@ void LCD_ShowText(uint16_t x, uint8_t y, uint8_t* address, uint8_t font, uint16_
 }
 
 //------------------------------------------------------------------------------
-/* отображает число на экране (фонт: основные цифры) */
-/* value-число в десятичном виде, digits-число отображаемых разрядов*/
+/* РѕС‚РѕР±СЂР°Р¶Р°РµС‚ С‡РёСЃР»Рѕ РЅР° СЌРєСЂР°РЅРµ (С„РѕРЅС‚: РѕСЃРЅРѕРІРЅС‹Рµ С†РёС„СЂС‹) */
+/* value-С‡РёСЃР»Рѕ РІ РґРµСЃСЏС‚РёС‡РЅРѕРј РІРёРґРµ, digits-С‡РёСЃР»Рѕ РѕС‚РѕР±СЂР°Р¶Р°РµРјС‹С… СЂР°Р·СЂСЏРґРѕРІ*/
 void LCD_ShowDigits(uint16_t x, uint8_t y, uint16_t value, uint8_t digits)
 {
   value = ConvertToBCD(value);
@@ -1123,10 +1133,10 @@ void LCD_ShowDigits(uint16_t x, uint8_t y, uint16_t value, uint8_t digits)
 }
 
 //------------------------------------------------------------------------------
-/* отображение времени, updateAll прорисовывает все включая двоеточие */
-/* после вывода на экран обновленного времени, обновляет переменную v.TimeStored */
-/* если realTime = true, то значение берется из RTC, иначе из глобальной переменной v.mCalendar*/
-/* HHMM влияют только если updateAll=1. HHMM=1 отобразит только часы, =2 только минуты, =3 все*/
+/* РѕС‚РѕР±СЂР°Р¶РµРЅРёРµ РІСЂРµРјРµРЅРё, updateAll РїСЂРѕСЂРёСЃРѕРІС‹РІР°РµС‚ РІСЃРµ РІРєР»СЋС‡Р°СЏ РґРІРѕРµС‚РѕС‡РёРµ */
+/* РїРѕСЃР»Рµ РІС‹РІРѕРґР° РЅР° СЌРєСЂР°РЅ РѕР±РЅРѕРІР»РµРЅРЅРѕРіРѕ РІСЂРµРјРµРЅРё, РѕР±РЅРѕРІР»СЏРµС‚ РїРµСЂРµРјРµРЅРЅСѓСЋ v.TimeStored */
+/* РµСЃР»Рё realTime = true, С‚Рѕ Р·РЅР°С‡РµРЅРёРµ Р±РµСЂРµС‚СЃСЏ РёР· RTC, РёРЅР°С‡Рµ РёР· РіР»РѕР±Р°Р»СЊРЅРѕР№ РїРµСЂРµРјРµРЅРЅРѕР№ v.mCalendar*/
+/* HHMM РІР»РёСЏСЋС‚ С‚РѕР»СЊРєРѕ РµСЃР»Рё updateAll=1. HHMM=1 РѕС‚РѕР±СЂР°Р·РёС‚ С‚РѕР»СЊРєРѕ С‡Р°СЃС‹, =2 С‚РѕР»СЊРєРѕ РјРёРЅСѓС‚С‹, =3 РІСЃРµ*/
 void Time_Show(bool updateAll, bool realTime, uint8_t HHMM)
 {
         uint32_t difference;
@@ -1220,7 +1230,7 @@ void Time_Show(bool updateAll, bool realTime, uint8_t HHMM)
                   LCD_ShowImage16FromMem((v.digitsOffset == 0 ? base_digits_x : base_fdigits_x),
                                                                 base_digits_y,
                                                                 memMap[v.digitsOffset + ((v.mCalendarTime >> 20) & 0x00000003)]); //Hx:xx	
-                  if (difference == 0x00235959) flags.DateChanged = true; //был переход на новую дату, в следующее обновление секунд обновим дату на дисплее
+                  if (difference == 0x00235959) flags.DateChanged = true; //Р±С‹Р» РїРµСЂРµС…РѕРґ РЅР° РЅРѕРІСѓСЋ РґР°С‚Сѓ, РІ СЃР»РµРґСѓСЋС‰РµРµ РѕР±РЅРѕРІР»РµРЅРёРµ СЃРµРєСѓРЅРґ РѕР±РЅРѕРІРёРј РґР°С‚Сѓ РЅР° РґРёСЃРїР»РµРµ
 		}
 		if ((difference & 0x000F0000) != 0)
 		{
@@ -1247,10 +1257,10 @@ void Time_Show(bool updateAll, bool realTime, uint8_t HHMM)
 }
 
 //-------------------------------------------------------------------------------------------------
-/* добавляет время к переменной */ 
+/* РґРѕР±Р°РІР»СЏРµС‚ РІСЂРµРјСЏ Рє РїРµСЂРµРјРµРЅРЅРѕР№ */ 
 uint32_t Time_Add(uint32_t time, uint8_t HH, uint8_t MM)
 {
-  time &= ~0x7F; //обнулим секунды
+  time &= ~0x7F; //РѕР±РЅСѓР»РёРј СЃРµРєСѓРЅРґС‹
   
   if (MM != 0)
   {
@@ -1278,10 +1288,10 @@ uint32_t Time_Add(uint32_t time, uint8_t HH, uint8_t MM)
 }
 
 //-------------------------------------------------------------------------------------------------
-/* вычитает время от переменной */ 
+/* РІС‹С‡РёС‚Р°РµС‚ РІСЂРµРјСЏ РѕС‚ РїРµСЂРµРјРµРЅРЅРѕР№ */ 
 uint32_t Time_Sub(uint32_t time, uint8_t HH, uint8_t MM)
 {
-  time &= ~0x7F; //обнулим секунды
+  time &= ~0x7F; //РѕР±РЅСѓР»РёРј СЃРµРєСѓРЅРґС‹
   
   if (MM != 0)
   {
@@ -1320,15 +1330,15 @@ uint32_t Time_Sub(uint32_t time, uint8_t HH, uint8_t MM)
 }
 
 //-------------------------------------------------------------------------------------------------
-/* устанавливает новое время и/или дату */
-/* если одно из значений = 0, оно не устанавливается */
+/* СѓСЃС‚Р°РЅР°РІР»РёРІР°РµС‚ РЅРѕРІРѕРµ РІСЂРµРјСЏ Рё/РёР»Рё РґР°С‚Сѓ */
+/* РµСЃР»Рё РѕРґРЅРѕ РёР· Р·РЅР°С‡РµРЅРёР№ = 0, РѕРЅРѕ РЅРµ СѓСЃС‚Р°РЅР°РІР»РёРІР°РµС‚СЃСЏ */
 void Time_SetCalendarTM(uint32_t newTime, uint32_t newDate)
 {
   RTC->WPR = 0xCA;
   RTC->WPR = 0x53; //enable write
-  RTC->ISR |=RTC_ISR_INIT; //enable init phase, stop calendar ticking
-  while ((RTC->ISR &RTC_ISR_INITF) != RTC_ISR_INITF); //wait while it is possible to modify
-  RTC->PRER = 0x007F0137; //1 Hz, делитель для LSI
+  SET_BIT(RTC->ISR, RTC_ISR_INIT); // РІС…РѕРґРёРј РІ СЂРµР¶РёРј РёРЅС†РёР°Р»РёР·Р°С†РёРё
+  while ((RTC->ISR & RTC_ISR_INITF) != RTC_ISR_INITF); // Р¶РґРµРј РІС…РѕРґР° РІ СЂРµР¶РёРј
+  RTC->PRER = 0x007F0137; //1 Hz, РґРµР»РёС‚РµР»СЊ РґР»СЏ LSI
   if (newTime != 0) RTC->TR = newTime;
   if (newDate != 0) RTC->DR = newDate;
   RTC->ISR &=~RTC_ISR_INIT; //exit init phase, run calendar with new values
@@ -1341,8 +1351,8 @@ void Time_SetCalendarTM(uint32_t newTime, uint32_t newDate)
 }
 
 //-------------------------------------------------------------------------------------------------
-/* показывает дату */
-/* если установлен будильник - то показывает его */
+/* РїРѕРєР°Р·С‹РІР°РµС‚ РґР°С‚Сѓ */
+/* РµСЃР»Рё СѓСЃС‚Р°РЅРѕРІР»РµРЅ Р±СѓРґРёР»СЊРЅРёРє - С‚Рѕ РїРѕРєР°Р·С‹РІР°РµС‚ РµРіРѕ */
 void Date_Show()
 {
   uint8_t value;
@@ -1351,9 +1361,9 @@ void Date_Show()
   
   while((RTC->ISR &RTC_ISR_RSF) != RTC_ISR_RSF);
   v.mCalendarTime = RTC->TR;
-  v.mCalendarDate = RTC->DR; //дата должна быть считана только после считывания времени (я не знаю почему, но только так работает)
+  v.mCalendarDate = RTC->DR; //РґР°С‚Р° РґРѕР»Р¶РЅР° Р±С‹С‚СЊ СЃС‡РёС‚Р°РЅР° С‚РѕР»СЊРєРѕ РїРѕСЃР»Рµ СЃС‡РёС‚С‹РІР°РЅРёСЏ РІСЂРµРјРµРЅРё (СЏ РЅРµ Р·РЅР°СЋ РїРѕС‡РµРјСѓ, РЅРѕ С‚РѕР»СЊРєРѕ С‚Р°Рє СЂР°Р±РѕС‚Р°РµС‚)
   
-  //выведем день недели по центру
+  //РІС‹РІРµРґРµРј РґРµРЅСЊ РЅРµРґРµР»Рё РїРѕ С†РµРЅС‚СЂСѓ
   value = (v.mCalendarDate & RTC_DR_WDU_Msk) >> RTC_DR_WDU_Pos;
   if (value < 6)
   {
@@ -1364,13 +1374,13 @@ void Date_Show()
     LCD_ShowText((320-24*CharCount((uint8_t*)&TDAYS[TDaysIDx[value]])) / 2, 200, (uint8_t*)&TDAYS[TDaysIDx[value]], 2, 0xFC10, BackGroundColor);
   }
   
-  //высчитаем начало вывода строки
+  //РІС‹СЃС‡РёС‚Р°РµРј РЅР°С‡Р°Р»Рѕ РІС‹РІРѕРґР° СЃС‚СЂРѕРєРё
   t = 10*((v.mCalendarDate & RTC_DR_MT_Msk) >> RTC_DR_MT_Pos);
   t += (v.mCalendarDate & RTC_DR_MU_Msk) >> RTC_DR_MU_Pos;
   x = (320 - ((24*CharCount((uint8_t*)&TMONTHS[TMonths_IDx[t]])) + (2*24 + 0*24 + 1*10))) / 2;
   
 #define base_date_y 10
-  //выведем день
+  //РІС‹РІРµРґРµРј РґРµРЅСЊ
   value = (v.mCalendarDate & RTC_DR_DT_Msk) >> RTC_DR_DT_Pos;
   LCD_ShowImage2FromRom(x, base_date_y, value, (v.digitsOffset == 0 ? 2 : 3), LCD_YELLOW, BackGroundColor);
   x += 24;
@@ -1378,12 +1388,12 @@ void Date_Show()
   LCD_ShowImage2FromRom(x, base_date_y, value, (v.digitsOffset == 0 ? 2 : 3), LCD_YELLOW, BackGroundColor);
   x += (24 + 10);
   
-  //выведем месяц
+  //РІС‹РІРµРґРµРј РјРµСЃСЏС†
   LCD_ShowText(x, base_date_y, (uint8_t*)&TMONTHS[TMonths_IDx[t]], 2, 0xC7FF, BackGroundColor);
   x += 24*CharCount((uint8_t*)&TMONTHS[TMonths_IDx[t]]);
   x += 10;
   
-  //выведем значок будильника, если установлен
+  //РІС‹РІРµРґРµРј Р·РЅР°С‡РѕРє Р±СѓРґРёР»СЊРЅРёРєР°, РµСЃР»Рё СѓСЃС‚Р°РЅРѕРІР»РµРЅ
   if (v.mCalendarAlarmTime != 0)
   {
     uint32_t temp = 0;
@@ -1394,7 +1404,7 @@ void Date_Show()
 }
 
 //-------------------------------------------------------------------------------------------------
-/* дает день недели по дате (с пн=1 по вс=7) */
+/* РґР°РµС‚ РґРµРЅСЊ РЅРµРґРµР»Рё РїРѕ РґР°С‚Рµ (СЃ РїРЅ=1 РїРѕ РІСЃ=7) */
 uint8_t Date_GetDayOfWeek(uint8_t D, uint8_t M, uint16_t Y)
 {
     uint16_t a, y, m, R;
@@ -1408,24 +1418,24 @@ uint8_t Date_GetDayOfWeek(uint8_t D, uint8_t M, uint16_t Y)
 }
 
 //-------------------------------------------------------------------------------------------------
-/* показывает чекбоксы выбора дня будильника */
+/* РїРѕРєР°Р·С‹РІР°РµС‚ С‡РµРєР±РѕРєСЃС‹ РІС‹Р±РѕСЂР° РґРЅСЏ Р±СѓРґРёР»СЊРЅРёРєР° */
 void Alarm_ShowDowCheckboxes()
 {
   uint8_t x, y;
   for (uint8_t i=1; i<8; i++)
   {
-    //вычислим место отображения чекбокса
-    if (i & 1U) //нечетные
+    //РІС‹С‡РёСЃР»РёРј РјРµСЃС‚Рѕ РѕС‚РѕР±СЂР°Р¶РµРЅРёСЏ С‡РµРєР±РѕРєСЃР°
+    if (i & 1U) //РЅРµС‡РµС‚РЅС‹Рµ
     {
       x = 55 - (24*2);
       y = 8 + (i >> 1)*47;
     }
-    else //четные
+    else //С‡РµС‚РЅС‹Рµ
     {
       x = 216 - (24*2);
       y = 8 + ((i >> 1) - 1)*47;
     }
-    //отобразим
+    //РѕС‚РѕР±СЂР°Р·РёРј
     if (v.mDoW_Checked[i-1] == 0)
       LCD_ShowText(x, y, " \0", 2, 0x0680, (v.digitsOffset == 0 ? LCD_CYAN : LCD_YELLOW));
     else
@@ -1434,7 +1444,7 @@ void Alarm_ShowDowCheckboxes()
 }
 
 //-------------------------------------------------------------------------------------------------
-/* преобразует десяитичное число в BCD. Максимальное значение 9999 */
+/* РїСЂРµРѕР±СЂР°Р·СѓРµС‚ РґРµСЃСЏРёС‚РёС‡РЅРѕРµ С‡РёСЃР»Рѕ РІ BCD. РњР°РєСЃРёРјР°Р»СЊРЅРѕРµ Р·РЅР°С‡РµРЅРёРµ 9999 */
 uint16_t ConvertToBCD(uint16_t data)
 {
   uint16_t ret;
@@ -1449,22 +1459,22 @@ uint16_t ConvertToBCD(uint16_t data)
 }
         
 //-------------------------------------------------------------------------------------------------
-/* Вынесенные в отдельную функцию операции с тачскрином */
-/* 1000.xxxx -- первая линия */
-/* 0100.xxxx -- вторая линия */
-/* 0010.xxxx -- третья линия */
-/* 0000.xxxx -- разлиновка дней недели будильника */
-/* xxxx - код объекта внутри */
+/* Р’С‹РЅРµСЃРµРЅРЅС‹Рµ РІ РѕС‚РґРµР»СЊРЅСѓСЋ С„СѓРЅРєС†РёСЋ РѕРїРµСЂР°С†РёРё СЃ С‚Р°С‡СЃРєСЂРёРЅРѕРј */
+/* 1000.xxxx -- РїРµСЂРІР°СЏ Р»РёРЅРёСЏ */
+/* 0100.xxxx -- РІС‚РѕСЂР°СЏ Р»РёРЅРёСЏ */
+/* 0010.xxxx -- С‚СЂРµС‚СЊСЏ Р»РёРЅРёСЏ */
+/* 0000.xxxx -- СЂР°Р·Р»РёРЅРѕРІРєР° РґРЅРµР№ РЅРµРґРµР»Рё Р±СѓРґРёР»СЊРЅРёРєР° */
+/* xxxx - РєРѕРґ РѕР±СЉРµРєС‚Р° РІРЅСѓС‚СЂРё */
 void ProcessTouching()
 {
-    //проверим нет ли нажатия на экран
+    //РїСЂРѕРІРµСЂРёРј РЅРµС‚ Р»Рё РЅР°Р¶Р°С‚РёСЏ РЅР° СЌРєСЂР°РЅ
     if (TOUCH_PRESSED && (!flags.isTouched))
     {
-      //опустошим буферы SPI Rx Tx
+      //РѕРїСѓСЃС‚РѕС€РёРј Р±СѓС„РµСЂС‹ SPI Rx Tx
       while ((SPI1->SR & SPI_SR_RXNE) == SPI_SR_RXNE) v.i = SPI1->DR;
       while ((SPI1->SR & SPI_SR_BSY) == SPI_SR_BSY);
       
-      //понизим частоту до допустимой частоты обмена с TouchScr
+      //РїРѕРЅРёР·РёРј С‡Р°СЃС‚РѕС‚Сѓ РґРѕ РґРѕРїСѓСЃС‚РёРјРѕР№ С‡Р°СЃС‚РѕС‚С‹ РѕР±РјРµРЅР° СЃ TouchScr
       SPI1->CR1 |= SPI_CR1_BR_2; //set 1,5MHz [100(48/32=1,5MHz) 000(48/2=24MHz)]       
       TOUCH_CS(CS_ENABLE);
    
@@ -1492,7 +1502,7 @@ void ProcessTouching()
       SPI_Exchange(0x00);
       SPI_Exchange(0x00);
       
-      //вернули частоту SPI обратно и отключились от TouchScr
+      //РІРµСЂРЅСѓР»Рё С‡Р°СЃС‚РѕС‚Сѓ SPI РѕР±СЂР°С‚РЅРѕ Рё РѕС‚РєР»СЋС‡РёР»РёСЃСЊ РѕС‚ TouchScr
       SPI1->CR1 ^= SPI_CR1_BR_2; //set 24Mhz
       TOUCH_CS(CS_DISABLE); 
     } //if (TOUCH_PRESSED)
@@ -1502,10 +1512,10 @@ void ProcessTouching()
       flags.isTouched = false;
     }
     
-    //-- модуль обработки событий -----
+    //-- РјРѕРґСѓР»СЊ РѕР±СЂР°Р±РѕС‚РєРё СЃРѕР±С‹С‚РёР№ -----
     if (flags.isTouched)
     {
-        //вывели на экран координату
+        //РІС‹РІРµР»Рё РЅР° СЌРєСЂР°РЅ РєРѕРѕСЂРґРёРЅР°С‚Сѓ
 //        uint16_t bcd = ConvertToBCD(v.tXX[0]); //show X
 //        LCD_ShowImage2FromRom(0,0,  ((bcd>>8)&0x0F), 1, LCD_WHITE, BackGroundColor);
 //        LCD_ShowImage2FromRom(8,0,  ((bcd>>4)&0x0F), 1, LCD_WHITE, BackGroundColor);
@@ -1518,12 +1528,12 @@ void ProcessTouching()
         
         v.tObjectID = 0;
         
-        if (flags.systemState == 10) //выбор дней будильника
+        if (flags.systemState == 10) //РІС‹Р±РѕСЂ РґРЅРµР№ Р±СѓРґРёР»СЊРЅРёРєР°
         {
-          //1-пн 2-вт >192
-          //3-ср 4-чт >153
-          //5-пт 6-сб >109
-          //7-вс 8-сброс >065
+          //1-РїРЅ 2-РІС‚ >192
+          //3-СЃСЂ 4-С‡С‚ >153
+          //5-РїС‚ 6-СЃР± >109
+          //7-РІСЃ 8-СЃР±СЂРѕСЃ >065
           if (v.tXX[0] < 123)
             v.tObjectID = 1;
 //          else
@@ -1531,38 +1541,38 @@ void ProcessTouching()
           
           if (v.tYY[0] > 192)
           {
-            v.tObjectID += 1; //пн вт
+            v.tObjectID += 1; //РїРЅ РІС‚
           }
           else
           {
             if (v.tYY[0] > 153)
             {
-              v.tObjectID += 3; //ср чт
+              v.tObjectID += 3; //СЃСЂ С‡С‚
             }
             else
             {
               if (v.tYY[0] > 109)
               {
-                v.tObjectID += 5; //пт сб
+                v.tObjectID += 5; //РїС‚ СЃР±
               }
               else
               {
                 if (v.tYY[0] > 65)
                 {
-                  v.tObjectID += 7; //вс
+                  v.tObjectID += 7; //РІСЃ
                   //v.tObjectID &= ~8; //if o==8 then o=0  
                 }
                 else
                 {
                   if (v.tXX[0] < 71)
                   {
-                    v.tObjectID = 128 + 4;//кнопка "cancel"
+                    v.tObjectID = 128 + 4;//РєРЅРѕРїРєР° "cancel"
                   }
                   else
                   {
                     if (v.tXX[0] < 123)
                     {
-                      v.tObjectID = 128 + 3;//кнопка "ok"
+                      v.tObjectID = 128 + 3;//РєРЅРѕРїРєР° "ok"
                     }
                     else
                     {
@@ -1576,32 +1586,32 @@ void ProcessTouching()
         }
         else
         {      
-          //-- определим номер линии
+          //-- РѕРїСЂРµРґРµР»РёРј РЅРѕРјРµСЂ Р»РёРЅРёРё
           if (v.tYY[0] < 71)
           {
-            //линия кнопок управления
+            //Р»РёРЅРёСЏ РєРЅРѕРїРѕРє СѓРїСЂР°РІР»РµРЅРёСЏ
             if (v.tXX[0] < 71)
             {
-              //кнопка "cancel"
+              //РєРЅРѕРїРєР° "cancel"
               v.tObjectID = 128 + 4;
             }
             else
             {
               if (v.tXX[0] < 124)
               {
-                //кнопка "ok"
+                //РєРЅРѕРїРєР° "ok"
                 v.tObjectID = 128 + 3;
               }
               else
               {
                 if (v.tXX[0] < 179)
                 {
-                  //кнопка "-"
+                  //РєРЅРѕРїРєР° "-"
                   v.tObjectID = 128 + 2;
                 }
                 else
                 {
-                  //кнопка "+"
+                  //РєРЅРѕРїРєР° "+"
                   v.tObjectID = 128 + 1;
                 }
               }
@@ -1611,21 +1621,21 @@ void ProcessTouching()
           {
             if (v.tYY[0] < 181)
             {
-              //линия цифр
+              //Р»РёРЅРёСЏ С†РёС„СЂ
               if (v.tXX[0] < 35)
               {}
               else
               {
                 if (v.tXX[0] < 123)
                 {
-                  //цифры минут
+                  //С†РёС„СЂС‹ РјРёРЅСѓС‚
                   v.tObjectID = 64 + 2;
                 }
                 else
                 {
                   if (v.tXX[0] < 205)
                   {
-                    //цифры часов
+                    //С†РёС„СЂС‹ С‡Р°СЃРѕРІ
                     v.tObjectID = 64 + 1;
                   }
                 }
@@ -1644,7 +1654,7 @@ void ProcessTouching()
 }
 
 //-------------------------------------------------------------------------------------------------
-/* подсчитывает кол-во букв в слове. Слово должно заканчиваться нулем*/
+/* РїРѕРґСЃС‡РёС‚С‹РІР°РµС‚ РєРѕР»-РІРѕ Р±СѓРєРІ РІ СЃР»РѕРІРµ. РЎР»РѕРІРѕ РґРѕР»Р¶РЅРѕ Р·Р°РєР°РЅС‡РёРІР°С‚СЊСЃСЏ РЅСѓР»РµРј*/
 uint8_t CharCount(uint8_t* address)
 {
   uint8_t ret = 0;
@@ -1653,7 +1663,7 @@ uint8_t CharCount(uint8_t* address)
 }
 
 //-------------------------------------------------------------------------------------------------
-/* сохранить в Winbond значения:
+/* СЃРѕС…СЂР°РЅРёС‚СЊ РІ Winbond Р·РЅР°С‡РµРЅРёСЏ:
    v.digitsOffset
    v.mCalendarAlarmTime
    v.mCalendarAlarmDays[7]
@@ -1662,16 +1672,16 @@ void SaveToRom()
 {
   uint8_t c;
   
-  //опустошим буфер приема (1) и закончим все передачи (2)
+  //РѕРїСѓСЃС‚РѕС€РёРј Р±СѓС„РµСЂ РїСЂРёРµРјР° (1) Рё Р·Р°РєРѕРЅС‡РёРј РІСЃРµ РїРµСЂРµРґР°С‡Рё (2)
   while ((SPI1->SR & SPI_SR_RXNE) == SPI_SR_RXNE) c = SPI1->DR; //1
   while ((SPI1->SR & SPI_SR_BSY) == SPI_SR_BSY); //2
   
-  //отключим все
+  //РѕС‚РєР»СЋС‡РёРј РІСЃРµ
   LCD_CS(CS_DISABLE);
   MEM_CS(CS_DISABLE);
   MEM_RESUME;
   
-  //обмен данными 
+  //РѕР±РјРµРЅ РґР°РЅРЅС‹РјРё 
   MemWriteEnable();
   
   //sector 2047 (last) erase
@@ -1703,20 +1713,20 @@ void SaveToRom()
 }
 
 //-------------------------------------------------------------------------------------------------
-/* восстановить данные указанные выше из Winbond */
+/* РІРѕСЃСЃС‚Р°РЅРѕРІРёС‚СЊ РґР°РЅРЅС‹Рµ СѓРєР°Р·Р°РЅРЅС‹Рµ РІС‹С€Рµ РёР· Winbond */
 void LoadFromRom()
 {
   uint8_t c;
   
-  //опустошим буфер приема (1) и закончим все передачи (2)
+  //РѕРїСѓСЃС‚РѕС€РёРј Р±СѓС„РµСЂ РїСЂРёРµРјР° (1) Рё Р·Р°РєРѕРЅС‡РёРј РІСЃРµ РїРµСЂРµРґР°С‡Рё (2)
   while ((SPI1->SR & SPI_SR_RXNE) == SPI_SR_RXNE) c = SPI1->DR; //1
   while ((SPI1->SR & SPI_SR_BSY) == SPI_SR_BSY); //2
   
-  //выберем MEM
+  //РІС‹Р±РµСЂРµРј MEM
   LCD_CS(CS_DISABLE);
   MEM_CS(CS_DISABLE);
   MEM_RESUME;
-  //обмен данными (fast read)
+  //РѕР±РјРµРЅ РґР°РЅРЅС‹РјРё (fast read)
   MEM_CS(CS_ENABLE);
     SPI_Exchange(0x0B);
     SPI_Exchange(0x7F); //A2
@@ -1735,7 +1745,7 @@ void LoadFromRom()
       MemReadSequence((uint8_t*)&v.mCalendarAlarmDays[c] , 4);  
       if (v.mCalendarAlarmDays[c] == 0xFFFFFFFF) v.mCalendarAlarmDays[c] = 0; 
     }
-  //завершение
+  //Р·Р°РІРµСЂС€РµРЅРёРµ
   MEM_CS(CS_DISABLE);  
 }
 
