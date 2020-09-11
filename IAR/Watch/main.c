@@ -66,33 +66,35 @@ int main()
   __enable_irq(); //включить все прерывания
     
   // HSE. SYSCLK = 48MHz (via PLL)
-  SET_BIT(RCC->CR, RCC_CR_HSEON); // Включить генератор HSE и контроль над пропаданием
+  SET_BIT(RCC->CR, RCC_CR_CSSON | RCC_CR_HSEON); // Включить генератор HSE и контроль над пропаданием
   while (!(RCC->CR & RCC_CR_HSERDY)); // Ожидание готовности HSE.
-  
-  // (2) -----------------------------------------------------------------------
-  
-  if ((RCC->CFGR & RCC_CFGR_SWS) != RCC_CFGR_SWS_PLL)
-  {
-    CLEAR_BIT(RCC->CR, RCC_CR_PLLON); // изменения можно производить только на выключенном PLL
-    while((RCC->CR & RCC_CR_PLLRDY) != 0); // ожидание готовности PLL
-    MODIFY_REG(RCC->CFGR, (RCC_CFGR_PLLSRC_Msk | RCC_CFGR_PLLMUL_Msk),
-              (RCC_CFGR_PLLSRC_HSE_PREDIV | RCC_CFGR_PLLMUL6)); //задать источник и множитель PLL x6 (8x6=48MHz)
-    SET_BIT(RCC->CR, RCC_CR_PLLON); //включить PLL
-    while((RCC->CR & RCC_CR_PLLRDY) != 0); // ожидание готовности PLL
-    SET_BIT(RCC->CFGR, (uint32_t)RCC_CFGR_SW_PLL); //выбрать PLL источником SYSCLK
-    while ((RCC->CFGR & RCC_CFGR_SWS) != RCC_CFGR_SWS_PLL); //дождаться пока PLL не включится как источник SYSCLK
-  }
 
+  MODIFY_REG(RCC->CFGR, (RCC_CFGR_PLLSRC_Msk | RCC_CFGR_PLLMUL_Msk),
+            (RCC_CFGR_PLLSRC_HSE_PREDIV | RCC_CFGR_PLLMUL6)); //задать источник и множитель PLL x6 (8x6=48MHz)
+  SET_BIT(RCC->CR, RCC_CR_PLLON); //включить PLL
+  while((RCC->CR & RCC_CR_PLLRDY) != 0); // ожидание готовности PLL
+  SET_BIT(RCC->CFGR, (uint32_t)RCC_CFGR_SW_PLL); //выбрать PLL источником SYSCLK
+  while ((RCC->CFGR & RCC_CFGR_SWS) != RCC_CFGR_SWS_PLL); //дождаться пока PLL не включится как источник SYSCLK
   
   //--- включить тактирование периферии 
   SET_BIT(RCC->AHBENR, (RCC_AHBENR_GPIOAEN | RCC_AHBENR_GPIOBEN)); //включить тактирование GPIO PORT A, B
   SET_BIT(RCC->APB2ENR, (RCC_APB2ENR_SPI1EN)); //включить тактирование SPI1
   SET_BIT(RCC->APB1ENR, (RCC_APB1ENR_PWREN)); //включить тактирование интерфейса power
   
-  RCC->CSR |= RCC_CSR_LSION; //включить внутренний тактовый генератор 40кгц
-  while((RCC->CSR &RCC_CSR_LSIRDY) == 0); //дождаться включения LSI 
+    //--- настройка SysTick (1милисек)
+  v.bStatus = 0;
+  SysTick->LOAD = (48000UL & SysTick_LOAD_RELOAD_Msk) - 1;
+  SysTick->VAL = 0; //необходимо вызвать для обнуления
+  SysTick->CTRL  = SysTick_CTRL_CLKSOURCE_Msk | //источник тактирования SYSCLK
+                   SysTick_CTRL_TICKINT_Msk   | //запрашивать прерывание по достижению нуля
+                   SysTick_CTRL_ENABLE_Msk;     //включить счетчик 
+  NVIC_SetPriority(SysTick_IRQn, 1); //выше приоритет только у перехода в сон
+  
+  //--- настройка RTC
   SET_BIT(PWR->CR, PWR_CR_DBP); //разрешить запись в регистры RTC и Backup (не запрещать в течении работы RTC!)
-  SET_BIT(RCC->BDCR, RCC_BDCR_RTCEN | RCC_BDCR_RTCSEL_LSI); // включить RTC и задать источником HSE/32
+  SET_BIT(RCC->BDCR, RCC_BDCR_BDRST); // сброс RTC
+  CLEAR_BIT(RCC->BDCR, RCC_BDCR_BDRST);
+  SET_BIT(RCC->BDCR, RCC_BDCR_RTCEN | RCC_BDCR_RTCSEL_HSE); // включить RTC и задать источником HSE/32
 
   //--- настраиваем пины
   WRITE_REG(GPIOA->MODER, 0x28000000 |
@@ -114,25 +116,10 @@ int main()
   EXTI->RTSR |= EXTI_RTSR_RT17;
   NVIC_EnableIRQ(RTC_IRQn);
   
-  RTC->WPR = 0xCA;
-  RTC->WPR = 0x53; //enable write
-  SET_BIT(RTC->ISR, RTC_ISR_INIT); // входим в режим инциализации
-  while ((RTC->ISR & RTC_ISR_INITF) != RTC_ISR_INITF); // ждем входа в режим
-  
   //--- конфигурируем SPI
   WRITE_REG(SPI1->CR1, (SPI_CR1_MSTR | SPI_CR1_SSM | SPI_CR1_SSI | SPI_CR1_SPE)); //Master mode, Fpclk/2 = 48/2, SPI on
   WRITE_REG(SPI1->CR2, 0x0700 | SPI_CR2_FRXTH); //8bit FIFO buffer, 8bit data size, NSS pin disabled, no interrupts
   
-  //--- настройка SysTick (1милисек)
-  v.bStatus = 0;
-  SysTick->LOAD = (48000UL & SysTick_LOAD_RELOAD_Msk) - 1;
-  SysTick->VAL = 0; //необходимо вызвать для обнуления
-  SysTick->CTRL  = SysTick_CTRL_CLKSOURCE_Msk | //источник тактирования SYSCLK
-                   SysTick_CTRL_TICKINT_Msk   | //запрашивать прерывание по достижению нуля
-                   SysTick_CTRL_ENABLE_Msk;     //включить счетчик 
-  
-  NVIC_SetPriority(SysTick_IRQn, 1); //выше приоритет только у перехода в сон
-
   // -
   MEM_Deselect;
   LCD_Deselect;
@@ -147,10 +134,7 @@ int main()
   //Power= 00(IRQ on)
   SPI1->CR1 |= SPI_CR1_BR_2; //XPT2046 F_CLK max = 2,5Mhz!!!!
   TOUCH_Select;
-    SPI_Send2(3, 0xD8, 0x00, 0x00); //инициализация для активирования PEN_IRQ
-//    SPI_Exchange(0xD8); //инициализация для активирования PEN_IRQ
-//    SPI_Exchange(0x00);
-//    SPI_Exchange(0x00);   
+    SPI_Send2(3, 0xD8, 0x00, 0x00); //инициализация для активирования PEN_IRQ  
   TOUCH_Deselect;
   SPI1->CR1 ^= SPI_CR1_BR_2;
   //
@@ -825,22 +809,21 @@ void LCD_Init()
   for (v.i=0; v.i<19; v.i++) //строки массива
   {
     LCD_DC(LCD_CMD);
-    SPI_Send(LcdInitData[pos++]);
+    SPI_Send2(1, LcdInitData[pos++]);
     len = LcdInitData[pos++];
     
     SPI_WAIT_FOR_COMPLETION;
     LCD_DC(LCD_DATA);
     for (v.j=0; v.j<len; v.j++)
     {
-      SPI_Send(LcdInitData[pos++]);
+      SPI_Send2(1, LcdInitData[pos++]);
     }
   }
   
   Delay(120);
   SPI_WAIT_FOR_COMPLETION;
   LCD_DC(LCD_CMD);
-  SPI_Send(0x29); //Display on
-  SPI_Send(0x2C); //Write registers
+  SPI_Send2(2, 0x29, 0x2C); //Display on. Write registers
   
   SPI_WAIT_FOR_COMPLETION;
 }
@@ -854,27 +837,19 @@ void LCD_SetWindow(uint16_t x0, uint16_t x1, uint16_t y0, uint16_t y1)
   //установить границы окна рисования
   SPI_WAIT_FOR_COMPLETION;
   LCD_DC(LCD_CMD);
-  SPI_Send(0x2A);
+  SPI_Send2(1, 0x2A);
   SPI_WAIT_FOR_COMPLETION;
   LCD_DC(LCD_DATA);
   SPI_Send2(4, (uint8_t)(x0>>8), (uint8_t)(x0), (uint8_t)(x1>>8), (uint8_t)(x1));
-//  SPI_Send((uint8_t)(x0>>8));
-//  SPI_Send((uint8_t)(x0)); //SC = column start
-//  SPI_Send((uint8_t)(x1>>8));
-//  SPI_Send((uint8_t)(x1)); //EC = column end  
   SPI_WAIT_FOR_COMPLETION;
   LCD_DC(LCD_CMD);
-  SPI_Send(0x2B);
+  SPI_Send2(1, 0x2B);
   SPI_WAIT_FOR_COMPLETION;
   LCD_DC(LCD_DATA);
   SPI_Send2(4, (uint8_t)(y0>>8), (uint8_t)(y0), (uint8_t)(y1>>8), (uint8_t)(y1));
-//  SPI_Send((uint8_t)(y0>>8));
-//  SPI_Send((uint8_t)(y0));
-//  SPI_Send((uint8_t)(y1>>8));
-//  SPI_Send((uint8_t)(y1));
   SPI_WAIT_FOR_COMPLETION;
   LCD_DC(LCD_CMD);
-  SPI_Send(0x2C); //Write registers
+  SPI_Send2(1, 0x2C); //Write registers
   SPI_WAIT_FOR_COMPLETION;
   LCD_DC(LCD_DATA);
 }
@@ -889,17 +864,8 @@ void LCD_FillRectangle(uint16_t x0, uint16_t x1, uint16_t y0, uint16_t y1, uint1
   LCD_SetWindow(x0, x1, y0, y1);
   for (uint32_t i=0; i<(2*((x1-x0)*(y1-y0))); i++)
   {
-    SPI_Send((uint8_t)(color >> 8));
-    SPI_Send((uint8_t)(color));
+    SPI_Send2(2, (uint8_t)(color >> 8), (uint8_t)(color));
   }
-}
-
-//------------------------------------------------------------------------------
-/* записывает байт данных в буфер TXFIFO интерфейса SPI */
-void SPI_Send(uint8_t data)
-{
-  SPI_WAIT_TX_READY;
-  *(uint8_t *)&(SPI1->DR) = (uint8_t)data; //отправляем в буфер 
 }
 
 //------------------------------------------------------------------------------
@@ -929,7 +895,7 @@ uint8_t SPI_Exchange(uint8_t data)
 //------------------------------------------------------------------------------
 void SPI_FlushRX()
 {
-  uint8_t temp;
+  uint8_t temp __attribute__((unused));
   //опустошим буфер приема (1) и закончим все передачи (2)
   while ((SPI1->SR & SPI_SR_RXNE) == SPI_SR_RXNE) *((uint8_t*)&temp) = SPI1->DR; //1
   while ((SPI1->SR & SPI_SR_BSY) == SPI_SR_BSY); //2
@@ -947,11 +913,6 @@ void LCD_ShowImage16FromMem(uint16_t x, uint8_t y, uint32_t address)
   
   //команда: считать данные
   SPI_Send2(5, 0x0B, (uint8_t)(address >> 16), (uint8_t)(address >> 8), (uint8_t)(address), 0x00);
-//  SPI_Exchange(0x0B);
-//  SPI_Exchange((uint8_t)(address >> 16));
-//  SPI_Exchange((uint8_t)(address >> 8));
-//  SPI_Exchange((uint8_t)(address));
-//  SPI_Exchange(0x00);
   
   SPI_FlushRX();
   
@@ -1020,13 +981,11 @@ void LCD_ShowImage2FromRom(uint16_t x, uint8_t y, uint8_t imgIdx, uint8_t font, 
       { //выводим обычным фонтом
         if (c & 0x80)
         {
-          SPI_Exchange((uint8_t)(fcolor>>8));
-          SPI_Exchange((uint8_t)fcolor);
+          SPI_Send2(2, (uint8_t)(fcolor>>8), (uint8_t)fcolor);
         }
         else
         {
-          SPI_Exchange((uint8_t)(bcolor>>8));
-          SPI_Exchange((uint8_t)bcolor);
+          SPI_Send2(2, (uint8_t)(bcolor>>8), (uint8_t)bcolor);
         }
         c <<= 1;
       }
@@ -1037,13 +996,11 @@ void LCD_ShowImage2FromRom(uint16_t x, uint8_t y, uint8_t imgIdx, uint8_t font, 
       {
         if (c & 0x80)
         {
-          SPI_Exchange((uint8_t)(fcolor>>8));
-          SPI_Exchange((uint8_t)fcolor);
+          SPI_Send2(2, (uint8_t)(fcolor>>8), (uint8_t)fcolor);
         }
         else
         {
-          SPI_Exchange((uint8_t)(bcolor>>8));
-          SPI_Exchange((uint8_t)bcolor);
+          SPI_Send2(2, (uint8_t)(bcolor>>8), (uint8_t)bcolor);
         }
         c <<= 1;
       }      
@@ -1331,7 +1288,10 @@ void Time_SetCalendarTM(uint32_t newTime, uint32_t newDate)
   RTC->WPR = 0x53; //enable write
   SET_BIT(RTC->ISR, RTC_ISR_INIT); // входим в режим инциализации
   while ((RTC->ISR & RTC_ISR_INITF) != RTC_ISR_INITF); // ждем входа в режим
-  RTC->PRER = 0x007F0137; //1 Hz, делитель для LSI
+  //RTC->PRER = 0x007F0137; //1 Hz, делитель для LSI
+  WRITE_REG(RTC->PRER,
+          124U << RTC_PRER_PREDIV_A_Pos |
+          1999U << RTC_PRER_PREDIV_S_Pos); // значение предделителей
   if (newTime != 0) RTC->TR = newTime;
   if (newDate != 0) RTC->DR = newDate;
   RTC->ISR &=~RTC_ISR_INIT; //exit init phase, run calendar with new values
@@ -1490,9 +1450,7 @@ void ProcessTouching()
       
       if ((v.tXX[0] != 0xFF) && (v.tYY[0] != 0xFF)) flags.isTouched = true;
         
-      SPI_Exchange(0xD8);
-      SPI_Exchange(0x00);
-      SPI_Exchange(0x00);
+      SPI_Send2(3, 0xD8, 0x00, 0x00);
       
       //вернули частоту SPI обратно и отключились от TouchScr
       SPI1->CR1 ^= SPI_CR1_BR_2; //set 24Mhz
@@ -1675,10 +1633,7 @@ void SaveToRom()
   
   //sector 2047 (last) erase
   MEM_Select;
-    SPI_Exchange(0x20);
-    SPI_Exchange(0x7F);
-    SPI_Exchange(0xF0);
-    SPI_Exchange(0x00);
+    SPI_Send2(4, 0x20, 0x7F, 0xF0, 0x00);
   MEM_Deselect;
   //
   MemWaitForWriteEnd();
@@ -1687,10 +1642,7 @@ void SaveToRom()
   
   //address 8384512 (first in sector 2047) program
   MEM_Select;
-    SPI_Exchange(0x02);
-    SPI_Exchange(0x7F);
-    SPI_Exchange(0xF0);
-    SPI_Exchange(0x00);
+    SPI_Send2(4, 0x02, 0x7F, 0xF0, 0x00); 
     //data
     MemWriteSequence(&v.digitsOffset, 1);
     MemWriteSequence((uint8_t*)&v.mCalendarAlarmTime, 4);
@@ -1715,11 +1667,7 @@ void LoadFromRom()
 
   //обмен данными (fast read)
   MEM_Select;
-    SPI_Exchange(0x0B);
-    SPI_Exchange(0x7F); //A2
-    SPI_Exchange(0xF0); //A1
-    SPI_Exchange(0x00); //A0
-    SPI_Exchange(0x00); //dummy
+    SPI_Send2(5, 0x0B, 0x7F, 0xF0, 0x00, 0x00); //A2, A1, A0, dummy
     //
     MemReadSequence(&v.digitsOffset, 1);
     if (v.digitsOffset == 0xFF) v.digitsOffset = 0;

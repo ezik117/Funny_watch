@@ -23,14 +23,6 @@
 #define TOUCH_Deselect (GPIOA->BSRR = GPIO_BSRR_BS_2)
 #define TOUCH_PRESSED (!(GPIOA->IDR & GPIO_IDR_3)) //0-touched, 1-free
 
-//константы управления сигналом /RESTART
-#define RST_LO 0
-#define RST_HI 1
-
-//константы управления пинами микросхемы памяти
-#define MEM_HOLD_ON 0
-#define MEM_HOLD_OFF 1
-
 //константы управления пинами экрана
 #define LCD_CMD 0
 #define LCD_DATA 1
@@ -55,12 +47,12 @@ static const uint32_t memMap[] =
 
 //---- ПРОТОТИПЫ ФУНКЦИЙ -------------------------------------------------------
 void Delay(uint32_t msTime);
-void LCD_Init();
-void SPI_Send(uint8_t data);
-void SPI_Send2(uint8_t size, ...);
+
+void SPI_Send2(uint8_t size, ...); // оптимизированная для уменьшения кода функция, медленней обычной
 uint8_t SPI_Exchange(uint8_t data);
 void SPI_FlushRX();
 
+void LCD_Init();
 void LCD_SetWindow(uint16_t x0, uint16_t x1, uint16_t y0, uint16_t y1);
 void LCD_FillRectangle(uint16_t x0, uint16_t x1, uint16_t y0, uint16_t y1, uint16_t color);
 void LCD_ShowImage16FromMem(uint16_t x, uint8_t y, uint32_t address);
