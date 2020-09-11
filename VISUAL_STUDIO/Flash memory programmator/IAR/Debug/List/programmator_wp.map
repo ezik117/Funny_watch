@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR ELF Linker V8.32.1.169/W32 for ARM                  07/Sep/2020  22:46:19
+# IAR ELF Linker V8.32.1.169/W32 for ARM                  10/Sep/2020  00:31:18
 # Copyright 2007-2018 IAR Systems AB.
 #
 #    Output file  =  
@@ -10,7 +10,7 @@
 #        D:\PROJECTS\MCU\___\PROJECTS\Funny_watch\VISUAL_STUDIO\Flash memory
 #        programmator\IAR\Debug\List\programmator_wp.map
 #    Command line =  
-#        -f C:\Users\USER~1.PC-\AppData\Local\Temp\EW6EA5.tmp
+#        -f C:\Users\USER~1.PC-\AppData\Local\Temp\EWFA94.tmp
 #        ("D:\PROJECTS\MCU\___\PROJECTS\Funny_watch\VISUAL_STUDIO\Flash memory
 #        programmator\IAR\Debug\Obj\main.o"
 #        "D:\PROJECTS\MCU\___\PROJECTS\Funny_watch\VISUAL_STUDIO\Flash memory

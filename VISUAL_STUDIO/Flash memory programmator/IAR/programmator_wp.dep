@@ -5,49 +5,55 @@
     <configuration>
         <name>Debug</name>
         <outputs>
-            <file>$PROJ_DIR$\CMSIS\core_cm0.h</file>
-            <file>$PROJ_DIR$\CMSIS\core_cmFunc.h</file>
-            <file>$PROJ_DIR$\CMSIS\core_cmInstr.h</file>
-            <file>$PROJ_DIR$\Drivers\startup_stm32f030x6.s</file>
-            <file>$PROJ_DIR$\Drivers\stm32f030x6.h</file>
-            <file>$PROJ_DIR$\Drivers\stm32f0xx.h</file>
-            <file>$PROJ_DIR$\main.c</file>
-            <file>$PROJ_DIR$\Debug\Obj\programmator_wp.pbd</file>
-            <file>$TOOLKIT_DIR$\inc\c\cmsis_iar.h</file>
+            <file>$TOOLKIT_DIR$\inc\c\ycheck.h</file>
+            <file>$TOOLKIT_DIR$\inc\c\iccarm_builtin.h</file>
+            <file>$TOOLKIT_DIR$\lib\rt6M_tl.a</file>
+            <file>$PROJ_DIR$\Debug\List\programmator_wp.map</file>
+            <file>$PROJ_DIR$\Debug\Obj\main.o</file>
+            <file>$TOOLKIT_DIR$\inc\c\DLib_Product.h</file>
+            <file>$PROJ_DIR$\Debug\Obj\startup_stm32f030x6.o</file>
+            <file>$TOOLKIT_DIR$\lib\m6M_tl.a</file>
+            <file>$PROJ_DIR$\Debug\Obj\main.__cstat.et</file>
+            <file>$TOOLKIT_DIR$\inc\c\yvals.h</file>
+            <file>$PROJ_DIR$\Debug\Exe\programmator_wp.out</file>
+            <file>$TOOLKIT_DIR$\lib\dl6M_tln.a</file>
             <file>$PROJ_DIR$\Debug\Obj\main.pbi</file>
+            <file>$PROJ_DIR$\Debug\Obj\programmator_wp.pbd</file>
+            <file>$TOOLKIT_DIR$\inc\c\DLib_Defaults.h</file>
+            <file>$TOOLKIT_DIR$\inc\c\cmsis_iar.h</file>
+            <file>$TOOLKIT_DIR$\inc\c\stdint.h</file>
+            <file>$PROJ_DIR$\stm32f030x6_flash.icf</file>
             <file>$TOOLKIT_DIR$\lib\shb_l.a</file>
             <file>$TOOLKIT_DIR$\inc\c\DLib_Config_Normal.h</file>
-            <file>$TOOLKIT_DIR$\inc\c\DLib_Defaults.h</file>
-            <file>$PROJ_DIR$\Debug\Obj\main.o</file>
-            <file>$PROJ_DIR$\Debug\Exe\programmator_wp.out</file>
-            <file>$TOOLKIT_DIR$\inc\c\yvals.h</file>
-            <file>$TOOLKIT_DIR$\inc\c\ycheck.h</file>
-            <file>$TOOLKIT_DIR$\lib\rt6M_tl.a</file>
-            <file>$TOOLKIT_DIR$\inc\c\DLib_Product.h</file>
-            <file>$PROJ_DIR$\stm32f030x6_flash.icf</file>
-            <file>$TOOLKIT_DIR$\inc\c\stdint.h</file>
-            <file>$PROJ_DIR$\Debug\Obj\main.__cstat.et</file>
-            <file>$PROJ_DIR$\Debug\Obj\startup_stm32f030x6.o</file>
-            <file>$TOOLKIT_DIR$\inc\c\iccarm_builtin.h</file>
-            <file>$TOOLKIT_DIR$\lib\dl6M_tln.a</file>
-            <file>$PROJ_DIR$\Debug\List\programmator_wp.map</file>
-            <file>$TOOLKIT_DIR$\lib\m6M_tl.a</file>
+            <file>$PROJ_DIR$\CMSIS\core_cmInstr.h</file>
+            <file>$PROJ_DIR$\CMSIS\core_cm0.h</file>
+            <file>$PROJ_DIR$\CMSIS\core_cmFunc.h</file>
+            <file>$PROJ_DIR$\Drivers\stm32f030x6.h</file>
+            <file>$PROJ_DIR$\Drivers\startup_stm32f030x6.s</file>
+            <file>$PROJ_DIR$\main.c</file>
+            <file>$PROJ_DIR$\Drivers\stm32f0xx.h</file>
         </outputs>
         <file>
-            <name>[ROOT_NODE]</name>
+            <name>$PROJ_DIR$\Debug\Exe\programmator_wp.out</name>
             <outputs>
                 <tool>
                     <name>ILINK</name>
-                    <file> 14 25</file>
+                    <file> 3</file>
                 </tool>
             </outputs>
+            <inputs>
+                <tool>
+                    <name>ILINK</name>
+                    <file> 17 4 6 18 2 7 11</file>
+                </tool>
+            </inputs>
         </file>
         <file>
             <name>$PROJ_DIR$\Drivers\startup_stm32f030x6.s</name>
             <outputs>
                 <tool>
                     <name>AARM</name>
-                    <file> 22</file>
+                    <file> 6</file>
                 </tool>
             </outputs>
         </file>
@@ -56,42 +62,36 @@
             <outputs>
                 <tool>
                     <name>ICCARM</name>
-                    <file> 13</file>
+                    <file> 4</file>
                 </tool>
                 <tool>
                     <name>__cstat</name>
-                    <file> 21</file>
+                    <file> 8</file>
                 </tool>
                 <tool>
                     <name>BICOMP</name>
-                    <file> 9</file>
+                    <file> 12</file>
                 </tool>
             </outputs>
             <inputs>
                 <tool>
                     <name>ICCARM</name>
-                    <file> 4 0 20 16 15 12 11 18 2 8 23 1 5</file>
+                    <file> 23 21 16 0 9 14 19 5 20 15 1 22 26</file>
                 </tool>
                 <tool>
                     <name>BICOMP</name>
-                    <file> 20 16 18 1 5 0 11 8 4 2 15 12 23</file>
+                    <file> 16 0 5 22 26 21 19 15 23 20 9 14 1</file>
                 </tool>
             </inputs>
         </file>
         <file>
-            <name>$PROJ_DIR$\Debug\Exe\programmator_wp.out</name>
+            <name>[ROOT_NODE]</name>
             <outputs>
                 <tool>
                     <name>ILINK</name>
-                    <file> 25</file>
+                    <file> 10 3</file>
                 </tool>
             </outputs>
-            <inputs>
-                <tool>
-                    <name>ILINK</name>
-                    <file> 19 13 22 10 17 26 24</file>
-                </tool>
-            </inputs>
         </file>
     </configuration>
     <configuration>

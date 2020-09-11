@@ -84,7 +84,7 @@ int main()
   
   //--- конфигурируем USART1 (full-duplex, 9600bps ,8bit, 1stop bit, no parity, no hardware flow control)
   v.udata_get = false;
-  USART1->BRR = 0x1A1; //9600
+  USART1->BRR = 0x1A1; //115250
   USART1->CR1 = USART_CR1_RXNEIE | USART_CR1_RE | USART_CR1_TE | USART_CR1_UE; //interrupt enable, Rx/Tx enable, UART enable  
   
   //--- включаем прерывания
