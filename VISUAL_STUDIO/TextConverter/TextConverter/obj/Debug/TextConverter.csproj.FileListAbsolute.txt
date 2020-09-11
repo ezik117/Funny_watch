@@ -1,0 +1,10 @@
+D:\PROJECTS\MCU\___\PROJECTS\Funny_watch\VISUAL_STUDIO\TextConverter\TextConverter\bin\Debug\TextConverter.exe.config
+D:\PROJECTS\MCU\___\PROJECTS\Funny_watch\VISUAL_STUDIO\TextConverter\TextConverter\bin\Debug\TextConverter.exe
+D:\PROJECTS\MCU\___\PROJECTS\Funny_watch\VISUAL_STUDIO\TextConverter\TextConverter\bin\Debug\TextConverter.pdb
+D:\PROJECTS\MCU\___\PROJECTS\Funny_watch\VISUAL_STUDIO\TextConverter\TextConverter\obj\Debug\TextConverter.csprojAssemblyReference.cache
+D:\PROJECTS\MCU\___\PROJECTS\Funny_watch\VISUAL_STUDIO\TextConverter\TextConverter\obj\Debug\TextConverter.Form1.resources
+D:\PROJECTS\MCU\___\PROJECTS\Funny_watch\VISUAL_STUDIO\TextConverter\TextConverter\obj\Debug\TextConverter.Properties.Resources.resources
+D:\PROJECTS\MCU\___\PROJECTS\Funny_watch\VISUAL_STUDIO\TextConverter\TextConverter\obj\Debug\TextConverter.csproj.GenerateResource.cache
+D:\PROJECTS\MCU\___\PROJECTS\Funny_watch\VISUAL_STUDIO\TextConverter\TextConverter\obj\Debug\TextConverter.csproj.CoreCompileInputs.cache
+D:\PROJECTS\MCU\___\PROJECTS\Funny_watch\VISUAL_STUDIO\TextConverter\TextConverter\obj\Debug\TextConverter.exe
+D:\PROJECTS\MCU\___\PROJECTS\Funny_watch\VISUAL_STUDIO\TextConverter\TextConverter\obj\Debug\TextConverter.pdb

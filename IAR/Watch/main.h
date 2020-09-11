@@ -6,23 +6,22 @@
 #define BEEP(x) (x == 0 ? (GPIOA->BSRR = GPIO_BSRR_BR_4) : (GPIOA->BSRR = GPIO_BSRR_BS_4))
 
 //макросы управления пинами микросхемы памяти
-#define MEM_HOLD(x) (x == 0 ? (GPIOA->BSRR = GPIO_BSRR_BR_0) : (GPIOA->BSRR = GPIO_BSRR_BS_0))
-#define MEM_CS(x) (x == 0 ? (GPIOA->BSRR = GPIO_BSRR_BR_1) : (GPIOA->BSRR = GPIO_BSRR_BS_1))
-#define MEM_PAUSE MEM_HOLD(0)
-#define MEM_RESUME MEM_HOLD(1)
+#define MEM_Select  (GPIOA->BSRR = GPIO_BSRR_BR_1)
+#define MEM_Deselect (GPIOA->BSRR = GPIO_BSRR_BS_1)
+#define MEM_OnHold  (GPIOA->BSRR = GPIO_BSRR_BR_0)
+#define MEM_OffHold (GPIOA->BSRR = GPIO_BSRR_BS_0)
 
 //макросы управления пинами экрана
-#define LCD_CS(x) (x == 0 ? (GPIOA->BSRR = GPIO_BSRR_BR_10) : (GPIOA->BSRR = GPIO_BSRR_BS_10))
 #define LCD_DC(x) (x == 0 ? (GPIOB->BSRR = GPIO_BSRR_BR_1) : (GPIOB->BSRR = GPIO_BSRR_BS_1))
-#define LCD_RESET(x) (x == 0 ? (GPIOA->BSRR = GPIO_BSRR_BR_9) : (GPIOA->BSRR = GPIO_BSRR_BS_9))
+#define LCD_Select  (GPIOA->BSRR = GPIO_BSRR_BR_10)
+#define LCD_Deselect (GPIOA->BSRR = GPIO_BSRR_BS_10)
+#define LCD_RST_Activate (GPIOA->BSRR = GPIO_BSRR_BR_9)
+#define LCD_RST_Deactivate (GPIOA->BSRR = GPIO_BSRR_BS_9)
 
 //макросы управления контроллером сенсорного экрана
-#define TOUCH_CS(x) (x == 0 ? (GPIOA->BSRR = GPIO_BSRR_BR_2) : (GPIOA->BSRR = GPIO_BSRR_BS_2))
+#define TOUCH_Select  (GPIOA->BSRR = GPIO_BSRR_BR_2)
+#define TOUCH_Deselect (GPIOA->BSRR = GPIO_BSRR_BS_2)
 #define TOUCH_PRESSED (!(GPIOA->IDR & GPIO_IDR_3)) //0-touched, 1-free
-
-//константы управления сигналом /CS
-#define CS_ENABLE 0
-#define CS_DISABLE 1
 
 //константы управления сигналом /RESTART
 #define RST_LO 0
@@ -58,9 +57,10 @@ static const uint32_t memMap[] =
 void Delay(uint32_t msTime);
 void LCD_Init();
 void SPI_Send(uint8_t data);
+void SPI_Send2(uint8_t size, ...);
 uint8_t SPI_Exchange(uint8_t data);
+void SPI_FlushRX();
 
-void LCD_FillBackground(uint16_t color);
 void LCD_SetWindow(uint16_t x0, uint16_t x1, uint16_t y0, uint16_t y1);
 void LCD_FillRectangle(uint16_t x0, uint16_t x1, uint16_t y0, uint16_t y1, uint16_t color);
 void LCD_ShowImage16FromMem(uint16_t x, uint8_t y, uint32_t address);
