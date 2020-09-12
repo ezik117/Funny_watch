@@ -70,7 +70,7 @@ int main()
   while (!(RCC->CR & RCC_CR_HSERDY)); // Ожидание готовности HSE.
 
   MODIFY_REG(RCC->CFGR, (RCC_CFGR_PLLSRC_Msk | RCC_CFGR_PLLMUL_Msk),
-            (RCC_CFGR_PLLSRC_HSE_PREDIV | RCC_CFGR_PLLMUL6)); //задать источник и множитель PLL x6 (8x6=48MHz)
+                        (RCC_CFGR_PLLSRC_HSE_PREDIV | RCC_CFGR_PLLMUL6)); //задать источник и множитель PLL x6 (8x6=48MHz)
   SET_BIT(RCC->CR, RCC_CR_PLLON); //включить PLL
   while((RCC->CR & RCC_CR_PLLRDY) != 0); // ожидание готовности PLL
   SET_BIT(RCC->CFGR, (uint32_t)RCC_CFGR_SW_PLL); //выбрать PLL источником SYSCLK
@@ -81,7 +81,7 @@ int main()
   SET_BIT(RCC->APB2ENR, (RCC_APB2ENR_SPI1EN)); //включить тактирование SPI1
   SET_BIT(RCC->APB1ENR, (RCC_APB1ENR_PWREN)); //включить тактирование интерфейса power
   
-    //--- настройка SysTick (1милисек)
+  //--- настройка SysTick (1милисек)
   v.bStatus = 0;
   SysTick->LOAD = (48000UL & SysTick_LOAD_RELOAD_Msk) - 1;
   SysTick->VAL = 0; //необходимо вызвать для обнуления
@@ -132,11 +132,11 @@ int main()
   //Mode= 1(8-bits), 0(12-bits)
   //Ser/dfr= 0(difference), 1(single-ended)
   //Power= 00(IRQ on)
-  SPI1->CR1 |= SPI_CR1_BR_2; //XPT2046 F_CLK max = 2,5Mhz!!!!
+  SET_BIT(SPI1->CR1, SPI_CR1_BR_2); //XPT2046 F_CLK max = 2,5Mhz!!!!
   TOUCH_Select;
     SPI_Send2(3, 0xD8, 0x00, 0x00); //инициализация для активирования PEN_IRQ  
   TOUCH_Deselect;
-  SPI1->CR1 ^= SPI_CR1_BR_2;
+  CLEAR_BIT(SPI1->CR1, SPI_CR1_BR_2);
   //
   
   LCD_Select;
@@ -577,11 +577,8 @@ int main()
             case 0x84:
               LCD_FillRectangle(0,319, 0,239, BackGroundColor);
               //выведем время
-              //LCD_FillRectangle(0, 319, base_digits_y, base_digits_y + 114, BackGroundColor);
               Time_Show(1, 1, (TS_HH | TS_MM));
               //выведем дату и закроем панель
-              //LCD_FillRectangle(0, 319, 0, base_digits_y - 1, BackGroundColor); //верх
-              //LCD_FillRectangle(0,319, 190,239, BackGroundColor); //низ
               Date_Show();
               //установим флаги
               flags.systemState = 0;
@@ -777,8 +774,8 @@ void EXTI4_15_IRQHandler()
 /* блокируемая задержка в мс */
 void Delay(uint32_t msTime)
 {	
-      v.DelayCounter = msTime;
-      while (v.DelayCounter);
+  v.DelayCounter = msTime;
+  while (v.DelayCounter);
 }
 
 //------------------------------------------------------------------------------
@@ -858,9 +855,6 @@ void LCD_SetWindow(uint16_t x0, uint16_t x1, uint16_t y0, uint16_t y1)
 /* заполняет указанную область указанным цветом */
 void LCD_FillRectangle(uint16_t x0, uint16_t x1, uint16_t y0, uint16_t y1, uint16_t color)
 {
-  //закончим все передачи
-  while ((SPI1->SR & SPI_SR_BSY) == SPI_SR_BSY);
-
   LCD_SetWindow(x0, x1, y0, y1);
   for (uint32_t i=0; i<(2*((x1-x0)*(y1-y0))); i++)
   {
@@ -1343,8 +1337,6 @@ void Date_Show()
   
   //выведем месяц
   LCD_ShowText(x, base_date_y, (uint8_t*)&TMONTHS[TMonths_IDx[t]], 2, 0xC7FF, BackGroundColor);
-  //x += 24*CharCount((uint8_t*)&TMONTHS[TMonths_IDx[t]]);
-  //x += 10;
   
   //выведем значок будильника, если установлен
   if (v.mCalendarAlarmTime != 0)
@@ -1618,10 +1610,18 @@ uint8_t CharCount(uint8_t* address)
    v.digitsOffset
    v.mCalendarAlarmTime
    v.mCalendarAlarmDays[7]
+
+   запись производим в последний сектор последнего блока (т.к. стирать можем
+     только секторами):
+     - для W25Q64 это блок 127 сектор 15 адрес 7FF000
+     - для W25Q80 это блок 15 сектор 15 адрес 0FF000
  */
 void SaveToRom()
 {
   uint8_t c;
+  
+//#define LAST_SECTOR_ADDR 0x7F //W25Q64
+#define LAST_SECTOR_ADDR 0x0F //W25Q80
   
   SPI_FlushRX();
   
@@ -1631,18 +1631,17 @@ void SaveToRom()
   //обмен данными 
   MemWriteEnable();
   
-  //sector 2047 (last) erase
+  //last sector erase
   MEM_Select;
-    SPI_Send2(4, 0x20, 0x7F, 0xF0, 0x00);
+    SPI_Send2(4, 0x20, LAST_SECTOR_ADDR, 0xF0, 0x00);
   MEM_Deselect;
   //
   MemWaitForWriteEnd();
   //
   MemWriteEnable();
   
-  //address 8384512 (first in sector 2047) program
   MEM_Select;
-    SPI_Send2(4, 0x02, 0x7F, 0xF0, 0x00); 
+    SPI_Send2(4, 0x02, LAST_SECTOR_ADDR, 0xF0, 0x00); 
     //data
     MemWriteSequence(&v.digitsOffset, 1);
     MemWriteSequence((uint8_t*)&v.mCalendarAlarmTime, 4);
@@ -1667,7 +1666,7 @@ void LoadFromRom()
 
   //обмен данными (fast read)
   MEM_Select;
-    SPI_Send2(5, 0x0B, 0x7F, 0xF0, 0x00, 0x00); //A2, A1, A0, dummy
+    SPI_Send2(5, 0x0B, LAST_SECTOR_ADDR, 0xF0, 0x00, 0x00); //A2, A1, A0, dummy
     //
     MemReadSequence(&v.digitsOffset, 1);
     if (v.digitsOffset == 0xFF) v.digitsOffset = 0;
