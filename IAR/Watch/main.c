@@ -76,7 +76,7 @@ int main()
   SET_BIT(RCC->CFGR, (uint32_t)RCC_CFGR_SW_PLL); //выбрать PLL источником SYSCLK
   while ((RCC->CFGR & RCC_CFGR_SWS) != RCC_CFGR_SWS_PLL); //дождаться пока PLL не включится как источник SYSCLK
   
-  //--- включить тактирование периферии 
+  //--- включить тактирование периферии
   SET_BIT(RCC->AHBENR, (RCC_AHBENR_GPIOAEN | RCC_AHBENR_GPIOBEN)); //включить тактирование GPIO PORT A, B
   SET_BIT(RCC->APB2ENR, (RCC_APB2ENR_SPI1EN)); //включить тактирование SPI1
   SET_BIT(RCC->APB1ENR, (RCC_APB1ENR_PWREN)); //включить тактирование интерфейса power
@@ -87,7 +87,7 @@ int main()
   SysTick->VAL = 0; //необходимо вызвать для обнуления
   SysTick->CTRL  = SysTick_CTRL_CLKSOURCE_Msk | //источник тактирования SYSCLK
                    SysTick_CTRL_TICKINT_Msk   | //запрашивать прерывание по достижению нуля
-                   SysTick_CTRL_ENABLE_Msk;     //включить счетчик 
+                   SysTick_CTRL_ENABLE_Msk;     //включить счетчик
   NVIC_SetPriority(SysTick_IRQn, 1); //выше приоритет только у перехода в сон
   
   //--- настройка RTC
@@ -179,16 +179,16 @@ int main()
       //часы тикают
       case 0: 
       case 6:
-        v.j = ~v.j;
-        if (v.j) BEEP(1); else BEEP(0);
-        Delay(250);
+//        v.j = ~v.j;
+//        if (v.j) BEEP(1); else BEEP(0);
+//        Delay(250);
         //покажем текущее время
         Time_Show(0, 1, (TS_HH | TS_MM));  
         //был переход на новую дату - обновим информацию на дисплее 
         if (flags.DateChanged) 
         {   
           LCD_FillRectangle(0, 319, 0, base_digits_y - 1, BackGroundColor); //верх
-          LCD_FillRectangle(0,319, 190,239, BackGroundColor); //низ        
+          LCD_FillRectangle(0,319, 190,239, BackGroundColor); //низ
           Date_Show();
           flags.DateChanged = false;
         }
@@ -231,7 +231,7 @@ int main()
         while (TOUCH_PRESSED) {Delay(100);}
         continue;
       }
-            
+
       //если нажатие на одну из цифр
       if ((v.tObjectID & 64) == 64)
       {
@@ -377,7 +377,7 @@ int main()
                 flags.needRepeat = false;
               }
               break;
-              
+
             //клавиша "-" или "смена шрифта" ***********************************
             case 0x82:
               //отнять минуту
@@ -432,7 +432,7 @@ int main()
                 SaveToRom();
               }
               break;
-                      
+
             //клавиша "ОК" или "справка" ***************************************
             case 0x83:
               flags.needRepeat = false;
@@ -444,7 +444,7 @@ int main()
                 flags.systemState = (uint8_t)0;
                 flags.menuIsShowed = false;
                 LCD_FillRectangle(0, 319, 0, base_digits_y-1, BackGroundColor);
-                Time_Show(1, 1, (TS_HH | TS_MM));  
+                Time_Show(1, 1, (TS_HH | TS_MM));
                 Date_Show();
                 break;
               }
@@ -457,7 +457,7 @@ int main()
                 LCD_ShowText(88, 3+30, (uint8_t*)&TMessages[27], 2, LCD_YELLOW, BackGroundColor); //"МЕСЯЦА"
                 //выведем месяц
                 LCD_FillRectangle(0, 319, base_digits_y, base_digits_y + 114, BackGroundColor);
-                LCD_ShowDigits(100, base_digits_y, v.mMonth, 2);                
+                LCD_ShowDigits(100, base_digits_y, v.mMonth, 2);
                 flags.systemState = 4;
                 break;
               }
@@ -470,7 +470,7 @@ int main()
                 LCD_ShowText(124, 3+30, (uint8_t*)&TMessages[34], 2, LCD_YELLOW, BackGroundColor); //"ДНЯ"
                 //выведем день
                 LCD_FillRectangle(0, 319, base_digits_y, base_digits_y + 114, BackGroundColor);
-                LCD_ShowDigits(100, base_digits_y, v.mDay, 2);                
+                LCD_ShowDigits(100, base_digits_y, v.mDay, 2);
                 flags.systemState = 5;
                 break;
               }
@@ -529,7 +529,7 @@ int main()
                 flags.systemState = 0;
                 //сохраним состояние
                 SaveToRom();
-                break;                
+                break;
               }
               
               //установим новую дату
@@ -561,7 +561,7 @@ int main()
                 //настроим флаги
                 flags.menuIsShowed = false;
                 flags.systemState = 0;
-                break;                
+                break;
               }
               //вызвать справку
               if (flags.systemState == 6)
@@ -585,7 +585,7 @@ int main()
               flags.menuIsShowed = false;
               flags.needRepeat = false;
               break;
-              
+
             default:
               break;
           } //switch
@@ -641,7 +641,7 @@ int main()
           flags.menuIsShowed = true; //панель отображена
           v.tObjectID = 0; //обработали
         }
-      
+
       //установка чекбоксов выбора дня для будильника
       if ((flags.systemState == 10) && (v.tObjectID != 0))
       {
@@ -686,7 +686,7 @@ void SysTick_Handler()
         v.bCycle = (uint8_t)0;
         v.bStatus++;
         break;
-        
+
       case 2:
       case 5:
         if (v.bCycle > 100)
@@ -696,7 +696,7 @@ void SysTick_Handler()
           v.bCycle = (uint8_t)0;
         }
         break;
-        
+
       case 3:
       case 6:
         if (v.bCycle > 100)
@@ -704,7 +704,7 @@ void SysTick_Handler()
           v.bStatus++;
         }
         break;
-        
+
       case 8:
         if (v.bCycle > 150)
         {
@@ -713,22 +713,22 @@ void SysTick_Handler()
           v.bCycle = (uint8_t)0;
         }
         break;  
-        
+
       case 9:
         if (v.bCycle > 500)
         {
           v.bStatus++;
         }
         break;        
-        
+
       case 10:
         v.bCount--;
         if (v.bCount == 0)
-          v.bStatus = (uint8_t)0; //stop beeping
+          v.bStatus = 0; //stop beeping
         else
           v.bStatus = 1; //reload
         break;
-        
+
       default:
         break;
   }
@@ -743,7 +743,7 @@ void RTC_IRQHandler()
   {
     flags.TimeChanged = true;
     RTC->ISR &= ~RTC_ISR_ALRAF; //clear flag
-    
+
   }
   EXTI->PR |= EXTI_PR_PIF17; //clear flag by writting 1
 }
@@ -788,7 +788,7 @@ void LCD_Init()
   //переконфигурируем PA10 как выход
   //GPIOA->MODER |= GPIO_MODER_MODER10_0;
   //GPIOA->PUPDR &= ~GPIO_PUPDR_PUPDR10;
-  
+
   //hardware reset
   LCD_RST_Deactivate;
   Delay(5);
@@ -796,11 +796,11 @@ void LCD_Init()
   Delay(20);
   LCD_RST_Deactivate;
   Delay(150); 
-  
+
   //переконфигурируем PA10 как цифровой вход с подтяжкой к земле
   //GPIOA->MODER &= ~GPIO_MODER_MODER10;	
   //GPIOA->PUPDR |= GPIO_PUPDR_PUPDR10_1;		
-  
+
   //set up driver parameters
   uint32_t len, pos=0;
   for (v.i=0; v.i<19; v.i++) //строки массива
@@ -816,7 +816,7 @@ void LCD_Init()
       SPI_Send2(1, LcdInitData[pos++]);
     }
   }
-  
+
   Delay(120);
   SPI_WAIT_FOR_COMPLETION;
   LCD_DC(LCD_CMD);
@@ -1073,7 +1073,7 @@ void LCD_ShowDigits(uint16_t x, uint8_t y, uint16_t value, uint8_t digits)
                            y,
                            memMap[v.digitsOffset + (value & 0x000FU)]); //Nxxx
     value >>= 4;
-  }					   
+  }
 }
 
 //------------------------------------------------------------------------------
@@ -1132,7 +1132,7 @@ void Time_Show(bool updateAll, bool realTime, uint8_t HHMM)
                   LCD_ShowImage2FromRom(152, 125,
                                         ((v.mCalendarTime >> 4) & 0x00000007), 1, LCD_YELLOW, BackGroundColor); //xx:Sx
                   LCD_ShowImage2FromRom(152 + 8, 125,
-                                        ((v.mCalendarTime) & 0x0000000F), 1, LCD_YELLOW, BackGroundColor); //xx:xS                  
+                                        ((v.mCalendarTime) & 0x0000000F), 1, LCD_YELLOW, BackGroundColor); //xx:xS
                 }
               }
 	}
@@ -1152,7 +1152,7 @@ void Time_Show(bool updateAll, bool realTime, uint8_t HHMM)
                   else
                   {
                     LCD_ShowImage2FromRom(152, 125,
-                                          ((v.mCalendarTime >> 4) & 0x00000007), 1, LCD_YELLOW, BackGroundColor); //xx:Sx                    
+                                          ((v.mCalendarTime >> 4) & 0x00000007), 1, LCD_YELLOW, BackGroundColor); //xx:Sx
                   }
 		}
 		if ((difference & 0x0000000F) != 0)
@@ -1166,33 +1166,33 @@ void Time_Show(bool updateAll, bool realTime, uint8_t HHMM)
                   else
                   {
                     LCD_ShowImage2FromRom(152 + 8, 125,
-                                          ((v.mCalendarTime) & 0x0000000F), 1, LCD_YELLOW, BackGroundColor); //xx:xS                      
+                                          ((v.mCalendarTime) & 0x0000000F), 1, LCD_YELLOW, BackGroundColor); //xx:xS
                   }
 		}                
 		if ((difference & 0x00300000) != 0)
 		{
                   LCD_ShowImage16FromMem((v.digitsOffset == 0 ? base_digits_x : base_fdigits_x),
                                                                 base_digits_y,
-                                                                memMap[v.digitsOffset + ((v.mCalendarTime >> 20) & 0x00000003)]); //Hx:xx	
+                                                                memMap[v.digitsOffset + ((v.mCalendarTime >> 20) & 0x00000003)]); //Hx:xx
                   if (difference == 0x00235959) flags.DateChanged = true; //был переход на новую дату, в следующее обновление секунд обновим дату на дисплее
 		}
 		if ((difference & 0x000F0000) != 0)
 		{
                   LCD_ShowImage16FromMem((v.digitsOffset == 0 ? base_digits_x + 60 : base_fdigits_x + 60),
                                                                 base_digits_y,
-                                                                memMap[v.digitsOffset + ((v.mCalendarTime >> 16) & 0x0000000F)]); //xH:xx	 
+                                                                memMap[v.digitsOffset + ((v.mCalendarTime >> 16) & 0x0000000F)]); //xH:xx
                 }
 		if ((difference & 0x00007000) != 0)
 		{
                   LCD_ShowImage16FromMem((v.digitsOffset == 0 ? base_digits_x + 135 : base_fdigits_x + 166),
                                                                 base_digits_y,
-                                                                memMap[v.digitsOffset + ((v.mCalendarTime >> 12) & 0x00000007)]); //Mx:xx			
+                                                                memMap[v.digitsOffset + ((v.mCalendarTime >> 12) & 0x00000007)]); //Mx:xx
 		}
 		if ((difference & 0x00000F00) != 0)
 		{
                   LCD_ShowImage16FromMem((v.digitsOffset == 0 ? base_digits_x + 195 : base_fdigits_x + 166 + 60),
                                                                 base_digits_y,
-                                                                memMap[v.digitsOffset + ((v.mCalendarTime >> 8) & 0x0000000F)]); //xM:xx	
+                                                                memMap[v.digitsOffset + ((v.mCalendarTime >> 8) & 0x0000000F)]); //xM:xx
 		}
 	}
         
