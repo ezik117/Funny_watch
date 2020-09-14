@@ -85,3 +85,6 @@ void MemWaitForWriteEnd();
 void MemWriteSequence(uint8_t* data, uint8_t length);
 void MemReadSequence(uint8_t* value, uint8_t length);
 void MemEndOfCommand();
+
+void HardwareInitialization();
+void HardwareGoesSleep();

@@ -5,12 +5,8 @@
     <configuration>
         <name>Debug</name>
         <outputs>
-            <file>$PROJ_DIR$\CMSIS\core_cm7.h</file>
             <file>$PROJ_DIR$\CMSIS\core_cmFunc.h</file>
             <file>$PROJ_DIR$\CMSIS\core_cmInstr.h</file>
-            <file>$PROJ_DIR$\CMSIS\core_cmSimd.h</file>
-            <file>$PROJ_DIR$\CMSIS\core_sc000.h</file>
-            <file>$PROJ_DIR$\CMSIS\core_sc300.h</file>
             <file>$PROJ_DIR$\Drivers\startup_stm32f030x6.s</file>
             <file>$PROJ_DIR$\Drivers\stm32f030x6.h</file>
             <file>$PROJ_DIR$\Drivers\stm32f0xx.h</file>
@@ -38,23 +34,14 @@
             <file>$PROJ_DIR$\Debug\Obj\startup_stm32f030x6.o</file>
             <file>$PROJ_DIR$\Debug\Obj\main.__cstat.et</file>
             <file>$TOOLKIT_DIR$\inc\c\stdarg.h</file>
-            <file>$PROJ_DIR$\CMSIS\arm_common_tables.h</file>
-            <file>$PROJ_DIR$\CMSIS\arm_const_structs.h</file>
-            <file>$PROJ_DIR$\CMSIS\arm_math.h</file>
-            <file>$PROJ_DIR$\CMSIS\cmsis_armcc.h</file>
-            <file>$PROJ_DIR$\CMSIS\cmsis_armcc_V6.h</file>
-            <file>$PROJ_DIR$\CMSIS\cmsis_gcc.h</file>
             <file>$PROJ_DIR$\CMSIS\core_cm0.h</file>
-            <file>$PROJ_DIR$\CMSIS\core_cm0plus.h</file>
-            <file>$PROJ_DIR$\CMSIS\core_cm3.h</file>
-            <file>$PROJ_DIR$\CMSIS\core_cm4.h</file>
         </outputs>
         <file>
             <name>[ROOT_NODE]</name>
             <outputs>
                 <tool>
                     <name>ILINK</name>
-                    <file> 29 25</file>
+                    <file> 25 21</file>
                 </tool>
             </outputs>
         </file>
@@ -63,7 +50,7 @@
             <outputs>
                 <tool>
                     <name>AARM</name>
-                    <file> 30</file>
+                    <file> 26</file>
                 </tool>
             </outputs>
         </file>
@@ -72,25 +59,25 @@
             <outputs>
                 <tool>
                     <name>ICCARM</name>
-                    <file> 26</file>
+                    <file> 22</file>
                 </tool>
                 <tool>
                     <name>__cstat</name>
-                    <file> 31</file>
+                    <file> 27</file>
                 </tool>
                 <tool>
                     <name>BICOMP</name>
-                    <file> 27</file>
+                    <file> 23</file>
                 </tool>
             </outputs>
             <inputs>
                 <tool>
                     <name>ICCARM</name>
-                    <file> 7 39 17 12 14 19 18 15 2 16 13 1 8 9 11</file>
+                    <file> 3 29 13 8 10 15 14 11 1 12 9 0 4 5 7</file>
                 </tool>
                 <tool>
                     <name>BICOMP</name>
-                    <file> 32 39 9 12 19 8 11 17 1 7 2 14 18 15 16 13</file>
+                    <file> 28 13 0 5 4 7 29 8 15 3 1 10 14 11 12 9</file>
                 </tool>
             </inputs>
         </file>
@@ -99,13 +86,13 @@
             <outputs>
                 <tool>
                     <name>ILINK</name>
-                    <file> 25</file>
+                    <file> 21</file>
                 </tool>
             </outputs>
             <inputs>
                 <tool>
                     <name>ILINK</name>
-                    <file> 20 26 30 21 22 23 24</file>
+                    <file> 16 22 26 17 18 19 20</file>
                 </tool>
             </inputs>
         </file>

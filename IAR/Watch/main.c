@@ -13,6 +13,7 @@ volatile struct
   uint8_t needRepeat: 1; //показывает что не нужно выполнять условие while (TOUCH_PRESSED)
   uint8_t menuIsShowed : 1; //панель кнопок изменения времени\даты показана
   uint8_t systemState; //флаг состояния системы
+  uint8_t sleepModeActivated; //флаг индикации что система в режиме сна
 } flags;
 /*systemState:
   0: отображение времени
@@ -56,8 +57,6 @@ struct
   uint8_t digitsOffset;
   
   uint8_t arrBmpHeader16[8]; //буфер для загрузки bmp header 
-  
-  
 } v;
 
       
@@ -69,108 +68,34 @@ int main()
   SET_BIT(RCC->CR, RCC_CR_CSSON | RCC_CR_HSEON); // Включить генератор HSE и контроль над пропаданием
   while (!(RCC->CR & RCC_CR_HSERDY)); // Ожидание готовности HSE.
 
-  MODIFY_REG(RCC->CFGR, (RCC_CFGR_PLLSRC_Msk | RCC_CFGR_PLLMUL_Msk),
-                        (RCC_CFGR_PLLSRC_HSE_PREDIV | RCC_CFGR_PLLMUL6)); //задать источник и множитель PLL x6 (8x6=48MHz)
-  SET_BIT(RCC->CR, RCC_CR_PLLON); //включить PLL
-  while((RCC->CR & RCC_CR_PLLRDY) != 0); // ожидание готовности PLL
-  SET_BIT(RCC->CFGR, (uint32_t)RCC_CFGR_SW_PLL); //выбрать PLL источником SYSCLK
-  while ((RCC->CFGR & RCC_CFGR_SWS) != RCC_CFGR_SWS_PLL); //дождаться пока PLL не включится как источник SYSCLK
+  HardwareInitialization();
   
-  //--- включить тактирование периферии
-  SET_BIT(RCC->AHBENR, (RCC_AHBENR_GPIOAEN | RCC_AHBENR_GPIOBEN)); //включить тактирование GPIO PORT A, B
-  SET_BIT(RCC->APB2ENR, (RCC_APB2ENR_SPI1EN)); //включить тактирование SPI1
-  SET_BIT(RCC->APB1ENR, (RCC_APB1ENR_PWREN)); //включить тактирование интерфейса power
-  
-  //--- настройка SysTick (1милисек)
-  v.bStatus = 0;
-  SysTick->LOAD = (48000UL & SysTick_LOAD_RELOAD_Msk) - 1;
-  SysTick->VAL = 0; //необходимо вызвать для обнуления
-  SysTick->CTRL  = SysTick_CTRL_CLKSOURCE_Msk | //источник тактирования SYSCLK
-                   SysTick_CTRL_TICKINT_Msk   | //запрашивать прерывание по достижению нуля
-                   SysTick_CTRL_ENABLE_Msk;     //включить счетчик
-  NVIC_SetPriority(SysTick_IRQn, 1); //выше приоритет только у перехода в сон
-  
-  //--- настройка RTC
-  SET_BIT(PWR->CR, PWR_CR_DBP); //разрешить запись в регистры RTC и Backup (не запрещать в течении работы RTC!)
-  SET_BIT(RCC->BDCR, RCC_BDCR_BDRST); // сброс RTC
-  CLEAR_BIT(RCC->BDCR, RCC_BDCR_BDRST);
-  SET_BIT(RCC->BDCR, RCC_BDCR_RTCEN | RCC_BDCR_RTCSEL_HSE); // включить RTC и задать источником HSE/32
-
-  //--- настраиваем пины
-  WRITE_REG(GPIOA->MODER, 0x28000000 |
-                        (GPIO_MODER_MODER0_0 | GPIO_MODER_MODER1_0 | GPIO_MODER_MODER2_0 |
-                         GPIO_MODER_MODER4_0 | GPIO_MODER_MODER5_1 | GPIO_MODER_MODER6_1 |
-                         GPIO_MODER_MODER7_1 | GPIO_MODER_MODER9_0 | GPIO_MODER_MODER10_0));
-  WRITE_REG(GPIOB->MODER, GPIO_MODER_MODER1_0);
-
-  WRITE_REG(GPIOA->OSPEEDR, 0x0C000000 | 
-                          (GPIO_OSPEEDR_OSPEEDR0 | GPIO_OSPEEDR_OSPEEDR1 | GPIO_OSPEEDR_OSPEEDR2 |
-                           GPIO_OSPEEDR_OSPEEDR3 | GPIO_OSPEEDR_OSPEEDR4 | GPIO_OSPEEDR_OSPEEDR5 |
-                           GPIO_OSPEEDR_OSPEEDR6 | GPIO_OSPEEDR_OSPEEDR7 | GPIO_OSPEEDR_OSPEEDR9 |
-                           GPIO_OSPEEDR_OSPEEDR10));
-  SET_BIT(GPIOB->OSPEEDR, GPIO_OSPEEDR_OSPEEDR1);
-  
-  WRITE_REG(GPIOA->OTYPER, (GPIO_OTYPER_OT_6));
-  
-  EXTI->IMR |= EXTI_IMR_IM17; //17ое внешнее прерывание это Alarm A
-  EXTI->RTSR |= EXTI_RTSR_RT17;
+  //--- настройка RTC: Alarm A
+  SET_BIT(EXTI->IMR, EXTI_IMR_IM17); //17ое внешнее прерывание это Alarm A
+  SET_BIT(EXTI->RTSR, EXTI_RTSR_RT17);
   NVIC_EnableIRQ(RTC_IRQn);
-  
-  //--- конфигурируем SPI
-  WRITE_REG(SPI1->CR1, (SPI_CR1_MSTR | SPI_CR1_SSM | SPI_CR1_SSI | SPI_CR1_SPE)); //Master mode, Fpclk/2 = 48/2, SPI on
-  WRITE_REG(SPI1->CR2, 0x0700 | SPI_CR2_FRXTH); //8bit FIFO buffer, 8bit data size, NSS pin disabled, no interrupts
-  
-  // -
-  MEM_Deselect;
-  LCD_Deselect;
-  MEM_OffHold;
-  
-  //инициализируем периферию
-  //S(tart).AAA(ddress).M(ode).S(er/dfr).PP(ower)
-  //Start= 1
-  //Address= 101(X), 001(Y)
-  //Mode= 1(8-bits), 0(12-bits)
-  //Ser/dfr= 0(difference), 1(single-ended)
-  //Power= 00(IRQ on)
-  SET_BIT(SPI1->CR1, SPI_CR1_BR_2); //XPT2046 F_CLK max = 2,5Mhz!!!!
-  TOUCH_Select;
-    SPI_Send2(3, 0xD8, 0x00, 0x00); //инициализация для активирования PEN_IRQ  
-  TOUCH_Deselect;
-  CLEAR_BIT(SPI1->CR1, SPI_CR1_BR_2);
-  //
-  
-  LCD_Select;
-  LCD_Init();
-
   
   //активируем режим контроля перехода в сон при пропадании напряжения
   //EXTI->IMR |= EXTI_IMR_MR10; //line 10 (PA10)
   //EXTI->FTSR |= EXTI_FTSR_TR10; //falling edge
   //NVIC_EnableIRQ(EXTI4_15_IRQn);
   //NVIC_SetPriority(EXTI4_15_IRQn, 0);
-  
-  
-  //начальные значения
-  flags.TimeChanged = false;
-  flags.DateChanged = false;
-  flags.isTouched = false;
-  flags.menuIsShowed = false;
-  flags.systemState = (uint8_t)0;
-  BmpHeader16 = (TBmpHeader16*)&v.arrBmpHeader16;
-  LoadFromRom(); //загрузка digitsOffset, mCalendarAlarmTime, mCalendarAlarmDays
-  
-  //--- настройка RTC ---
-  Time_SetCalendarTM(0x00000000, 0x00000000);
-  
-  //задний фон
-  LCD_FillRectangle(0,319, 0,239, BackGroundColor); //(0x4228);
-  
-  //вывод картинки
-  Time_Show(1, 1, (TS_HH | TS_MM));
-  Date_Show();
-  
+
   while (true)
   {
+    // проверка напряжения питания
+    if ( (READ_BIT(GPIOA->IDR, GPIO_IDR_9) != GPIO_IDR_9) && (!flags.sleepModeActivated))
+    {
+      flags.sleepModeActivated = true;
+    }
+    else
+    {
+      if ((READ_BIT(GPIOA->IDR, GPIO_IDR_9) == GPIO_IDR_9) && (flags.sleepModeActivated))
+      {
+        HardwareInitialization();
+      }
+    }
+    
     ProcessTouching();
     
     //действие в зависимости от флага состояния системы
@@ -179,9 +104,6 @@ int main()
       //часы тикают
       case 0: 
       case 6:
-//        v.j = ~v.j;
-//        if (v.j) BEEP(1); else BEEP(0);
-//        Delay(250);
         //покажем текущее время
         Time_Show(0, 1, (TS_HH | TS_MM));  
         //был переход на новую дату - обновим информацию на дисплее 
@@ -784,10 +706,6 @@ void Delay(uint32_t msTime)
 void LCD_Init()
 {
   SPI_WAIT_TX_READY; //ждем завершения любых передач из буфера
-  
-  //переконфигурируем PA10 как выход
-  //GPIOA->MODER |= GPIO_MODER_MODER10_0;
-  //GPIOA->PUPDR &= ~GPIO_PUPDR_PUPDR10;
 
   //hardware reset
   LCD_RST_Deactivate;
@@ -795,11 +713,7 @@ void LCD_Init()
   LCD_RST_Activate;
   Delay(20);
   LCD_RST_Deactivate;
-  Delay(150); 
-
-  //переконфигурируем PA10 как цифровой вход с подтяжкой к земле
-  //GPIOA->MODER &= ~GPIO_MODER_MODER10;	
-  //GPIOA->PUPDR |= GPIO_PUPDR_PUPDR10_1;		
+  Delay(150); 		
 
   //set up driver parameters
   uint32_t len, pos=0;
@@ -1723,4 +1637,111 @@ void MemReadSequence(uint8_t* value, uint8_t length)
     *value = SPI_Exchange(0xFF);
     value++;
   }
+}
+
+//-------------------------------------------------------------------------------------------------
+void HardwareInitialization()
+{
+  //--- Включить PLL
+  if ((RCC->CFGR & RCC_CFGR_SWS) != RCC_CFGR_SWS_PLL)
+  {
+    CLEAR_BIT(RCC->CR, RCC_CR_PLLON); //выключить PLL
+    while((RCC->CR & RCC_CR_PLLRDY) != 0); // ожидание готовности PLL
+    MODIFY_REG(RCC->CFGR, (RCC_CFGR_PLLSRC_Msk | RCC_CFGR_PLLMUL_Msk),
+                          (RCC_CFGR_PLLSRC_HSE_PREDIV | RCC_CFGR_PLLMUL6)); //задать источник и множитель PLL x6 (8x6=48MHz)
+    SET_BIT(RCC->CR, RCC_CR_PLLON); //включить PLL
+    while((RCC->CR & RCC_CR_PLLRDY) == 0); // ожидание готовности PLL
+    SET_BIT(RCC->CFGR, (uint32_t)RCC_CFGR_SW_PLL); //выбрать PLL источником SYSCLK
+    while ((RCC->CFGR & RCC_CFGR_SWS) != RCC_CFGR_SWS_PLL); //дождаться пока PLL не включится как источник SYSCLK
+  }
+  
+  //--- включить тактирование периферии
+  SET_BIT(RCC->AHBENR, (RCC_AHBENR_GPIOAEN | RCC_AHBENR_GPIOBEN)); //включить тактирование GPIO PORT A, B
+  SET_BIT(RCC->APB2ENR, (RCC_APB2ENR_SPI1EN)); //включить тактирование SPI1
+  SET_BIT(RCC->APB1ENR, (RCC_APB1ENR_PWREN)); //включить тактирование интерфейса power
+  
+  //--- настройка SysTick (1милисек)
+  v.bStatus = 0;
+  SysTick->LOAD = (48000UL & SysTick_LOAD_RELOAD_Msk) - 1;
+  SysTick->VAL = 0; //необходимо вызвать для обнуления
+  SysTick->CTRL  = SysTick_CTRL_CLKSOURCE_Msk | //источник тактирования SYSCLK
+                   SysTick_CTRL_TICKINT_Msk   | //запрашивать прерывание по достижению нуля
+                   SysTick_CTRL_ENABLE_Msk;     //включить счетчик
+  NVIC_SetPriority(SysTick_IRQn, 1); //выше приоритет только у перехода в сон
+
+  //--- настройка GPIO
+  WRITE_REG(GPIOA->PUPDR, 0x24000000 | GPIO_PUPDR_PUPDR9_1); // для PA9: pull-down(30кОм)
+  
+  WRITE_REG(GPIOA->MODER, 0x28000000 |
+                        (GPIO_MODER_MODER0_0 | GPIO_MODER_MODER1_0 | GPIO_MODER_MODER2_0 |
+                         GPIO_MODER_MODER4_0 | GPIO_MODER_MODER5_1 | GPIO_MODER_MODER6_1 |
+                         GPIO_MODER_MODER7_1 | GPIO_MODER_MODER9_0 | GPIO_MODER_MODER10_0));
+  WRITE_REG(GPIOB->MODER, GPIO_MODER_MODER1_0);
+
+  WRITE_REG(GPIOA->OSPEEDR, 0x0C000000 | 
+                          (GPIO_OSPEEDR_OSPEEDR0 | GPIO_OSPEEDR_OSPEEDR1 | GPIO_OSPEEDR_OSPEEDR2 |
+                           GPIO_OSPEEDR_OSPEEDR3 | GPIO_OSPEEDR_OSPEEDR4 | GPIO_OSPEEDR_OSPEEDR5 |
+                           GPIO_OSPEEDR_OSPEEDR6 | GPIO_OSPEEDR_OSPEEDR7 | GPIO_OSPEEDR_OSPEEDR9 |
+                           GPIO_OSPEEDR_OSPEEDR10));
+  SET_BIT(GPIOB->OSPEEDR, GPIO_OSPEEDR_OSPEEDR1);
+  
+  //--- начальные значения GPIO
+  GPIOA->BSRR = GPIO_BSRR_BS_0 | GPIO_BSRR_BS_1 | GPIO_BSRR_BS_2 | GPIO_BSRR_BS_10; //MEM off hold, MEM deselect, TOUCH deselect, LCD deselect
+  
+  //--- конфигурируем SPI
+  WRITE_REG(SPI1->CR1, (SPI_CR1_MSTR | SPI_CR1_SSM | SPI_CR1_SSI | SPI_CR1_SPE)); //Master mode, Fpclk/2 = 48/2, SPI on
+  WRITE_REG(SPI1->CR2, 0x0700 | SPI_CR2_FRXTH); //8bit FIFO buffer, 8bit data size, NSS pin disabled, no interrupts
+  
+  //--- инициализация TOUCH
+  /*S(tart).AAA(ddress).M(ode).S(er/dfr).PP(ower)
+  Start= 1
+  Address= 101(X), 001(Y)
+  Mode= 1(8-bits), 0(12-bits)
+  Ser/dfr= 0(difference), 1(single-ended)
+  Power= 00(IRQ on)*/
+  SET_BIT(SPI1->CR1, SPI_CR1_BR_2); //XPT2046 F_CLK max = 2,5Mhz!!!!
+  TOUCH_Select;
+    SPI_Send2(3, 0xD8, 0x00, 0x00); //инициализация для активирования PEN_IRQ  
+  TOUCH_Deselect;
+  CLEAR_BIT(SPI1->CR1, SPI_CR1_BR_2);//set SPI CLK back to full speed
+
+  //--- инициализация дисплея  
+  LCD_Select;
+  LCD_Init();
+  LCD_FillRectangle(0,319, 0,239, BackGroundColor); // задний фон
+  
+  //--- начальные значения переменных
+  flags.sleepModeActivated = false;
+  flags.TimeChanged = false;
+  flags.DateChanged = false;
+  flags.isTouched = false;
+  flags.menuIsShowed = false;
+  flags.systemState = (uint8_t)0;
+  BmpHeader16 = (TBmpHeader16*)&v.arrBmpHeader16;
+  LoadFromRom(); //загрузка digitsOffset, mCalendarAlarmTime, mCalendarAlarmDays
+  
+  //--- перевести PA9 в режим контроля за напряжением
+  CLEAR_BIT(GPIOA->MODER, GPIO_MODER_MODER9_Msk);
+  
+  //--- настройка RTC
+  SET_BIT(PWR->CR, PWR_CR_DBP); //разрешить запись в регистры RTC и Backup (не запрещать в течении работы RTC!)
+  if ( (RCC->BDCR & RCC_BDCR_RTCEN) != RCC_BDCR_RTCEN)
+  {
+    SET_BIT(RCC->BDCR, RCC_BDCR_BDRST); // сброс RTC
+    CLEAR_BIT(RCC->BDCR, RCC_BDCR_BDRST);
+  }
+  
+  SET_BIT(RCC->BDCR, RCC_BDCR_RTCEN | RCC_BDCR_RTCSEL_HSE); // включить RTC и задать источником HSE/32
+  Time_SetCalendarTM(0x00000000, 0x00000000);
+
+  //--- начальный вывод на экран
+  Time_Show(1, 1, (TS_HH | TS_MM));
+  Date_Show();  
+}
+
+//-------------------------------------------------------------------------------------------------
+void HardwareGoesSleep()
+{
+  GPIOA->OSPEEDR = 0x0C000000;
+  GPIOA->OSPEEDR = 0x00000000;
 }
