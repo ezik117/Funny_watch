@@ -1,0 +1,10 @@
+D:\PROJECTS\MCU\___\PROJECTS\Funny_watch\VISUAL_STUDIO\Touch_Calculator\Touch_Calculator\bin\Debug\Touch_Calculator.exe.config
+D:\PROJECTS\MCU\___\PROJECTS\Funny_watch\VISUAL_STUDIO\Touch_Calculator\Touch_Calculator\bin\Debug\Touch_Calculator.exe
+D:\PROJECTS\MCU\___\PROJECTS\Funny_watch\VISUAL_STUDIO\Touch_Calculator\Touch_Calculator\bin\Debug\Touch_Calculator.pdb
+D:\PROJECTS\MCU\___\PROJECTS\Funny_watch\VISUAL_STUDIO\Touch_Calculator\Touch_Calculator\obj\Debug\Touch_Calculator.csprojAssemblyReference.cache
+D:\PROJECTS\MCU\___\PROJECTS\Funny_watch\VISUAL_STUDIO\Touch_Calculator\Touch_Calculator\obj\Debug\Touch_Calculator.Properties.Resources.resources
+D:\PROJECTS\MCU\___\PROJECTS\Funny_watch\VISUAL_STUDIO\Touch_Calculator\Touch_Calculator\obj\Debug\Touch_Calculator.csproj.GenerateResource.cache
+D:\PROJECTS\MCU\___\PROJECTS\Funny_watch\VISUAL_STUDIO\Touch_Calculator\Touch_Calculator\obj\Debug\Touch_Calculator.csproj.CoreCompileInputs.cache
+D:\PROJECTS\MCU\___\PROJECTS\Funny_watch\VISUAL_STUDIO\Touch_Calculator\Touch_Calculator\obj\Debug\Touch_Calculator.exe
+D:\PROJECTS\MCU\___\PROJECTS\Funny_watch\VISUAL_STUDIO\Touch_Calculator\Touch_Calculator\obj\Debug\Touch_Calculator.pdb
+D:\PROJECTS\MCU\___\PROJECTS\Funny_watch\VISUAL_STUDIO\Touch_Calculator\Touch_Calculator\obj\Debug\Touch_Calculator.Form1.resources

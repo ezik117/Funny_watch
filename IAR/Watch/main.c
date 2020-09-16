@@ -4,7 +4,7 @@
 #include "main.h"
 #include <stdarg.h>
 
-#define LCD_CALIB //установить для вывода окна калибровки экрана
+//#define LCD_CALIB //установить для вывода окна калибровки экрана
 
 //------ переменные ------------------------------------------------------------
 volatile struct
@@ -1351,11 +1351,44 @@ uint16_t ConvertToBCD(uint16_t data)
         
 //-------------------------------------------------------------------------------------------------
 /* Вынесенные в отдельную функцию операции с тачскрином */
-/* 1000.xxxx -- первая линия */
-/* 0100.xxxx -- вторая линия */
-/* 0010.xxxx -- третья линия */
+/* 1000.xxxx -- первая линия снизу */
+/* 0100.xxxx -- вторая линия снизу */
+/* 0010.xxxx -- третья линия снизу */
 /* 0000.xxxx -- разлиновка дней недели будильника */
 /* xxxx - код объекта внутри */
+// константы координат
+/*#define XDirectionLR
+#define YDirectionBT
+#define Line1Y 62
+#define Line2Y 176
+#define BtnCancelX 242
+#define BtnOkX 187
+#define BtnMinusX 132
+#define BtnPlusX 77
+#define BtnMinutesX 148
+#define BtnHoursX 115
+#define BtnAlarmX 132
+#define BtnAlarmLine1 191
+#define BtnAlarmLine2 148
+#define BtnAlarmLine3 105
+#define BtnAlarmLine4 62*/
+
+#define XDirectionRL
+#define YDirectionBT
+#define Line1Y 67
+#define Line2Y 171
+#define BtnCancelX 69
+#define BtnOkX 120
+#define BtnMinusX 171
+#define BtnPlusX 222
+#define BtnMinutesX 105
+#define BtnHoursX 136
+#define BtnAlarmX 121
+#define BtnAlarmLine1 184
+#define BtnAlarmLine2 144
+#define BtnAlarmLine3 104
+#define BtnAlarmLine4 64
+
 void ProcessTouching()
 {
     //проверим нет ли нажатия на экран
@@ -1373,7 +1406,6 @@ void ProcessTouching()
       do {
         v.tXX[1] = v.tXX[0];
         SPI_Exchange(0x9B); //read X (1.001.1.0.11)
-        //SPI_Exchange(0xDB); //read Y, выбрать этот вариант,если нажатие читается в другом порядке
         v.tXX[0] =  (SPI_Exchange(0x00) << 1);
         v.tXX[0] |= ((SPI_Exchange(0x00) & 0x80) >> 7);
       } while (v.tXX[1] != v.tXX[0]);
@@ -1383,7 +1415,6 @@ void ProcessTouching()
       do {
         v.tYY[1] = v.tYY[0];
         SPI_Exchange(0xDB); //read Y (1.101.1.0.11)
-        //SPI_Exchange(0x9B); //read X, выбрать этот вариант,если нажатие читается в другом порядке
         v.tYY[0] =  (SPI_Exchange(0x00) << 1);
         v.tYY[0] |= ((SPI_Exchange(0x00) & 0x80) >> 7);
       } while (v.tYY[1] != v.tYY[0]);
@@ -1425,47 +1456,57 @@ void ProcessTouching()
         
         if (flags.systemState == 10) //выбор дней будильника
         {
-          //1-пн 2-вт >192
-          //3-ср 4-чт >153
-          //5-пт 6-сб >109
-          //7-вс 8-сброс >065
-          if (v.tXX[0] < 123)
+          //1-пн 2-вт
+          //3-ср 4-чт
+          //5-пт 6-сб
+          //7-вс 8-сброс
+#if defined(XDirectionRL)
+          if (v.tXX[0] < BtnAlarmX)
             v.tObjectID = 1;
-//          else
-//            v.tObjectID = 0;
-          
-          if (v.tYY[0] > 192)
+#elif defined(XDirectionLR)
+          if (v.tXX[0] > BtnAlarmX)
+            v.tObjectID = 1;
+#endif
+            
+          if (v.tYY[0] > BtnAlarmLine1)
           {
             v.tObjectID += 1; //пн вт
           }
           else
           {
-            if (v.tYY[0] > 153)
+            if (v.tYY[0] > BtnAlarmLine2)
             {
               v.tObjectID += 3; //ср чт
             }
             else
             {
-              if (v.tYY[0] > 109)
+              if (v.tYY[0] > BtnAlarmLine3)
               {
                 v.tObjectID += 5; //пт сб
               }
               else
               {
-                if (v.tYY[0] > 65)
+                if (v.tYY[0] > BtnAlarmLine4)
                 {
                   v.tObjectID += 7; //вс
-                  //v.tObjectID &= ~8; //if o==8 then o=0  
                 }
                 else
                 {
-                  if (v.tXX[0] < 71)
+#if defined(XDirectionRL)
+                  if (v.tXX[0] < BtnCancelX) //71
+#elif defined(XDirectionLR)
+                  if (v.tXX[0] > BtnOkX) //71
+#endif
                   {
                     v.tObjectID = 128 + 4;//кнопка "cancel"
                   }
                   else
                   {
-                    if (v.tXX[0] < 123)
+#if defined(XDirectionRL)
+                    if (v.tXX[0] < BtnOkX) //124
+#elif defined(XDirectionLR)
+                    if (v.tXX[0] > BtnMinusX) //124                      
+#endif
                     {
                       v.tObjectID = 128 + 3;//кнопка "ok"
                     }
@@ -1482,24 +1523,36 @@ void ProcessTouching()
         else
         {      
           //-- определим номер линии
-          if (v.tYY[0] < 71)
+          if (v.tYY[0] < Line1Y) //71
           {
             //линия кнопок управления
-            if (v.tXX[0] < 71)
+#if defined(XDirectionRL)
+            if (v.tXX[0] < BtnCancelX) //71
+#elif defined(XDirectionLR)
+            if (v.tXX[0] > BtnOkX)
+#endif
             {
               //кнопка "cancel"
               v.tObjectID = 128 + 4;
             }
             else
             {
-              if (v.tXX[0] < 124)
+#if defined(XDirectionRL)
+              if (v.tXX[0] < BtnOkX) //124
+#elif defined(XDirectionLR)
+              if (v.tXX[0] > BtnMinusX)
+#endif
               {
                 //кнопка "ok"
                 v.tObjectID = 128 + 3;
               }
               else
               {
-                if (v.tXX[0] < 179)
+#if defined(XDirectionRL)
+                if (v.tXX[0] < BtnMinusX) //179
+#elif defined(XDirectionLR)
+                if (v.tXX[0] > BtnPlusX)
+#endif
                 {
                   //кнопка "-"
                   v.tObjectID = 128 + 2;
@@ -1514,26 +1567,37 @@ void ProcessTouching()
           }
           else
           {
-            if (v.tYY[0] < 181)
+            if (v.tYY[0] < Line2Y) //181
             {
               //линия цифр
-              if (v.tXX[0] < 35)
-              {}
+#if defined(XDirectionRL)
+              if (v.tXX[0] < BtnMinutesX) //123
+              {
+                //цифры минут
+                v.tObjectID = 64 + 2;
+              }
+#elif defined(XDirectionLR)
+              if (v.tXX[0] < BtnHoursX)
+              {
+                //цифры часов
+                v.tObjectID = 64 + 1;
+              }
+#endif
               else
               {
-                if (v.tXX[0] < 123)
+#if defined(XDirectionRL)
+                if (v.tXX[0] > BtnHoursX)//205
+                {
+                  //цифры часов
+                  v.tObjectID = 64 + 1;
+                }
+#elif defined(XDirectionLR)
+                if (v.tXX[0] > BtnMinutesX)//205
                 {
                   //цифры минут
                   v.tObjectID = 64 + 2;
-                }
-                else
-                {
-                  if (v.tXX[0] < 205)
-                  {
-                    //цифры часов
-                    v.tObjectID = 64 + 1;
-                  }
-                }
+                }                
+#endif                
               }
             }
             else

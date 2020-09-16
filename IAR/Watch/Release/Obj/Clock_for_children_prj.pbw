@@ -59290,113 +59290,113 @@
     "scope": null
   },
   {
-    "ID": "c:main.c@S@main.c@215",
+    "ID": "c:main.c@S@main.c@323",
     "What": "Struct",
     "defdec": "Def",
     "display": "",
     "location": {
       "column": "10",
-      "line": "8",
+      "line": "10",
       "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
     },
     "members": [
       {
-        "ID": "c:main.c@S@main.c@215@FI@TimeChanged",
+        "ID": "c:main.c@S@main.c@323@FI@TimeChanged",
         "What": "FieldDecl",
         "defdec": "Def",
         "display": "TimeChanged",
         "location": {
           "column": "11",
-          "line": "10",
+          "line": "12",
           "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
         },
         "name": "TimeChanged",
         "origin": "project_file",
-        "scope": "_anonymous_main_c_8_10"
+        "scope": "_anonymous_main_c_10_10"
       },
       {
-        "ID": "c:main.c@S@main.c@215@FI@DateChanged",
+        "ID": "c:main.c@S@main.c@323@FI@DateChanged",
         "What": "FieldDecl",
         "defdec": "Def",
         "display": "DateChanged",
         "location": {
           "column": "11",
-          "line": "11",
+          "line": "13",
           "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
         },
         "name": "DateChanged",
         "origin": "project_file",
-        "scope": "_anonymous_main_c_8_10"
+        "scope": "_anonymous_main_c_10_10"
       },
       {
-        "ID": "c:main.c@S@main.c@215@FI@isTouched",
+        "ID": "c:main.c@S@main.c@323@FI@isTouched",
         "What": "FieldDecl",
         "defdec": "Def",
         "display": "isTouched",
         "location": {
           "column": "11",
-          "line": "12",
+          "line": "14",
           "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
         },
         "name": "isTouched",
         "origin": "project_file",
-        "scope": "_anonymous_main_c_8_10"
+        "scope": "_anonymous_main_c_10_10"
       },
       {
-        "ID": "c:main.c@S@main.c@215@FI@needRepeat",
+        "ID": "c:main.c@S@main.c@323@FI@needRepeat",
         "What": "FieldDecl",
         "defdec": "Def",
         "display": "needRepeat",
         "location": {
           "column": "11",
-          "line": "13",
+          "line": "15",
           "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
         },
         "name": "needRepeat",
         "origin": "project_file",
-        "scope": "_anonymous_main_c_8_10"
+        "scope": "_anonymous_main_c_10_10"
       },
       {
-        "ID": "c:main.c@S@main.c@215@FI@menuIsShowed",
+        "ID": "c:main.c@S@main.c@323@FI@menuIsShowed",
         "What": "FieldDecl",
         "defdec": "Def",
         "display": "menuIsShowed",
         "location": {
           "column": "11",
-          "line": "14",
+          "line": "16",
           "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
         },
         "name": "menuIsShowed",
         "origin": "project_file",
-        "scope": "_anonymous_main_c_8_10"
+        "scope": "_anonymous_main_c_10_10"
       },
       {
-        "ID": "c:main.c@S@main.c@215@FI@systemState",
+        "ID": "c:main.c@S@main.c@323@FI@systemState",
         "What": "FieldDecl",
         "defdec": "Def",
         "display": "systemState",
         "location": {
           "column": "11",
-          "line": "15",
+          "line": "17",
           "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
         },
         "name": "systemState",
         "origin": "project_file",
-        "scope": "_anonymous_main_c_8_10"
+        "scope": "_anonymous_main_c_10_10"
       },
       {
-        "ID": "c:main.c@S@main.c@215@FI@pendingSleep",
+        "ID": "c:main.c@S@main.c@323@FI@pendingSleep",
         "What": "FieldDecl",
         "defdec": "Def",
         "display": "pendingSleep",
         "location": {
           "column": "20",
-          "line": "16",
+          "line": "18",
           "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
         },
         "name": "pendingSleep",
         "origin": "project_file",
-        "scope": "_anonymous_main_c_8_10"
+        "scope": "_anonymous_main_c_10_10"
       },
       {
         "ID": "c:@flags",
@@ -59405,12 +59405,12 @@
         "display": "flags",
         "location": {
           "column": "3",
-          "line": "17",
+          "line": "19",
           "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
         },
         "name": "flags",
         "origin": "project_file",
-        "scope": "_anonymous_main_c_8_10"
+        "scope": "_anonymous_main_c_10_10"
       }
     ],
     "name": "",
@@ -59418,295 +59418,295 @@
     "scope": null
   },
   {
-    "ID": "c:main.c@S@main.c@1584",
+    "ID": "c:main.c@S@main.c@1692",
     "What": "Struct",
     "defdec": "Def",
     "display": "",
     "location": {
       "column": "1",
-      "line": "32",
+      "line": "34",
       "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
     },
     "members": [
       {
-        "ID": "c:main.c@S@main.c@1584@FI@i",
+        "ID": "c:main.c@S@main.c@1692@FI@i",
         "What": "FieldDecl",
         "defdec": "Def",
         "display": "i",
         "location": {
           "column": "11",
-          "line": "34",
+          "line": "36",
           "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
         },
         "name": "i",
         "origin": "project_file",
-        "scope": "_anonymous_main_c_32_1"
+        "scope": "_anonymous_main_c_34_1"
       },
       {
-        "ID": "c:main.c@S@main.c@1584@FI@j",
+        "ID": "c:main.c@S@main.c@1692@FI@j",
         "What": "FieldDecl",
         "defdec": "Def",
         "display": "j",
         "location": {
           "column": "11",
-          "line": "35",
+          "line": "37",
           "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
         },
         "name": "j",
         "origin": "project_file",
-        "scope": "_anonymous_main_c_32_1"
+        "scope": "_anonymous_main_c_34_1"
       },
       {
-        "ID": "c:main.c@S@main.c@1584@FI@DelayCounter",
+        "ID": "c:main.c@S@main.c@1692@FI@DelayCounter",
         "What": "FieldDecl",
         "defdec": "Def",
         "display": "DelayCounter",
         "location": {
           "column": "21",
-          "line": "36",
+          "line": "38",
           "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
         },
         "name": "DelayCounter",
         "origin": "project_file",
-        "scope": "_anonymous_main_c_32_1"
+        "scope": "_anonymous_main_c_34_1"
       },
       {
-        "ID": "c:main.c@S@main.c@1584@FI@bStatus",
+        "ID": "c:main.c@S@main.c@1692@FI@bStatus",
         "What": "FieldDecl",
         "defdec": "Def",
         "display": "bStatus",
         "location": {
           "column": "20",
-          "line": "38",
+          "line": "40",
           "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
         },
         "name": "bStatus",
         "origin": "project_file",
-        "scope": "_anonymous_main_c_32_1"
+        "scope": "_anonymous_main_c_34_1"
       },
       {
-        "ID": "c:main.c@S@main.c@1584@FI@bCycle",
+        "ID": "c:main.c@S@main.c@1692@FI@bCycle",
         "What": "FieldDecl",
         "defdec": "Def",
         "display": "bCycle",
         "location": {
           "column": "21",
-          "line": "39",
+          "line": "41",
           "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
         },
         "name": "bCycle",
         "origin": "project_file",
-        "scope": "_anonymous_main_c_32_1"
+        "scope": "_anonymous_main_c_34_1"
       },
       {
-        "ID": "c:main.c@S@main.c@1584@FI@bCount",
+        "ID": "c:main.c@S@main.c@1692@FI@bCount",
         "What": "FieldDecl",
         "defdec": "Def",
         "display": "bCount",
         "location": {
           "column": "20",
-          "line": "40",
+          "line": "42",
           "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
         },
         "name": "bCount",
         "origin": "project_file",
-        "scope": "_anonymous_main_c_32_1"
+        "scope": "_anonymous_main_c_34_1"
       },
       {
-        "ID": "c:main.c@S@main.c@1584@FI@mCalendarTime",
+        "ID": "c:main.c@S@main.c@1692@FI@mCalendarTime",
         "What": "FieldDecl",
         "defdec": "Def",
         "display": "mCalendarTime",
         "location": {
           "column": "12",
-          "line": "42",
+          "line": "44",
           "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
         },
         "name": "mCalendarTime",
         "origin": "project_file",
-        "scope": "_anonymous_main_c_32_1"
+        "scope": "_anonymous_main_c_34_1"
       },
       {
-        "ID": "c:main.c@S@main.c@1584@FI@mCalendarDate",
+        "ID": "c:main.c@S@main.c@1692@FI@mCalendarDate",
         "What": "FieldDecl",
         "defdec": "Def",
         "display": "mCalendarDate",
         "location": {
           "column": "12",
-          "line": "43",
+          "line": "45",
           "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
         },
         "name": "mCalendarDate",
         "origin": "project_file",
-        "scope": "_anonymous_main_c_32_1"
+        "scope": "_anonymous_main_c_34_1"
       },
       {
-        "ID": "c:main.c@S@main.c@1584@FI@mLastCalendar",
+        "ID": "c:main.c@S@main.c@1692@FI@mLastCalendar",
         "What": "FieldDecl",
         "defdec": "Def",
         "display": "mLastCalendar",
         "location": {
           "column": "12",
-          "line": "44",
+          "line": "46",
           "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
         },
         "name": "mLastCalendar",
         "origin": "project_file",
-        "scope": "_anonymous_main_c_32_1"
+        "scope": "_anonymous_main_c_34_1"
       },
       {
-        "ID": "c:main.c@S@main.c@1584@FI@mCalendarAlarmTime",
+        "ID": "c:main.c@S@main.c@1692@FI@mCalendarAlarmTime",
         "What": "FieldDecl",
         "defdec": "Def",
         "display": "mCalendarAlarmTime",
         "location": {
           "column": "12",
-          "line": "45",
+          "line": "47",
           "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
         },
         "name": "mCalendarAlarmTime",
         "origin": "project_file",
-        "scope": "_anonymous_main_c_32_1"
+        "scope": "_anonymous_main_c_34_1"
       },
       {
-        "ID": "c:main.c@S@main.c@1584@FI@mCalendarAlarmDays",
+        "ID": "c:main.c@S@main.c@1692@FI@mCalendarAlarmDays",
         "What": "FieldDecl",
         "defdec": "Def",
         "display": "mCalendarAlarmDays",
         "location": {
           "column": "12",
-          "line": "46",
+          "line": "48",
           "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
         },
         "name": "mCalendarAlarmDays",
         "origin": "project_file",
-        "scope": "_anonymous_main_c_32_1"
+        "scope": "_anonymous_main_c_34_1"
       },
       {
-        "ID": "c:main.c@S@main.c@1584@FI@mDoW_Checked",
+        "ID": "c:main.c@S@main.c@1692@FI@mDoW_Checked",
         "What": "FieldDecl",
         "defdec": "Def",
         "display": "mDoW_Checked",
         "location": {
           "column": "12",
-          "line": "47",
+          "line": "49",
           "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
         },
         "name": "mDoW_Checked",
         "origin": "project_file",
-        "scope": "_anonymous_main_c_32_1"
+        "scope": "_anonymous_main_c_34_1"
       },
       {
-        "ID": "c:main.c@S@main.c@1584@FI@mYear",
+        "ID": "c:main.c@S@main.c@1692@FI@mYear",
         "What": "FieldDecl",
         "defdec": "Def",
         "display": "mYear",
         "location": {
           "column": "12",
-          "line": "49",
+          "line": "51",
           "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
         },
         "name": "mYear",
         "origin": "project_file",
-        "scope": "_anonymous_main_c_32_1"
+        "scope": "_anonymous_main_c_34_1"
       },
       {
-        "ID": "c:main.c@S@main.c@1584@FI@mMonth",
+        "ID": "c:main.c@S@main.c@1692@FI@mMonth",
         "What": "FieldDecl",
         "defdec": "Def",
         "display": "mMonth",
         "location": {
           "column": "12",
-          "line": "50",
+          "line": "52",
           "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
         },
         "name": "mMonth",
         "origin": "project_file",
-        "scope": "_anonymous_main_c_32_1"
+        "scope": "_anonymous_main_c_34_1"
       },
       {
-        "ID": "c:main.c@S@main.c@1584@FI@mDay",
+        "ID": "c:main.c@S@main.c@1692@FI@mDay",
         "What": "FieldDecl",
         "defdec": "Def",
         "display": "mDay",
         "location": {
           "column": "12",
-          "line": "51",
+          "line": "53",
           "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
         },
         "name": "mDay",
         "origin": "project_file",
-        "scope": "_anonymous_main_c_32_1"
+        "scope": "_anonymous_main_c_34_1"
       },
       {
-        "ID": "c:main.c@S@main.c@1584@FI@tXX",
+        "ID": "c:main.c@S@main.c@1692@FI@tXX",
         "What": "FieldDecl",
         "defdec": "Def",
         "display": "tXX",
         "location": {
           "column": "11",
-          "line": "53",
+          "line": "55",
           "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
         },
         "name": "tXX",
         "origin": "project_file",
-        "scope": "_anonymous_main_c_32_1"
+        "scope": "_anonymous_main_c_34_1"
       },
       {
-        "ID": "c:main.c@S@main.c@1584@FI@tYY",
+        "ID": "c:main.c@S@main.c@1692@FI@tYY",
         "What": "FieldDecl",
         "defdec": "Def",
         "display": "tYY",
         "location": {
           "column": "11",
-          "line": "54",
+          "line": "56",
           "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
         },
         "name": "tYY",
         "origin": "project_file",
-        "scope": "_anonymous_main_c_32_1"
+        "scope": "_anonymous_main_c_34_1"
       },
       {
-        "ID": "c:main.c@S@main.c@1584@FI@tObjectID",
+        "ID": "c:main.c@S@main.c@1692@FI@tObjectID",
         "What": "FieldDecl",
         "defdec": "Def",
         "display": "tObjectID",
         "location": {
           "column": "11",
-          "line": "55",
+          "line": "57",
           "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
         },
         "name": "tObjectID",
         "origin": "project_file",
-        "scope": "_anonymous_main_c_32_1"
+        "scope": "_anonymous_main_c_34_1"
       },
       {
-        "ID": "c:main.c@S@main.c@1584@FI@digitsOffset",
+        "ID": "c:main.c@S@main.c@1692@FI@digitsOffset",
         "What": "FieldDecl",
         "defdec": "Def",
         "display": "digitsOffset",
         "location": {
           "column": "11",
-          "line": "57",
+          "line": "59",
           "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
         },
         "name": "digitsOffset",
         "origin": "project_file",
-        "scope": "_anonymous_main_c_32_1"
+        "scope": "_anonymous_main_c_34_1"
       },
       {
-        "ID": "c:main.c@S@main.c@1584@FI@arrBmpHeader16",
+        "ID": "c:main.c@S@main.c@1692@FI@arrBmpHeader16",
         "What": "FieldDecl",
         "defdec": "Def",
         "display": "arrBmpHeader16",
         "location": {
           "column": "11",
-          "line": "59",
+          "line": "61",
           "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
         },
         "name": "arrBmpHeader16",
         "origin": "project_file",
-        "scope": "_anonymous_main_c_32_1"
+        "scope": "_anonymous_main_c_34_1"
       },
       {
         "ID": "c:@v",
@@ -59715,12 +59715,12 @@
         "display": "v",
         "location": {
           "column": "3",
-          "line": "60",
+          "line": "62",
           "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
         },
         "name": "v",
         "origin": "project_file",
-        "scope": "_anonymous_main_c_32_1"
+        "scope": "_anonymous_main_c_34_1"
       }
     ],
     "name": "",
@@ -59734,7 +59734,7 @@
     "display": "int main(void)",
     "location": {
       "column": "5",
-      "line": "63",
+      "line": "65",
       "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
     },
     "name": "main",
@@ -59742,13 +59742,13 @@
     "scope": null
   },
   {
-    "ID": "c:main.c@4871@F@main@isDayEqual",
+    "ID": "c:main.c@4979@F@main@isDayEqual",
     "What": "Variable",
     "defdec": "Def",
     "display": "isDayEqual",
     "location": {
       "column": "17",
-      "line": "103",
+      "line": "105",
       "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
     },
     "name": "isDayEqual",
@@ -59756,13 +59756,13 @@
     "scope": null
   },
   {
-    "ID": "c:main.c@4913@F@main@i",
+    "ID": "c:main.c@5021@F@main@i",
     "What": "Variable",
     "defdec": "Def",
     "display": "i",
     "location": {
       "column": "22",
-      "line": "104",
+      "line": "106",
       "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
     },
     "name": "i",
@@ -59770,13 +59770,13 @@
     "scope": null
   },
   {
-    "ID": "c:main.c@19332@F@main@j",
+    "ID": "c:main.c@19465@F@main@j",
     "What": "Variable",
     "defdec": "Def",
     "display": "j",
     "location": {
       "column": "25",
-      "line": "417",
+      "line": "421",
       "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
     },
     "name": "j",
@@ -59784,13 +59784,13 @@
     "scope": null
   },
   {
-    "ID": "c:main.c@19369@F@main@i",
+    "ID": "c:main.c@19502@F@main@i",
     "What": "Variable",
     "defdec": "Def",
     "display": "i",
     "location": {
       "column": "30",
-      "line": "418",
+      "line": "422",
       "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
     },
     "name": "i",
@@ -59798,13 +59798,13 @@
     "scope": null
   },
   {
-    "ID": "c:main.c@20231@F@main@i",
+    "ID": "c:main.c@20364@F@main@i",
     "What": "Variable",
     "defdec": "Def",
     "display": "i",
     "location": {
       "column": "30",
-      "line": "430",
+      "line": "434",
       "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
     },
     "name": "i",
@@ -59812,13 +59812,13 @@
     "scope": null
   },
   {
-    "ID": "c:main.c@20800@F@main@i",
+    "ID": "c:main.c@20933@F@main@i",
     "What": "Variable",
     "defdec": "Def",
     "display": "i",
     "location": {
       "column": "30",
-      "line": "442",
+      "line": "446",
       "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
     },
     "name": "i",
@@ -59826,13 +59826,13 @@
     "scope": null
   },
   {
-    "ID": "c:main.c@21609@F@main@c",
+    "ID": "c:main.c@21742@F@main@c",
     "What": "Variable",
     "defdec": "Def",
     "display": "c",
     "location": {
       "column": "26",
-      "line": "460",
+      "line": "464",
       "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
     },
     "name": "c",
@@ -59840,13 +59840,13 @@
     "scope": null
   },
   {
-    "ID": "c:main.c@27301@F@main@i",
+    "ID": "c:main.c@27434@F@main@i",
     "What": "Variable",
     "defdec": "Def",
     "display": "i",
     "location": {
       "column": "24",
-      "line": "579",
+      "line": "583",
       "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
     },
     "name": "i",
@@ -59860,7 +59860,7 @@
     "display": "void SysTick_Handler(void)",
     "location": {
       "column": "6",
-      "line": "595",
+      "line": "599",
       "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
     },
     "name": "SysTick_Handler",
@@ -59874,7 +59874,7 @@
     "display": "void RTC_IRQHandler(void)",
     "location": {
       "column": "6",
-      "line": "661",
+      "line": "665",
       "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
     },
     "name": "RTC_IRQHandler",
@@ -59888,7 +59888,7 @@
     "display": "void EXTI4_15_IRQHandler(void)",
     "location": {
       "column": "6",
-      "line": "674",
+      "line": "678",
       "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
     },
     "name": "EXTI4_15_IRQHandler",
@@ -59902,7 +59902,7 @@
     "display": "void Delay(uint32_t)",
     "location": {
       "column": "6",
-      "line": "695",
+      "line": "699",
       "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
     },
     "name": "Delay",
@@ -59916,7 +59916,7 @@
     "display": "void LCD_Init(void)",
     "location": {
       "column": "6",
-      "line": "704",
+      "line": "708",
       "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
     },
     "name": "LCD_Init",
@@ -59924,13 +59924,13 @@
     "scope": null
   },
   {
-    "ID": "c:main.c@30667@F@LCD_Init@len",
+    "ID": "c:main.c@30800@F@LCD_Init@len",
     "What": "Variable",
     "defdec": "Def",
     "display": "len",
     "location": {
       "column": "12",
-      "line": "717",
+      "line": "721",
       "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
     },
     "name": "len",
@@ -59938,13 +59938,13 @@
     "scope": null
   },
   {
-    "ID": "c:main.c@30667@F@LCD_Init@pos",
+    "ID": "c:main.c@30800@F@LCD_Init@pos",
     "What": "Variable",
     "defdec": "Dec",
     "display": "pos",
     "location": {
       "column": "17",
-      "line": "717",
+      "line": "721",
       "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
     },
     "name": "pos",
@@ -59958,7 +59958,7 @@
     "display": "void LCD_SetWindow(uint16_t, uint16_t, uint16_t, uint16_t)",
     "location": {
       "column": "6",
-      "line": "744",
+      "line": "748",
       "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
     },
     "name": "LCD_SetWindow",
@@ -59972,7 +59972,7 @@
     "display": "void LCD_FillRectangle(uint16_t, uint16_t, uint16_t, uint16_t, uint16_t)",
     "location": {
       "column": "6",
-      "line": "776",
+      "line": "780",
       "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
     },
     "name": "LCD_FillRectangle",
@@ -59980,13 +59980,13 @@
     "scope": null
   },
   {
-    "ID": "c:main.c@32744@F@LCD_FillRectangle@i",
+    "ID": "c:main.c@32877@F@LCD_FillRectangle@i",
     "What": "Variable",
     "defdec": "Def",
     "display": "i",
     "location": {
       "column": "17",
-      "line": "779",
+      "line": "783",
       "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
     },
     "name": "i",
@@ -60000,7 +60000,7 @@
     "display": "void SPI_Send(uint8_t)",
     "location": {
       "column": "6",
-      "line": "788",
+      "line": "792",
       "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
     },
     "name": "SPI_Send",
@@ -60014,7 +60014,7 @@
     "display": "void SPI_Send2(uint8_t, ...)",
     "location": {
       "column": "6",
-      "line": "796",
+      "line": "800",
       "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
     },
     "name": "SPI_Send2",
@@ -60022,13 +60022,13 @@
     "scope": null
   },
   {
-    "ID": "c:main.c@33526@F@SPI_Send2@data",
+    "ID": "c:main.c@33659@F@SPI_Send2@data",
     "What": "Variable",
     "defdec": "Def",
     "display": "data",
     "location": {
       "column": "11",
-      "line": "798",
+      "line": "802",
       "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
     },
     "name": "data",
@@ -60036,13 +60036,13 @@
     "scope": null
   },
   {
-    "ID": "c:main.c@33543@F@SPI_Send2@ap",
+    "ID": "c:main.c@33676@F@SPI_Send2@ap",
     "What": "Variable",
     "defdec": "Def",
     "display": "ap",
     "location": {
       "column": "11",
-      "line": "799",
+      "line": "803",
       "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
     },
     "name": "ap",
@@ -60056,7 +60056,7 @@
     "display": "uint8_t SPI_Exchange(uint8_t)",
     "location": {
       "column": "9",
-      "line": "812",
+      "line": "816",
       "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
     },
     "name": "SPI_Exchange",
@@ -60070,7 +60070,7 @@
     "display": "void SPI_FlushRX(void)",
     "location": {
       "column": "6",
-      "line": "820",
+      "line": "824",
       "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
     },
     "name": "SPI_FlushRX",
@@ -60078,13 +60078,13 @@
     "scope": null
   },
   {
-    "ID": "c:main.c@34131@F@SPI_FlushRX@temp",
+    "ID": "c:main.c@34264@F@SPI_FlushRX@temp",
     "What": "Variable",
     "defdec": "Def",
     "display": "temp",
     "location": {
       "column": "11",
-      "line": "822",
+      "line": "826",
       "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
     },
     "name": "temp",
@@ -60098,7 +60098,7 @@
     "display": "void LCD_ShowImage16FromMem(uint16_t, uint8_t, uint32_t)",
     "location": {
       "column": "6",
-      "line": "830",
+      "line": "834",
       "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
     },
     "name": "LCD_ShowImage16FromMem",
@@ -60106,13 +60106,13 @@
     "scope": null
   },
   {
-    "ID": "c:main.c@34616@F@LCD_ShowImage16FromMem@c",
+    "ID": "c:main.c@34749@F@LCD_ShowImage16FromMem@c",
     "What": "Variable",
     "defdec": "Def",
     "display": "c",
     "location": {
       "column": "12",
-      "line": "832",
+      "line": "836",
       "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
     },
     "name": "c",
@@ -60120,13 +60120,13 @@
     "scope": null
   },
   {
-    "ID": "c:main.c@34904@F@LCD_ShowImage16FromMem@i",
+    "ID": "c:main.c@35037@F@LCD_ShowImage16FromMem@i",
     "What": "Variable",
     "defdec": "Def",
     "display": "i",
     "location": {
       "column": "16",
-      "line": "844",
+      "line": "848",
       "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
     },
     "name": "i",
@@ -60134,13 +60134,13 @@
     "scope": null
   },
   {
-    "ID": "c:main.c@35347@F@LCD_ShowImage16FromMem@count",
+    "ID": "c:main.c@35480@F@LCD_ShowImage16FromMem@count",
     "What": "Variable",
     "defdec": "Def",
     "display": "count",
     "location": {
       "column": "17",
-      "line": "864",
+      "line": "868",
       "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
     },
     "name": "count",
@@ -60154,7 +60154,7 @@
     "display": "void LCD_ShowImage2FromRom(uint16_t, uint8_t, uint8_t, uint8_t, uint16_t, uint16_t)",
     "location": {
       "column": "6",
-      "line": "875",
+      "line": "879",
       "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
     },
     "name": "LCD_ShowImage2FromRom",
@@ -60162,13 +60162,13 @@
     "scope": null
   },
   {
-    "ID": "c:main.c@35891@F@LCD_ShowImage2FromRom@c",
+    "ID": "c:main.c@36024@F@LCD_ShowImage2FromRom@c",
     "What": "Variable",
     "defdec": "Def",
     "display": "c",
     "location": {
       "column": "11",
-      "line": "877",
+      "line": "881",
       "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
     },
     "name": "c",
@@ -60176,13 +60176,13 @@
     "scope": null
   },
   {
-    "ID": "c:main.c@36173@F@LCD_ShowImage2FromRom@rows",
+    "ID": "c:main.c@36306@F@LCD_ShowImage2FromRom@rows",
     "What": "Variable",
     "defdec": "Def",
     "display": "rows",
     "location": {
       "column": "11",
-      "line": "887",
+      "line": "891",
       "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
     },
     "name": "rows",
@@ -60190,13 +60190,13 @@
     "scope": null
   },
   {
-    "ID": "c:main.c@36366@F@LCD_ShowImage2FromRom@row",
+    "ID": "c:main.c@36499@F@LCD_ShowImage2FromRom@row",
     "What": "Variable",
     "defdec": "Def",
     "display": "row",
     "location": {
       "column": "16",
-      "line": "896",
+      "line": "900",
       "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
     },
     "name": "row",
@@ -60204,13 +60204,13 @@
     "scope": null
   },
   {
-    "ID": "c:main.c@36598@F@LCD_ShowImage2FromRom@col",
+    "ID": "c:main.c@36731@F@LCD_ShowImage2FromRom@col",
     "What": "Variable",
     "defdec": "Def",
     "display": "col",
     "location": {
       "column": "20",
-      "line": "904",
+      "line": "908",
       "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
     },
     "name": "col",
@@ -60218,13 +60218,13 @@
     "scope": null
   },
   {
-    "ID": "c:main.c@37004@F@LCD_ShowImage2FromRom@col",
+    "ID": "c:main.c@37137@F@LCD_ShowImage2FromRom@col",
     "What": "Variable",
     "defdec": "Def",
     "display": "col",
     "location": {
       "column": "20",
-      "line": "919",
+      "line": "923",
       "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
     },
     "name": "col",
@@ -60238,7 +60238,7 @@
     "display": "void LCD_ShowText(uint16_t, uint8_t, uint8_t *, uint8_t, uint16_t, uint16_t)",
     "location": {
       "column": "6",
-      "line": "939",
+      "line": "943",
       "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
     },
     "name": "LCD_ShowText",
@@ -60246,13 +60246,13 @@
     "scope": null
   },
   {
-    "ID": "c:main.c@37824@F@LCD_ShowText@s",
+    "ID": "c:main.c@37957@F@LCD_ShowText@s",
     "What": "Variable",
     "defdec": "Def",
     "display": "s",
     "location": {
       "column": "11",
-      "line": "941",
+      "line": "945",
       "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
     },
     "name": "s",
@@ -60266,7 +60266,7 @@
     "display": "void LCD_ShowDigits(uint16_t, uint8_t, uint16_t, uint8_t)",
     "location": {
       "column": "6",
-      "line": "997",
+      "line": "1001",
       "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
     },
     "name": "LCD_ShowDigits",
@@ -60274,13 +60274,13 @@
     "scope": null
   },
   {
-    "ID": "c:main.c@39100@F@LCD_ShowDigits@i",
+    "ID": "c:main.c@39233@F@LCD_ShowDigits@i",
     "What": "Variable",
     "defdec": "Def",
     "display": "i",
     "location": {
       "column": "16",
-      "line": "1000",
+      "line": "1004",
       "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
     },
     "name": "i",
@@ -60294,7 +60294,7 @@
     "display": "void Time_Show(uint8_t, uint8_t, uint8_t)",
     "location": {
       "column": "6",
-      "line": "1014",
+      "line": "1018",
       "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
     },
     "name": "Time_Show",
@@ -60302,13 +60302,13 @@
     "scope": null
   },
   {
-    "ID": "c:main.c@40031@F@Time_Show@difference",
+    "ID": "c:main.c@40183@F@Time_Show@difference",
     "What": "Variable",
     "defdec": "Def",
     "display": "difference",
     "location": {
       "column": "18",
-      "line": "1016",
+      "line": "1021",
       "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
     },
     "name": "difference",
@@ -60322,7 +60322,7 @@
     "display": "uint32_t Time_Add(uint32_t, uint8_t, uint8_t)",
     "location": {
       "column": "10",
-      "line": "1135",
+      "line": "1151",
       "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
     },
     "name": "Time_Add",
@@ -60336,7 +60336,7 @@
     "display": "uint32_t Time_Sub(uint32_t, uint8_t, uint8_t)",
     "location": {
       "column": "10",
-      "line": "1166",
+      "line": "1182",
       "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
     },
     "name": "Time_Sub",
@@ -60350,7 +60350,7 @@
     "display": "void Time_SetCalendarTM(uint32_t, uint32_t)",
     "location": {
       "column": "6",
-      "line": "1209",
+      "line": "1225",
       "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
     },
     "name": "Time_SetCalendarTM",
@@ -60364,7 +60364,7 @@
     "display": "void Date_Show(void)",
     "location": {
       "column": "6",
-      "line": "1233",
+      "line": "1249",
       "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
     },
     "name": "Date_Show",
@@ -60372,13 +60372,13 @@
     "scope": null
   },
   {
-    "ID": "c:main.c@49799@F@Date_Show@value",
+    "ID": "c:main.c@50317@F@Date_Show@value",
     "What": "Variable",
     "defdec": "Def",
     "display": "value",
     "location": {
       "column": "11",
-      "line": "1235",
+      "line": "1251",
       "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
     },
     "name": "value",
@@ -60386,13 +60386,13 @@
     "scope": null
   },
   {
-    "ID": "c:main.c@49817@F@Date_Show@x",
+    "ID": "c:main.c@50335@F@Date_Show@x",
     "What": "Variable",
     "defdec": "Def",
     "display": "x",
     "location": {
       "column": "12",
-      "line": "1236",
+      "line": "1252",
       "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
     },
     "name": "x",
@@ -60400,13 +60400,13 @@
     "scope": null
   },
   {
-    "ID": "c:main.c@49832@F@Date_Show@t",
+    "ID": "c:main.c@50350@F@Date_Show@t",
     "What": "Variable",
     "defdec": "Def",
     "display": "t",
     "location": {
       "column": "11",
-      "line": "1237",
+      "line": "1253",
       "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
     },
     "name": "t",
@@ -60414,13 +60414,13 @@
     "scope": null
   },
   {
-    "ID": "c:main.c@50907@macro@base_date_y",
+    "ID": "c:main.c@51425@macro@base_date_y",
     "What": "MacroDef",
     "defdec": "Def",
     "display": "base_date_y",
     "location": {
       "column": "9",
-      "line": "1259",
+      "line": "1275",
       "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
     },
     "name": "base_date_y",
@@ -60428,13 +60428,13 @@
     "scope": null
   },
   {
-    "ID": "c:main.c@51591@F@Date_Show@temp",
+    "ID": "c:main.c@52109@F@Date_Show@temp",
     "What": "Variable",
     "defdec": "Def",
     "display": "temp",
     "location": {
       "column": "14",
-      "line": "1274",
+      "line": "1290",
       "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
     },
     "name": "temp",
@@ -60442,13 +60442,13 @@
     "scope": null
   },
   {
-    "ID": "c:main.c@51620@F@Date_Show@i",
+    "ID": "c:main.c@52138@F@Date_Show@i",
     "What": "Variable",
     "defdec": "Def",
     "display": "i",
     "location": {
       "column": "18",
-      "line": "1275",
+      "line": "1291",
       "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
     },
     "name": "i",
@@ -60462,7 +60462,7 @@
     "display": "uint8_t Date_GetDayOfWeek(uint8_t, uint8_t, uint16_t)",
     "location": {
       "column": "9",
-      "line": "1283",
+      "line": "1299",
       "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
     },
     "name": "Date_GetDayOfWeek",
@@ -60470,13 +60470,13 @@
     "scope": null
   },
   {
-    "ID": "c:main.c@52006@F@Date_GetDayOfWeek@a",
+    "ID": "c:main.c@52524@F@Date_GetDayOfWeek@a",
     "What": "Variable",
     "defdec": "Def",
     "display": "a",
     "location": {
       "column": "14",
-      "line": "1285",
+      "line": "1301",
       "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
     },
     "name": "a",
@@ -60484,13 +60484,13 @@
     "scope": null
   },
   {
-    "ID": "c:main.c@52006@F@Date_GetDayOfWeek@y",
+    "ID": "c:main.c@52524@F@Date_GetDayOfWeek@y",
     "What": "Variable",
     "defdec": "Dec",
     "display": "y",
     "location": {
       "column": "17",
-      "line": "1285",
+      "line": "1301",
       "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
     },
     "name": "y",
@@ -60498,13 +60498,13 @@
     "scope": null
   },
   {
-    "ID": "c:main.c@52006@F@Date_GetDayOfWeek@m",
+    "ID": "c:main.c@52524@F@Date_GetDayOfWeek@m",
     "What": "Variable",
     "defdec": "Dec",
     "display": "m",
     "location": {
       "column": "20",
-      "line": "1285",
+      "line": "1301",
       "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
     },
     "name": "m",
@@ -60512,13 +60512,13 @@
     "scope": null
   },
   {
-    "ID": "c:main.c@52006@F@Date_GetDayOfWeek@R",
+    "ID": "c:main.c@52524@F@Date_GetDayOfWeek@R",
     "What": "Variable",
     "defdec": "Dec",
     "display": "R",
     "location": {
       "column": "23",
-      "line": "1285",
+      "line": "1301",
       "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
     },
     "name": "R",
@@ -60532,7 +60532,7 @@
     "display": "void Alarm_ShowDowCheckboxes(void)",
     "location": {
       "column": "6",
-      "line": "1297",
+      "line": "1313",
       "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
     },
     "name": "Alarm_ShowDowCheckboxes",
@@ -60540,13 +60540,13 @@
     "scope": null
   },
   {
-    "ID": "c:main.c@52450@F@Alarm_ShowDowCheckboxes@x",
+    "ID": "c:main.c@52968@F@Alarm_ShowDowCheckboxes@x",
     "What": "Variable",
     "defdec": "Def",
     "display": "x",
     "location": {
       "column": "11",
-      "line": "1299",
+      "line": "1315",
       "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
     },
     "name": "x",
@@ -60554,13 +60554,13 @@
     "scope": null
   },
   {
-    "ID": "c:main.c@52450@F@Alarm_ShowDowCheckboxes@y",
+    "ID": "c:main.c@52968@F@Alarm_ShowDowCheckboxes@y",
     "What": "Variable",
     "defdec": "Dec",
     "display": "y",
     "location": {
       "column": "14",
-      "line": "1299",
+      "line": "1315",
       "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
     },
     "name": "y",
@@ -60568,13 +60568,13 @@
     "scope": null
   },
   {
-    "ID": "c:main.c@52472@F@Alarm_ShowDowCheckboxes@i",
+    "ID": "c:main.c@52990@F@Alarm_ShowDowCheckboxes@i",
     "What": "Variable",
     "defdec": "Def",
     "display": "i",
     "location": {
       "column": "16",
-      "line": "1300",
+      "line": "1316",
       "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
     },
     "name": "i",
@@ -60588,7 +60588,7 @@
     "display": "uint16_t ConvertToBCD(uint16_t)",
     "location": {
       "column": "10",
-      "line": "1323",
+      "line": "1339",
       "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
     },
     "name": "ConvertToBCD",
@@ -60596,16 +60596,226 @@
     "scope": null
   },
   {
-    "ID": "c:main.c@53310@F@ConvertToBCD@ret",
+    "ID": "c:main.c@53828@F@ConvertToBCD@ret",
     "What": "Variable",
     "defdec": "Def",
     "display": "ret",
     "location": {
       "column": "12",
-      "line": "1325",
+      "line": "1341",
       "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
     },
     "name": "ret",
+    "origin": "project_file",
+    "scope": null
+  },
+  {
+    "ID": "c:main.c@54950@macro@XDirectionRL",
+    "What": "MacroDef",
+    "defdec": "Def",
+    "display": "XDirectionRL",
+    "location": {
+      "column": "9",
+      "line": "1376",
+      "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
+    },
+    "name": "XDirectionRL",
+    "origin": "project_file",
+    "scope": null
+  },
+  {
+    "ID": "c:main.c@54972@macro@YDirectionBT",
+    "What": "MacroDef",
+    "defdec": "Def",
+    "display": "YDirectionBT",
+    "location": {
+      "column": "9",
+      "line": "1377",
+      "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
+    },
+    "name": "YDirectionBT",
+    "origin": "project_file",
+    "scope": null
+  },
+  {
+    "ID": "c:main.c@54994@macro@Line1Y",
+    "What": "MacroDef",
+    "defdec": "Def",
+    "display": "Line1Y",
+    "location": {
+      "column": "9",
+      "line": "1378",
+      "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
+    },
+    "name": "Line1Y",
+    "origin": "project_file",
+    "scope": null
+  },
+  {
+    "ID": "c:main.c@55013@macro@Line2Y",
+    "What": "MacroDef",
+    "defdec": "Def",
+    "display": "Line2Y",
+    "location": {
+      "column": "9",
+      "line": "1379",
+      "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
+    },
+    "name": "Line2Y",
+    "origin": "project_file",
+    "scope": null
+  },
+  {
+    "ID": "c:main.c@55033@macro@BtnCancelX",
+    "What": "MacroDef",
+    "defdec": "Def",
+    "display": "BtnCancelX",
+    "location": {
+      "column": "9",
+      "line": "1380",
+      "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
+    },
+    "name": "BtnCancelX",
+    "origin": "project_file",
+    "scope": null
+  },
+  {
+    "ID": "c:main.c@55056@macro@BtnOkX",
+    "What": "MacroDef",
+    "defdec": "Def",
+    "display": "BtnOkX",
+    "location": {
+      "column": "9",
+      "line": "1381",
+      "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
+    },
+    "name": "BtnOkX",
+    "origin": "project_file",
+    "scope": null
+  },
+  {
+    "ID": "c:main.c@55076@macro@BtnMinusX",
+    "What": "MacroDef",
+    "defdec": "Def",
+    "display": "BtnMinusX",
+    "location": {
+      "column": "9",
+      "line": "1382",
+      "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
+    },
+    "name": "BtnMinusX",
+    "origin": "project_file",
+    "scope": null
+  },
+  {
+    "ID": "c:main.c@55099@macro@BtnPlusX",
+    "What": "MacroDef",
+    "defdec": "Def",
+    "display": "BtnPlusX",
+    "location": {
+      "column": "9",
+      "line": "1383",
+      "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
+    },
+    "name": "BtnPlusX",
+    "origin": "project_file",
+    "scope": null
+  },
+  {
+    "ID": "c:main.c@55121@macro@BtnMinutesX",
+    "What": "MacroDef",
+    "defdec": "Def",
+    "display": "BtnMinutesX",
+    "location": {
+      "column": "9",
+      "line": "1384",
+      "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
+    },
+    "name": "BtnMinutesX",
+    "origin": "project_file",
+    "scope": null
+  },
+  {
+    "ID": "c:main.c@55146@macro@BtnHoursX",
+    "What": "MacroDef",
+    "defdec": "Def",
+    "display": "BtnHoursX",
+    "location": {
+      "column": "9",
+      "line": "1385",
+      "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
+    },
+    "name": "BtnHoursX",
+    "origin": "project_file",
+    "scope": null
+  },
+  {
+    "ID": "c:main.c@55169@macro@BtnAlarmX",
+    "What": "MacroDef",
+    "defdec": "Def",
+    "display": "BtnAlarmX",
+    "location": {
+      "column": "9",
+      "line": "1386",
+      "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
+    },
+    "name": "BtnAlarmX",
+    "origin": "project_file",
+    "scope": null
+  },
+  {
+    "ID": "c:main.c@55192@macro@BtnAlarmLine1",
+    "What": "MacroDef",
+    "defdec": "Def",
+    "display": "BtnAlarmLine1",
+    "location": {
+      "column": "9",
+      "line": "1387",
+      "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
+    },
+    "name": "BtnAlarmLine1",
+    "origin": "project_file",
+    "scope": null
+  },
+  {
+    "ID": "c:main.c@55219@macro@BtnAlarmLine2",
+    "What": "MacroDef",
+    "defdec": "Def",
+    "display": "BtnAlarmLine2",
+    "location": {
+      "column": "9",
+      "line": "1388",
+      "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
+    },
+    "name": "BtnAlarmLine2",
+    "origin": "project_file",
+    "scope": null
+  },
+  {
+    "ID": "c:main.c@55246@macro@BtnAlarmLine3",
+    "What": "MacroDef",
+    "defdec": "Def",
+    "display": "BtnAlarmLine3",
+    "location": {
+      "column": "9",
+      "line": "1389",
+      "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
+    },
+    "name": "BtnAlarmLine3",
+    "origin": "project_file",
+    "scope": null
+  },
+  {
+    "ID": "c:main.c@55273@macro@BtnAlarmLine4",
+    "What": "MacroDef",
+    "defdec": "Def",
+    "display": "BtnAlarmLine4",
+    "location": {
+      "column": "9",
+      "line": "1390",
+      "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
+    },
+    "name": "BtnAlarmLine4",
     "origin": "project_file",
     "scope": null
   },
@@ -60616,7 +60826,7 @@
     "display": "void ProcessTouching(void)",
     "location": {
       "column": "6",
-      "line": "1343",
+      "line": "1392",
       "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
     },
     "name": "ProcessTouching",
@@ -60630,7 +60840,7 @@
     "display": "uint8_t CharCount(uint8_t *)",
     "location": {
       "column": "9",
-      "line": "1531",
+      "line": "1623",
       "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
     },
     "name": "CharCount",
@@ -60638,13 +60848,13 @@
     "scope": null
   },
   {
-    "ID": "c:main.c@59848@F@CharCount@ret",
+    "ID": "c:main.c@62573@F@CharCount@ret",
     "What": "Variable",
     "defdec": "Def",
     "display": "ret",
     "location": {
       "column": "11",
-      "line": "1533",
+      "line": "1625",
       "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
     },
     "name": "ret",
@@ -60658,7 +60868,7 @@
     "display": "void SaveToRom(void)",
     "location": {
       "column": "6",
-      "line": "1549",
+      "line": "1641",
       "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
     },
     "name": "SaveToRom",
@@ -60666,13 +60876,13 @@
     "scope": null
   },
   {
-    "ID": "c:main.c@60505@F@SaveToRom@c",
+    "ID": "c:main.c@63230@F@SaveToRom@c",
     "What": "Variable",
     "defdec": "Def",
     "display": "c",
     "location": {
       "column": "11",
-      "line": "1551",
+      "line": "1643",
       "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
     },
     "name": "c",
@@ -60680,13 +60890,13 @@
     "scope": null
   },
   {
-    "ID": "c:main.c@60571@macro@LAST_SECTOR_ADDR",
+    "ID": "c:main.c@63296@macro@LAST_SECTOR_ADDR",
     "What": "MacroDef",
     "defdec": "Def",
     "display": "LAST_SECTOR_ADDR",
     "location": {
       "column": "9",
-      "line": "1554",
+      "line": "1646",
       "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
     },
     "name": "LAST_SECTOR_ADDR",
@@ -60700,7 +60910,7 @@
     "display": "void LoadFromRom(void)",
     "location": {
       "column": "6",
-      "line": "1588",
+      "line": "1680",
       "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
     },
     "name": "LoadFromRom",
@@ -60708,13 +60918,13 @@
     "scope": null
   },
   {
-    "ID": "c:main.c@61463@F@LoadFromRom@c",
+    "ID": "c:main.c@64188@F@LoadFromRom@c",
     "What": "Variable",
     "defdec": "Def",
     "display": "c",
     "location": {
       "column": "11",
-      "line": "1590",
+      "line": "1682",
       "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
     },
     "name": "c",
@@ -60728,7 +60938,7 @@
     "display": "void MemWriteEnable(void)",
     "location": {
       "column": "6",
-      "line": "1618",
+      "line": "1710",
       "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
     },
     "name": "MemWriteEnable",
@@ -60742,7 +60952,7 @@
     "display": "void MemWaitForWriteEnd(void)",
     "location": {
       "column": "6",
-      "line": "1630",
+      "line": "1722",
       "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
     },
     "name": "MemWaitForWriteEnd",
@@ -60756,7 +60966,7 @@
     "display": "void MemWriteSequence(uint8_t *, uint8_t)",
     "location": {
       "column": "6",
-      "line": "1639",
+      "line": "1731",
       "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
     },
     "name": "MemWriteSequence",
@@ -60764,13 +60974,13 @@
     "scope": null
   },
   {
-    "ID": "c:main.c@62913@F@MemWriteSequence@i",
+    "ID": "c:main.c@65638@F@MemWriteSequence@i",
     "What": "Variable",
     "defdec": "Def",
     "display": "i",
     "location": {
       "column": "16",
-      "line": "1641",
+      "line": "1733",
       "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
     },
     "name": "i",
@@ -60784,7 +60994,7 @@
     "display": "void MemReadSequence(uint8_t *, uint8_t)",
     "location": {
       "column": "6",
-      "line": "1649",
+      "line": "1741",
       "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
     },
     "name": "MemReadSequence",
@@ -60792,13 +61002,13 @@
     "scope": null
   },
   {
-    "ID": "c:main.c@63161@F@MemReadSequence@i",
+    "ID": "c:main.c@65886@F@MemReadSequence@i",
     "What": "Variable",
     "defdec": "Def",
     "display": "i",
     "location": {
       "column": "16",
-      "line": "1651",
+      "line": "1743",
       "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
     },
     "name": "i",
@@ -60812,7 +61022,7 @@
     "display": "void HardwareInitialization(void)",
     "location": {
       "column": "6",
-      "line": "1659",
+      "line": "1751",
       "path": "D:\\PROJECTS\\MCU\\___\\PROJECTS\\Funny_watch\\IAR\\Watch\\main.c"
     },
     "name": "HardwareInitialization",
@@ -66084,7 +66294,7 @@
     "scope": null
   },
   {
-    "ID": "c:main.h@1499@macro@base_digits_y",
+    "ID": "c:main.h@1542@macro@base_digits_y",
     "What": "MacroDef",
     "defdec": "Def",
     "display": "base_digits_y",
@@ -66098,7 +66308,7 @@
     "scope": null
   },
   {
-    "ID": "c:main.h@1525@macro@base_fdigits_x",
+    "ID": "c:main.h@1568@macro@base_fdigits_x",
     "What": "MacroDef",
     "defdec": "Def",
     "display": "base_fdigits_x",
@@ -66308,7 +66518,7 @@
     "scope": null
   },
   {
-    "ID": "c:main.h@3149@macro@TS_HH",
+    "ID": "c:main.h@3232@macro@TS_HH",
     "What": "MacroDef",
     "defdec": "Def",
     "display": "TS_HH",
@@ -66322,7 +66532,7 @@
     "scope": null
   },
   {
-    "ID": "c:main.h@3265@macro@TS_MM",
+    "ID": "c:main.h@3348@macro@TS_MM",
     "What": "MacroDef",
     "defdec": "Def",
     "display": "TS_MM",
