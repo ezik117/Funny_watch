@@ -48,6 +48,7 @@ static const uint32_t memMap[] =
 //---- ПРОТОТИПЫ ФУНКЦИЙ -------------------------------------------------------
 void Delay(uint32_t msTime);
 
+void SPI_Send(uint8_t data);
 void SPI_Send2(uint8_t size, ...); // оптимизированная для уменьшения кода функция, медленней обычной
 uint8_t SPI_Exchange(uint8_t data);
 void SPI_FlushRX();

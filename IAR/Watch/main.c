@@ -13,7 +13,7 @@ volatile struct
   uint8_t needRepeat: 1; //показывает что не нужно выполнять условие while (TOUCH_PRESSED)
   uint8_t menuIsShowed : 1; //панель кнопок изменения времени\даты показана
   uint8_t systemState; //флаг состояния системы
-  uint8_t sleepModeActivated; //флаг индикации что система в режиме сна
+  volatile uint8_t pendingSleep; //флаг индикации что система должна быть отправлена в сон
 } flags;
 /*systemState:
   0: отображение времени
@@ -39,9 +39,9 @@ struct
   volatile uint16_t bCycle; //бипер. внутренний цикл тактов
   volatile uint8_t bCount; //бипер. количество повторений сигнала. задается пользователем.
     
-  uint32_t mCalendarTime;
+  uint32_t mCalendarTime; //содержит текущее время после выполнения команды Time_Show, содержит временное время при настройке времени
   uint32_t mCalendarDate;
-  uint32_t mLastCalendar;
+  uint32_t mLastCalendar; //используется для вычисления разницы во времени при увеличении секунд на +1
   uint32_t mCalendarAlarmTime; //время будильника
   uint32_t mCalendarAlarmDays[7]; //дни будильника
   uint8_t  mDoW_Checked[7]; //временный массив выбранных дней
@@ -69,39 +69,57 @@ int main()
   while (!(RCC->CR & RCC_CR_HSERDY)); // Ожидание готовности HSE.
 
   HardwareInitialization();
-  
-  //--- настройка RTC: Alarm A
-  SET_BIT(EXTI->IMR, EXTI_IMR_IM17); //17ое внешнее прерывание это Alarm A
-  SET_BIT(EXTI->RTSR, EXTI_RTSR_RT17);
-  NVIC_EnableIRQ(RTC_IRQn);
-  
-  //активируем режим контроля перехода в сон при пропадании напряжения
-  //EXTI->IMR |= EXTI_IMR_MR10; //line 10 (PA10)
-  //EXTI->FTSR |= EXTI_FTSR_TR10; //falling edge
-  //NVIC_EnableIRQ(EXTI4_15_IRQn);
-  //NVIC_SetPriority(EXTI4_15_IRQn, 0);
 
   while (true)
-  {
-    // проверка напряжения питания
-    if ( (READ_BIT(GPIOA->IDR, GPIO_IDR_9) != GPIO_IDR_9) && (!flags.sleepModeActivated))
+  { 
+    // проверим нет ли запроса на переход в режим сна
+    if (flags.pendingSleep)
     {
-      flags.sleepModeActivated = true;
-    }
-    else
-    {
-      if ((READ_BIT(GPIOA->IDR, GPIO_IDR_9) == GPIO_IDR_9) && (flags.sleepModeActivated))
-      {
-        HardwareInitialization();
-      }
+      // отключим RTC Alarm что бы не оно не будило ядро 
+      NVIC_DisableIRQ(RTC_IRQn);
+      // отключим SysTick
+      SysTick->CTRL = 0x00000004;
+      // отключим все AF функции, уберем pull-up и сигналы логической 1, если было включено
+      GPIOA->MODER = 0x28000000;
+      GPIOA->ODR = 0x00000000;
+      GPIOB->ODR = 0x00000000;
+      // переведем GPIO в режим пониженной частоты
+      GPIOA->OSPEEDR = 0x0C000000;
+      GPIOB->OSPEEDR = 0x00000000;
+      // вызовем режим Sleep
+      __DSB(); 
+      __WFI();
+      // на выходе из сна заново проиницилизируем систему
+      HardwareInitialization();
     }
     
+    // обработаем нажатие на 
     ProcessTouching();
     
-    //действие в зависимости от флага состояния системы
+    // проверим срабатывание будильника
+    if (v.mCalendarAlarmTime != 0)
+      if ((RTC->TR & 0x003F7F00) == v.mCalendarAlarmTime)
+      { 
+        uint8_t isDayEqual = false;
+        for (uint8_t i=0; i<7; i++)
+        {
+          if ((v.mCalendarDate & RTC_DR_WDU_Msk) == v.mCalendarAlarmDays[i])
+          {
+            isDayEqual = true;
+            break;
+          }
+        }
+        if ((v.bStatus == 0) && isDayEqual)
+        {
+          v.bCount = 3;
+          v.bStatus = 1; //запустим будильник
+        }
+      }
+    
+    // действие в зависимости от флага состояния системы
     switch (flags.systemState)
     {
-      //часы тикают
+      // часы тикают
       case 0: 
       case 6:
         //покажем текущее время
@@ -114,35 +132,16 @@ int main()
           Date_Show();
           flags.DateChanged = false;
         }
-        //проверим срабатывание будильника
-        if (v.mCalendarAlarmTime != 0)
-          if ((v.mCalendarTime & 0x003F7F00) == v.mCalendarAlarmTime)
-          { //значение v.mCalendarTime содержит текущее время после выполнения команды Time_Show
-            uint8_t isDayEqual = false;
-            for (uint8_t i=0; i<7; i++)
-            {
-              if ((v.mCalendarDate & RTC_DR_WDU_Msk) == v.mCalendarAlarmDays[i])
-              {
-                isDayEqual = true;
-                break;
-              }
-            }
-            if ((v.bStatus == 0) && isDayEqual)
-            {
-              v.bCount = 3;
-              v.bStatus = 1; //запустим будильник
-            }
-          }
         break;
         
       default:
         break;
     } //switch  
     
-    //обработаем нажатия на объекты, если есть
+    // обработаем нажатия на объекты, если есть
     if (v.tObjectID != 0)
     {
-      //проверим нет ли режима справки
+      // проверим нет ли режима справки
       if (flags.systemState == 7)
       {
         LCD_FillRectangle(0, 319, 0, 239, BackGroundColor);
@@ -154,28 +153,28 @@ int main()
         continue;
       }
 
-      //если нажатие на одну из цифр
+      // если нажатие на одну из цифр
       if ((v.tObjectID & 64) == 64)
       {
-        //если панель не показана - покажем
+        // если панель не показана - покажем
         if (!flags.menuIsShowed)
         {
-          //уберем верхнюю информацию
+          // уберем верхнюю информацию
           LCD_FillRectangle(0, 319, 0, base_digits_y - 1, BackGroundColor);
-          //уберем секунды
+          // уберем секунды
           if (v.digitsOffset == 0)
             LCD_FillRectangle(base_digits_x + 255, base_digits_x + 255 + 15, base_digits_y + 106, base_digits_y + 106 + 6, BackGroundColor);
           else
             LCD_FillRectangle(152, 152+15, 125, 125 + 7, BackGroundColor);
             
-          //выведем панель
+          // выведем панель
           LCD_ShowImage16FromMem(0, 190, memMap[11]);
           
-          //установим флаги
+          // установим флаги
           flags.menuIsShowed = true; 
           flags.systemState = v.tObjectID - 64;
           
-          //считаем время из RTC
+          // считаем время из RTC
           while((RTC->ISR &RTC_ISR_RSF) != RTC_ISR_RSF);
           v.mCalendarTime = RTC->TR;
           v.mCalendarDate = RTC->DR;
@@ -274,7 +273,7 @@ int main()
               {
                 //загрузим значение будильника
                 v.mCalendarTime = v.mCalendarAlarmTime;
-                //покачем часы будильника MM:xx
+                //покажем часы будильника MM:xx
                 Time_Show(1, 0, TS_HH);
                 //выведем надпись
                 LCD_FillRectangle(0, 319, 0, base_digits_y - 1, BackGroundColor);
@@ -674,22 +673,21 @@ void RTC_IRQHandler()
 /* обработка прерывания на линии PA10 - пропадание основного питания */
 void EXTI4_15_IRQHandler()
 {
-  if (EXTI->PR & EXTI_PR_PR10) //event triggering
+  if (EXTI->PR & EXTI_PR_PR9) // проверим какая линия вызвала прерывание
   {
-    EXTI->PR |= EXTI_PR_PR10;//не уверен что код дойдет до сюда, но можно скинуть флаг
-    //отключим RTC Alarm что бы не оно не будило ядро 
-    RTC->WPR = 0xCA;
-    RTC->WPR = 0x53; //enable write
-      RTC->CR &=~RTC_CR_ALRAE; //disable alarm A
-    RTC->WPR = 0xFE; 
-    RTC->WPR = 0x64; //disable write
-    //переведем MCU в режим StandBy
-    SCB->SCR |= 4U; //SCB_SCR_SLEEPDEEP
-    PWR->CR |= PWR_CR_PDDS;
-    PWR->CSR &= ~PWR_CSR_WUF;
-    __disable_irq();
-    __WFI();
+    //flags.pendingInitialization = true;
+    if (READ_BIT(GPIOA->IDR, GPIO_IDR_9) == GPIO_IDR_9)
+    {
+      // питание восстановлено
+    }
+    else
+    {
+      // питание пропало
+      flags.pendingSleep = true;
+    } 
   }
+  
+  SET_BIT(EXTI->PR, EXTI_PR_PR9); // сбросим бит прерывания
 }
 
 //=== функции ==================================================================
@@ -720,14 +718,14 @@ void LCD_Init()
   for (v.i=0; v.i<19; v.i++) //строки массива
   {
     LCD_DC(LCD_CMD);
-    SPI_Send2(1, LcdInitData[pos++]);
+    SPI_Send(LcdInitData[pos++]);
     len = LcdInitData[pos++];
     
     SPI_WAIT_FOR_COMPLETION;
     LCD_DC(LCD_DATA);
     for (v.j=0; v.j<len; v.j++)
     {
-      SPI_Send2(1, LcdInitData[pos++]);
+      SPI_Send(LcdInitData[pos++]);
     }
   }
 
@@ -748,19 +746,27 @@ void LCD_SetWindow(uint16_t x0, uint16_t x1, uint16_t y0, uint16_t y1)
   //установить границы окна рисования
   SPI_WAIT_FOR_COMPLETION;
   LCD_DC(LCD_CMD);
-  SPI_Send2(1, 0x2A);
+  SPI_Send(0x2A);
   SPI_WAIT_FOR_COMPLETION;
   LCD_DC(LCD_DATA);
-  SPI_Send2(4, (uint8_t)(x0>>8), (uint8_t)(x0), (uint8_t)(x1>>8), (uint8_t)(x1));
+  //SPI_Send2(4, (uint8_t)(x0>>8), (uint8_t)(x0), (uint8_t)(x1>>8), (uint8_t)(x1));
+  SPI_Send((uint8_t)(x0>>8));
+  SPI_Send((uint8_t)(x0));
+  SPI_Send((uint8_t)(x1>>8));
+  SPI_Send((uint8_t)(x1));
   SPI_WAIT_FOR_COMPLETION;
   LCD_DC(LCD_CMD);
-  SPI_Send2(1, 0x2B);
+  SPI_Send(0x2B);
   SPI_WAIT_FOR_COMPLETION;
   LCD_DC(LCD_DATA);
-  SPI_Send2(4, (uint8_t)(y0>>8), (uint8_t)(y0), (uint8_t)(y1>>8), (uint8_t)(y1));
+  //SPI_Send2(4, (uint8_t)(y0>>8), (uint8_t)(y0), (uint8_t)(y1>>8), (uint8_t)(y1));
+  SPI_Send((uint8_t)(y0>>8));
+  SPI_Send((uint8_t)(y0));
+  SPI_Send((uint8_t)(y1>>8));
+  SPI_Send((uint8_t)(y1));
   SPI_WAIT_FOR_COMPLETION;
   LCD_DC(LCD_CMD);
-  SPI_Send2(1, 0x2C); //Write registers
+  SPI_Send(0x2C); //Write registers
   SPI_WAIT_FOR_COMPLETION;
   LCD_DC(LCD_DATA);
 }
@@ -772,11 +778,21 @@ void LCD_FillRectangle(uint16_t x0, uint16_t x1, uint16_t y0, uint16_t y1, uint1
   LCD_SetWindow(x0, x1, y0, y1);
   for (uint32_t i=0; i<(2*((x1-x0)*(y1-y0))); i++)
   {
-    SPI_Send2(2, (uint8_t)(color >> 8), (uint8_t)(color));
+    SPI_Send((uint8_t)(color >> 8));
+    SPI_Send((uint8_t)(color));
   }
 }
 
 //------------------------------------------------------------------------------
+/* SPI. Записывает байт данных в буфер TXFIFO (быстрая передача) */
+void SPI_Send(uint8_t data)
+{
+  while ((SPI1->SR & SPI_SR_TXE) != SPI_SR_TXE); // ждем пока буфер передачи не будет доступен
+  *(uint8_t *)&(SPI1->DR) = data; //отправляем в буфер 
+}
+
+//------------------------------------------------------------------------------
+/* SPI. Функция приема/передачи (медленная передача) */
 void SPI_Send2(uint8_t size, ...)
 {
   uint8_t data;
@@ -1657,7 +1673,7 @@ void HardwareInitialization()
   
   //--- включить тактирование периферии
   SET_BIT(RCC->AHBENR, (RCC_AHBENR_GPIOAEN | RCC_AHBENR_GPIOBEN)); //включить тактирование GPIO PORT A, B
-  SET_BIT(RCC->APB2ENR, (RCC_APB2ENR_SPI1EN)); //включить тактирование SPI1
+  SET_BIT(RCC->APB2ENR, (RCC_APB2ENR_SPI1EN | RCC_APB2ENR_SYSCFGEN)); //включить тактирование SPI1, SYSCFG
   SET_BIT(RCC->APB1ENR, (RCC_APB1ENR_PWREN)); //включить тактирование интерфейса power
   
   //--- настройка SysTick (1милисек)
@@ -1667,8 +1683,10 @@ void HardwareInitialization()
   SysTick->CTRL  = SysTick_CTRL_CLKSOURCE_Msk | //источник тактирования SYSCLK
                    SysTick_CTRL_TICKINT_Msk   | //запрашивать прерывание по достижению нуля
                    SysTick_CTRL_ENABLE_Msk;     //включить счетчик
-  NVIC_SetPriority(SysTick_IRQn, 1); //выше приоритет только у перехода в сон
 
+  //--- отключим прерывание контроля питания через GPIO PA9
+  CLEAR_BIT(EXTI->IMR, EXTI_IMR_IM9);
+  
   //--- настройка GPIO
   WRITE_REG(GPIOA->PUPDR, 0x24000000 | GPIO_PUPDR_PUPDR9_1); // для PA9: pull-down(30кОм)
   
@@ -1711,7 +1729,7 @@ void HardwareInitialization()
   LCD_FillRectangle(0,319, 0,239, BackGroundColor); // задний фон
   
   //--- начальные значения переменных
-  flags.sleepModeActivated = false;
+  flags.pendingSleep = false;
   flags.TimeChanged = false;
   flags.DateChanged = false;
   flags.isTouched = false;
@@ -1736,12 +1754,24 @@ void HardwareInitialization()
 
   //--- начальный вывод на экран
   Time_Show(1, 1, (TS_HH | TS_MM));
-  Date_Show();  
-}
-
-//-------------------------------------------------------------------------------------------------
-void HardwareGoesSleep()
-{
-  GPIOA->OSPEEDR = 0x0C000000;
-  GPIOA->OSPEEDR = 0x00000000;
+  Date_Show();
+  
+  //--- настройка внешних прерываний: RTC (Alarm A), GPIO PA9(power failure)
+  SYSCFG->EXTICR[3] = SYSCFG_EXTICR3_EXTI9_PA; // EXTI line 9 for GPIOA port
+  SET_BIT(EXTI->IMR, (EXTI_IMR_IM17 | EXTI_IMR_IM9)); //17я линия это Alarm A, 9я-GPIOx9
+  SET_BIT(EXTI->RTSR, (EXTI_RTSR_RT17 | EXTI_RTSR_RT9)); // rising ednge of signal
+  SET_BIT(EXTI->FTSR, (EXTI_FTSR_FT9)); // falling edge of signal
+  
+  //--- включить прерывания
+  NVIC_EnableIRQ(RTC_IRQn);
+  NVIC_EnableIRQ(EXTI4_15_IRQn);
+  
+  NVIC_SetPriority(EXTI4_15_IRQn, 0);
+  NVIC_SetPriority(SysTick_IRQn, 1);
+  NVIC_SetPriority(RTC_IRQn, 2);
+  
+  //--- короткий сигнал
+  BEEP(1);
+  Delay(100);
+  BEEP(0);
 }

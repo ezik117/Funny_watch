@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR ELF Linker V8.32.1.169/W32 for ARM                  14/Sep/2020  03:25:50
+# IAR ELF Linker V8.32.1.169/W32 for ARM                  16/Sep/2020  10:19:47
 # Copyright 2007-2018 IAR Systems AB.
 #
 #    Output file  =  
@@ -8,7 +8,7 @@
 #    Map file     =  
 #        D:\PROJECTS\MCU\___\PROJECTS\Funny_watch\IAR\Watch\Debug\List\Clock_for_children_prj.map
 #    Command line =  
-#        -f C:\Users\USER~1.PC-\AppData\Local\Temp\EW5394.tmp
+#        -f C:\Users\USER~1.PC-\AppData\Local\Temp\EWB70C.tmp
 #        (D:\PROJECTS\MCU\___\PROJECTS\Funny_watch\IAR\Watch\Debug\Obj\main.o
 #        D:\PROJECTS\MCU\___\PROJECTS\Funny_watch\IAR\Watch\Debug\Obj\startup_stm32f030x6.o
 #        --no_out_extension -o
@@ -58,57 +58,57 @@ define block HEAP with size = 512, alignment = 8 { };
   .intvec          ro code   0x800'0000    0xb0  startup_stm32f030x6.o [1]
                            - 0x800'00b0    0xb0
 
-"P1":                                    0x3d50
-  .text            ro code   0x800'00b0  0x23b4  main.o [1]
-  .text            ro code   0x800'2464    0xe0  I32DivModFast.o [3]
-  .text            ro code   0x800'2544    0x16  uread4.o [3]
-  .text            ro code   0x800'255a     0x2  startup_stm32f030x6.o [1]
-  .text            ro code   0x800'255c     0x2  IntDivZer.o [3]
-  .text            ro code   0x800'255e     0x2  startup_stm32f030x6.o [1]
-  .rodata          const     0x800'2560   0xac4  main.o [1]
-  .rodata          const     0x800'3024   0xab4  main.o [1]
-  .rodata          const     0x800'3ad8    0x68  main.o [1]
-  .rodata          const     0x800'3b40    0x64  main.o [1]
-  .rodata          const     0x800'3ba4    0x54  main.o [1]
-  .rodata          const     0x800'3bf8    0x48  main.o [1]
-  .rodata          const     0x800'3c40    0x40  main.o [1]
-  .text            ro code   0x800'3c80    0x3c  zero_init3.o [3]
-  .rodata          const     0x800'3cbc    0x34  main.o [1]
-  .text            ro code   0x800'3cf0    0x28  data_init.o [3]
-  .iar.init_table  const     0x800'3d18    0x10  - Linker created -
-  .rodata          const     0x800'3d28    0x20  main.o [1]
-  .text            ro code   0x800'3d48    0x1e  cmain.o [3]
-  .text            ro code   0x800'3d66     0x4  low_level_init.o [2]
-  .text            ro code   0x800'3d6a     0x8  exit.o [2]
-  .text            ro code   0x800'3d72     0x2  startup_stm32f030x6.o [1]
-  .text            ro code   0x800'3d74     0xa  cexit.o [3]
-  .text            ro code   0x800'3d7e     0x2  startup_stm32f030x6.o [1]
-  .text            ro code   0x800'3d80    0x14  exit.o [4]
-  .rodata          const     0x800'3d94    0x1c  main.o [1]
-  .rodata          const     0x800'3db0    0x10  main.o [1]
-  .text            ro code   0x800'3dc0     0xc  cstartup_M.o [3]
-  .rodata          const     0x800'3dcc     0x8  main.o [1]
-  .text            ro code   0x800'3dd4     0x8  startup_stm32f030x6.o [1]
-  .text            ro code   0x800'3ddc     0x2  startup_stm32f030x6.o [1]
-  .text            ro code   0x800'3dde     0x2  startup_stm32f030x6.o [1]
-  .text            ro code   0x800'3de0     0x2  startup_stm32f030x6.o [1]
-  .text            ro code   0x800'3de2     0x2  startup_stm32f030x6.o [1]
-  .text            ro code   0x800'3de4     0x2  startup_stm32f030x6.o [1]
+"P1":                                    0x3db8
+  .text            ro code   0x800'00b0  0x241c  main.o [1]
+  .text            ro code   0x800'24cc    0xe0  I32DivModFast.o [3]
+  .text            ro code   0x800'25ac    0x16  uread4.o [3]
+  .text            ro code   0x800'25c2     0x2  startup_stm32f030x6.o [1]
+  .text            ro code   0x800'25c4     0x2  IntDivZer.o [3]
+  .text            ro code   0x800'25c6     0x2  startup_stm32f030x6.o [1]
+  .rodata          const     0x800'25c8   0xac4  main.o [1]
+  .rodata          const     0x800'308c   0xab4  main.o [1]
+  .rodata          const     0x800'3b40    0x68  main.o [1]
+  .rodata          const     0x800'3ba8    0x64  main.o [1]
+  .rodata          const     0x800'3c0c    0x54  main.o [1]
+  .rodata          const     0x800'3c60    0x48  main.o [1]
+  .rodata          const     0x800'3ca8    0x40  main.o [1]
+  .text            ro code   0x800'3ce8    0x3c  zero_init3.o [3]
+  .rodata          const     0x800'3d24    0x34  main.o [1]
+  .text            ro code   0x800'3d58    0x28  data_init.o [3]
+  .iar.init_table  const     0x800'3d80    0x10  - Linker created -
+  .rodata          const     0x800'3d90    0x20  main.o [1]
+  .text            ro code   0x800'3db0    0x1e  cmain.o [3]
+  .text            ro code   0x800'3dce     0x4  low_level_init.o [2]
+  .text            ro code   0x800'3dd2     0x8  exit.o [2]
+  .text            ro code   0x800'3dda     0x2  startup_stm32f030x6.o [1]
+  .text            ro code   0x800'3ddc     0xa  cexit.o [3]
   .text            ro code   0x800'3de6     0x2  startup_stm32f030x6.o [1]
-  .text            ro code   0x800'3de8     0x2  startup_stm32f030x6.o [1]
-  .text            ro code   0x800'3dea     0x2  startup_stm32f030x6.o [1]
-  .text            ro code   0x800'3dec     0x2  startup_stm32f030x6.o [1]
-  .text            ro code   0x800'3dee     0x2  startup_stm32f030x6.o [1]
-  .text            ro code   0x800'3df0     0x2  startup_stm32f030x6.o [1]
-  .text            ro code   0x800'3df2     0x2  startup_stm32f030x6.o [1]
-  .text            ro code   0x800'3df4     0x2  startup_stm32f030x6.o [1]
-  .text            ro code   0x800'3df6     0x2  startup_stm32f030x6.o [1]
-  .text            ro code   0x800'3df8     0x2  startup_stm32f030x6.o [1]
-  .text            ro code   0x800'3dfa     0x2  startup_stm32f030x6.o [1]
-  .text            ro code   0x800'3dfc     0x2  startup_stm32f030x6.o [1]
-  .text            ro code   0x800'3dfe     0x2  startup_stm32f030x6.o [1]
-  .rodata          const     0x800'3e00     0x0  zero_init3.o [3]
-                           - 0x800'3e00  0x3d50
+  .text            ro code   0x800'3de8    0x14  exit.o [4]
+  .rodata          const     0x800'3dfc    0x1c  main.o [1]
+  .rodata          const     0x800'3e18    0x10  main.o [1]
+  .text            ro code   0x800'3e28     0xc  cstartup_M.o [3]
+  .rodata          const     0x800'3e34     0x8  main.o [1]
+  .text            ro code   0x800'3e3c     0x8  startup_stm32f030x6.o [1]
+  .text            ro code   0x800'3e44     0x2  startup_stm32f030x6.o [1]
+  .text            ro code   0x800'3e46     0x2  startup_stm32f030x6.o [1]
+  .text            ro code   0x800'3e48     0x2  startup_stm32f030x6.o [1]
+  .text            ro code   0x800'3e4a     0x2  startup_stm32f030x6.o [1]
+  .text            ro code   0x800'3e4c     0x2  startup_stm32f030x6.o [1]
+  .text            ro code   0x800'3e4e     0x2  startup_stm32f030x6.o [1]
+  .text            ro code   0x800'3e50     0x2  startup_stm32f030x6.o [1]
+  .text            ro code   0x800'3e52     0x2  startup_stm32f030x6.o [1]
+  .text            ro code   0x800'3e54     0x2  startup_stm32f030x6.o [1]
+  .text            ro code   0x800'3e56     0x2  startup_stm32f030x6.o [1]
+  .text            ro code   0x800'3e58     0x2  startup_stm32f030x6.o [1]
+  .text            ro code   0x800'3e5a     0x2  startup_stm32f030x6.o [1]
+  .text            ro code   0x800'3e5c     0x2  startup_stm32f030x6.o [1]
+  .text            ro code   0x800'3e5e     0x2  startup_stm32f030x6.o [1]
+  .text            ro code   0x800'3e60     0x2  startup_stm32f030x6.o [1]
+  .text            ro code   0x800'3e62     0x2  startup_stm32f030x6.o [1]
+  .text            ro code   0x800'3e64     0x2  startup_stm32f030x6.o [1]
+  .text            ro code   0x800'3e66     0x2  startup_stm32f030x6.o [1]
+  .rodata          const     0x800'3e68     0x0  zero_init3.o [3]
+                           - 0x800'3e68  0x3db8
 
 "P2", part 1 of 2:                         0x60
   .bss             zero     0x2000'0000    0x58  main.o [1]
@@ -125,7 +125,7 @@ Unused ranges:
 
          From           To    Size
          ----           --    ----
-   0x800'3e00   0x800'7fff  0x4200
+   0x800'3e68   0x800'7fff  0x4198
   0x2000'0460  0x2000'0fff   0xba0
 
 
@@ -152,10 +152,10 @@ command line/config:
     Total:
 
 D:\PROJECTS\MCU\___\PROJECTS\Funny_watch\IAR\Watch\Debug\Obj: [1]
-    main.o                   9 140    6 056       96
+    main.o                   9 244    6 056       96
     startup_stm32f030x6.o      228
     ------------------------------------------------
-    Total:                   9 368    6 056       96
+    Total:                   9 472    6 056       96
 
 dl6M_tln.a: [2]
     exit.o                       8
@@ -182,7 +182,7 @@ shb_l.a: [4]
 
     Linker created                       16    1 024
 ----------------------------------------------------
-    Grand Total:             9 800    6 072    1 120
+    Grand Total:             9 904    6 072    1 120
 
 
 *******************************************************************************
@@ -191,83 +191,85 @@ shb_l.a: [4]
 
 Entry                       Address   Size  Type      Object
 -----                       -------   ----  ----      ------
-.iar.init_table$$Base    0x800'3d18          --   Gb  - Linker created -
-.iar.init_table$$Limit   0x800'3d28          --   Gb  - Linker created -
-?main                    0x800'3d49         Code  Gb  cmain.o [3]
-ABC                      0x800'3d28   0x20  Data  Lc  main.o [1]
+.iar.init_table$$Base    0x800'3d80          --   Gb  - Linker created -
+.iar.init_table$$Limit   0x800'3d90          --   Gb  - Linker created -
+?main                    0x800'3db1         Code  Gb  cmain.o [3]
+ABC                      0x800'3d90   0x20  Data  Lc  main.o [1]
 Alarm_ShowDowCheckboxes
-                         0x800'1d11   0x96  Code  Gb  main.o [1]
+                         0x800'1cf9   0x96  Code  Gb  main.o [1]
 BmpHeader16             0x2000'0058    0x4  Data  Gb  main.o [1]
 CSTACK$$Base            0x2000'0060          --   Gb  - Linker created -
 CSTACK$$Limit           0x2000'0460          --   Gb  - Linker created -
-CharCount                0x800'2049   0x18  Code  Gb  main.o [1]
-ConvertToBCD             0x800'1de1   0x5e  Code  Gb  main.o [1]
-Date_GetDayOfWeek        0x800'1c6d   0x7a  Code  Gb  main.o [1]
-Date_Show                0x800'1aa5  0x1bc  Code  Gb  main.o [1]
-Delay                    0x800'0f71    0xe  Code  Gb  main.o [1]
-EXTI4_15_IRQHandler      0x800'0f13   0x56  Code  Gb  main.o [1]
-HardwareInitialization   0x800'2247  0x1a4  Code  Gb  main.o [1]
-L24X27                   0x800'2560  0xac4  Data  Lc  main.o [1]
-L24X27FUN                0x800'3024  0xab4  Data  Lc  main.o [1]
-LCD_FillRectangle        0x800'1111   0x56  Code  Gb  main.o [1]
-LCD_Init                 0x800'0f91   0xb6  Code  Gb  main.o [1]
-LCD_SetWindow            0x800'104d   0xc4  Code  Gb  main.o [1]
-LCD_ShowDigits           0x800'155d   0x58  Code  Gb  main.o [1]
-LCD_ShowImage16FromMem   0x800'11e5   0xea  Code  Gb  main.o [1]
-LCD_ShowImage2FromRom    0x800'12dd  0x1a0  Code  Gb  main.o [1]
-LCD_ShowText             0x800'1489   0xcc  Code  Gb  main.o [1]
-LcdInitData              0x800'3b40   0x64  Data  Lc  main.o [1]
-LoadFromRom              0x800'2101   0xaa  Code  Gb  main.o [1]
-MemReadSequence          0x800'2223   0x24  Code  Gb  main.o [1]
-MemWaitForWriteEnd       0x800'21e1   0x20  Code  Gb  main.o [1]
-MemWriteEnable           0x800'21b5   0x2c  Code  Gb  main.o [1]
-MemWriteSequence         0x800'2201   0x22  Code  Gb  main.o [1]
+CharCount                0x800'2031   0x18  Code  Gb  main.o [1]
+ConvertToBCD             0x800'1dc9   0x5e  Code  Gb  main.o [1]
+Date_GetDayOfWeek        0x800'1c55   0x7a  Code  Gb  main.o [1]
+Date_Show                0x800'1a8d  0x1bc  Code  Gb  main.o [1]
+Delay                    0x800'0f4f    0xe  Code  Gb  main.o [1]
+EXTI4_15_IRQHandler      0x800'0f27   0x28  Code  Gb  main.o [1]
+HardwareInitialization   0x800'2237  0x200  Code  Gb  main.o [1]
+L24X27                   0x800'25c8  0xac4  Data  Lc  main.o [1]
+L24X27FUN                0x800'308c  0xab4  Data  Lc  main.o [1]
+LCD_FillRectangle        0x800'10fd   0x58  Code  Gb  main.o [1]
+LCD_Init                 0x800'0f75   0xb2  Code  Gb  main.o [1]
+LCD_SetWindow            0x800'1027   0xd2  Code  Gb  main.o [1]
+LCD_ShowDigits           0x800'1545   0x58  Code  Gb  main.o [1]
+LCD_ShowImage16FromMem   0x800'11cd   0xea  Code  Gb  main.o [1]
+LCD_ShowImage2FromRom    0x800'12c5  0x1a0  Code  Gb  main.o [1]
+LCD_ShowText             0x800'1471   0xcc  Code  Gb  main.o [1]
+LcdInitData              0x800'3ba8   0x64  Data  Lc  main.o [1]
+LoadFromRom              0x800'20e9   0xaa  Code  Gb  main.o [1]
+MemReadSequence          0x800'2213   0x24  Code  Gb  main.o [1]
+MemWaitForWriteEnd       0x800'21c9   0x20  Code  Gb  main.o [1]
+MemWriteEnable           0x800'219d   0x2c  Code  Gb  main.o [1]
+MemWriteSequence         0x800'21f1   0x22  Code  Gb  main.o [1]
+NVIC_DisableIRQ          0x800'00bf    0xe  Code  Lc  main.o [1]
 NVIC_EnableIRQ           0x800'00b1    0xe  Code  Lc  main.o [1]
-NVIC_SetPriority         0x800'00bf   0x8a  Code  Lc  main.o [1]
-ProcessTouching          0x800'1e3f  0x204  Code  Gb  main.o [1]
-RTC_IRQHandler           0x800'0ee9   0x2a  Code  Gb  main.o [1]
-Region$$Table$$Base      0x800'3d18          --   Gb  - Linker created -
-Region$$Table$$Limit     0x800'3d28          --   Gb  - Linker created -
-SPI_Exchange             0x800'1199   0x14  Code  Gb  main.o [1]
-SPI_FlushRX              0x800'11ad   0x18  Code  Gb  main.o [1]
-SPI_Send2                0x800'1167   0x2c  Code  Gb  main.o [1]
-SaveToRom                0x800'2061   0x8a  Code  Gb  main.o [1]
-SysTick_Handler          0x800'0e1f   0xc6  Code  Gb  main.o [1]
-TDAYS                    0x800'3c40   0x40  Data  Lc  main.o [1]
-TDaysIDx                 0x800'3dcc    0x8  Data  Lc  main.o [1]
-TMONTHS                  0x800'3ba4   0x54  Data  Lc  main.o [1]
-TMessages                0x800'3cbc   0x34  Data  Lc  main.o [1]
-TMonths_IDx              0x800'3db0   0x10  Data  Lc  main.o [1]
-TShortDAYS               0x800'3d94   0x1c  Data  Lc  main.o [1]
-Time_Add                 0x800'1921   0x76  Code  Gb  main.o [1]
-Time_SetCalendarTM       0x800'1a31   0x64  Code  Gb  main.o [1]
-Time_Show                0x800'15cd  0x344  Code  Gb  main.o [1]
-Time_Sub                 0x800'19a5   0x86  Code  Gb  main.o [1]
+NVIC_SetPriority         0x800'00cd   0x8a  Code  Lc  main.o [1]
+ProcessTouching          0x800'1e27  0x204  Code  Gb  main.o [1]
+RTC_IRQHandler           0x800'0efd   0x2a  Code  Gb  main.o [1]
+Region$$Table$$Base      0x800'3d80          --   Gb  - Linker created -
+Region$$Table$$Limit     0x800'3d90          --   Gb  - Linker created -
+SPI_Exchange             0x800'1195   0x14  Code  Gb  main.o [1]
+SPI_FlushRX              0x800'11a9   0x18  Code  Gb  main.o [1]
+SPI_Send                 0x800'1155   0x10  Code  Gb  main.o [1]
+SPI_Send2                0x800'1165   0x2c  Code  Gb  main.o [1]
+SaveToRom                0x800'2049   0x8a  Code  Gb  main.o [1]
+SysTick_Handler          0x800'0e33   0xc6  Code  Gb  main.o [1]
+TDAYS                    0x800'3ca8   0x40  Data  Lc  main.o [1]
+TDaysIDx                 0x800'3e34    0x8  Data  Lc  main.o [1]
+TMONTHS                  0x800'3c0c   0x54  Data  Lc  main.o [1]
+TMessages                0x800'3d24   0x34  Data  Lc  main.o [1]
+TMonths_IDx              0x800'3e18   0x10  Data  Lc  main.o [1]
+TShortDAYS               0x800'3dfc   0x1c  Data  Lc  main.o [1]
+Time_Add                 0x800'1909   0x76  Code  Gb  main.o [1]
+Time_SetCalendarTM       0x800'1a19   0x64  Code  Gb  main.o [1]
+Time_Show                0x800'15b5  0x344  Code  Gb  main.o [1]
+Time_Sub                 0x800'198d   0x86  Code  Gb  main.o [1]
 __ICFEDIT_region_RAM_end__ {Abs}
                         0x2000'0fff         Data  Gb  <internal module>
 __ICFEDIT_region_RAM_start__ {Abs}
                         0x2000'0000         Data  Gb  <internal module>
-__aeabi_idiv             0x800'2491         Code  Gb  I32DivModFast.o [3]
-__aeabi_idiv0            0x800'255d         Code  Gb  IntDivZer.o [3]
-__aeabi_idivmod          0x800'2491         Code  Gb  I32DivModFast.o [3]
-__aeabi_uidiv            0x800'2497         Code  Gb  I32DivModFast.o [3]
-__aeabi_uidivmod         0x800'2497         Code  Gb  I32DivModFast.o [3]
-__aeabi_uread4           0x800'2545         Code  Gb  uread4.o [3]
-__cmain                  0x800'3d49         Code  Gb  cmain.o [3]
-__exit                   0x800'3d81   0x14  Code  Gb  exit.o [4]
-__iar_data_init3         0x800'3cf1   0x28  Code  Gb  data_init.o [3]
-__iar_program_start      0x800'3dc1         Code  Gb  cstartup_M.o [3]
-__iar_zero_init3         0x800'3c81   0x3c  Code  Gb  zero_init3.o [3]
-__low_level_init         0x800'3d67    0x4  Code  Gb  low_level_init.o [2]
+__aeabi_idiv             0x800'24f9         Code  Gb  I32DivModFast.o [3]
+__aeabi_idiv0            0x800'25c5         Code  Gb  IntDivZer.o [3]
+__aeabi_idivmod          0x800'24f9         Code  Gb  I32DivModFast.o [3]
+__aeabi_uidiv            0x800'24ff         Code  Gb  I32DivModFast.o [3]
+__aeabi_uidivmod         0x800'24ff         Code  Gb  I32DivModFast.o [3]
+__aeabi_uread4           0x800'25ad         Code  Gb  uread4.o [3]
+__cmain                  0x800'3db1         Code  Gb  cmain.o [3]
+__exit                   0x800'3de9   0x14  Code  Gb  exit.o [4]
+__iar_data_init3         0x800'3d59   0x28  Code  Gb  data_init.o [3]
+__iar_program_start      0x800'3e29         Code  Gb  cstartup_M.o [3]
+__iar_zero_init3         0x800'3ce9   0x3c  Code  Gb  zero_init3.o [3]
+__low_level_init         0x800'3dcf    0x4  Code  Gb  low_level_init.o [2]
 __vector_table           0x800'0000         Data  Gb  startup_stm32f030x6.o [1]
-_call_main               0x800'3d55         Code  Gb  cmain.o [3]
-_exit                    0x800'3d75         Code  Gb  cexit.o [3]
-_main                    0x800'3d63         Code  Gb  cmain.o [3]
-digits8                  0x800'3bf8   0x48  Data  Lc  main.o [1]
-exit                     0x800'3d6b    0x8  Code  Gb  exit.o [2]
+_call_main               0x800'3dbd         Code  Gb  cmain.o [3]
+_exit                    0x800'3ddd         Code  Gb  cexit.o [3]
+_main                    0x800'3dcb         Code  Gb  cmain.o [3]
+digits8                  0x800'3c60   0x48  Data  Lc  main.o [1]
+exit                     0x800'3dd3    0x8  Code  Gb  exit.o [2]
 flags                   0x2000'005c    0x4  Data  Gb  main.o [1]
-main                     0x800'0155  0xcca  Code  Gb  main.o [1]
-memMap                   0x800'3ad8   0x68  Data  Lc  main.o [1]
+main                     0x800'0169  0xcca  Code  Gb  main.o [1]
+memMap                   0x800'3b40   0x68  Data  Lc  main.o [1]
 v                       0x2000'0000   0x58  Data  Gb  main.o [1]
 
 
@@ -276,7 +278,7 @@ v                       0x2000'0000   0x58  Data  Gb  main.o [1]
 [3] = rt6M_tl.a
 [4] = shb_l.a
 
-  9 800 bytes of readonly  code memory
+  9 904 bytes of readonly  code memory
   6 072 bytes of readonly  data memory
   1 120 bytes of readwrite data memory
 
