@@ -31,9 +31,9 @@
 #define SPI_WAIT_FOR_COMPLETION while ((SPI1->SR & SPI_SR_BSY) == SPI_SR_BSY);
 
 #define BackGroundColor 0x6B4D
-#define base_digits_x 33
+#define base_digits_x 33  // смещение для digit цифр
 #define base_digits_y 66
-#define base_fdigits_x 17
+#define base_fdigits_x 17 // смещение для Fun цифр
 
 
 static const uint32_t memMap[] =

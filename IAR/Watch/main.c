@@ -2,7 +2,9 @@
 #include "stm32f0xx.h"
 #include "images.h"
 #include "main.h"
-#include <stdarg.h> 
+#include <stdarg.h>
+
+#define LCD_CALIB //установить для вывода окна калибровки экрана
 
 //------ переменные ------------------------------------------------------------
 volatile struct
@@ -123,7 +125,9 @@ int main()
       case 0: 
       case 6:
         //покажем текущее время
-        Time_Show(0, 1, (TS_HH | TS_MM));  
+#ifndef LCD_CALIB
+        Time_Show(0, 1, (TS_HH | TS_MM));
+#endif
         //был переход на новую дату - обновим информацию на дисплее 
         if (flags.DateChanged) 
         {   
@@ -1013,6 +1017,7 @@ void LCD_ShowDigits(uint16_t x, uint8_t y, uint16_t value, uint8_t digits)
 /* HHMM влияют только если updateAll=1. HHMM=1 отобразит только часы, =2 только минуты, =3 все*/
 void Time_Show(bool updateAll, bool realTime, uint8_t HHMM)
 {
+#ifndef LCD_CALIB
         uint32_t difference;
         
         if (realTime)
@@ -1128,6 +1133,17 @@ void Time_Show(bool updateAll, bool realTime, uint8_t HHMM)
         
         if (realTime) v.mLastCalendar = v.mCalendarTime;
         flags.TimeChanged = false;
+#else
+  LCD_FillRectangle(0,319, 0,65, LCD_WHITE);
+  
+  LCD_FillRectangle(0,136, 66,189, LCD_BLUE);
+  LCD_FillRectangle(183,319, 66,189, LCD_RED);
+  
+  LCD_FillRectangle(0,79, 190,239, LCD_GREEN);
+  LCD_FillRectangle(80,159, 190,239, LCD_CYAN);
+  LCD_FillRectangle(160,239, 190,239, LCD_MAGENTA);
+  LCD_FillRectangle(240,319, 190,239, LCD_YELLOW);
+#endif
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -1356,7 +1372,8 @@ void ProcessTouching()
       
       do {
         v.tXX[1] = v.tXX[0];
-        SPI_Exchange(0x9B); //read X
+        SPI_Exchange(0x9B); //read X (1.001.1.0.11)
+        //SPI_Exchange(0xDB); //read Y, выбрать этот вариант,если нажатие читается в другом порядке
         v.tXX[0] =  (SPI_Exchange(0x00) << 1);
         v.tXX[0] |= ((SPI_Exchange(0x00) & 0x80) >> 7);
       } while (v.tXX[1] != v.tXX[0]);
@@ -1365,7 +1382,8 @@ void ProcessTouching()
       
       do {
         v.tYY[1] = v.tYY[0];
-        SPI_Exchange(0xDB); //read X
+        SPI_Exchange(0xDB); //read Y (1.101.1.0.11)
+        //SPI_Exchange(0x9B); //read X, выбрать этот вариант,если нажатие читается в другом порядке
         v.tYY[0] =  (SPI_Exchange(0x00) << 1);
         v.tYY[0] |= ((SPI_Exchange(0x00) & 0x80) >> 7);
       } while (v.tYY[1] != v.tYY[0]);
@@ -1388,17 +1406,21 @@ void ProcessTouching()
     //-- модуль обработки событий -----
     if (flags.isTouched)
     {
+#ifdef LCD_CALIB
         //вывели на экран координату
-//        uint16_t bcd = ConvertToBCD(v.tXX[0]); //show X
-//        LCD_ShowImage2FromRom(0,0,  ((bcd>>8)&0x0F), 1, LCD_WHITE, BackGroundColor);
-//        LCD_ShowImage2FromRom(8,0,  ((bcd>>4)&0x0F), 1, LCD_WHITE, BackGroundColor);
-//        LCD_ShowImage2FromRom(16,0, ((bcd>>0)&0x0F), 1, LCD_WHITE, BackGroundColor);
-//
-//        bcd = ConvertToBCD(v.tYY[0]); //show Y
-//        LCD_ShowImage2FromRom(0,8,  ((bcd>>8)&0x0F), 1, LCD_WHITE, BackGroundColor);
-//        LCD_ShowImage2FromRom(8,8,  ((bcd>>4)&0x0F), 1, LCD_WHITE, BackGroundColor);
-//        LCD_ShowImage2FromRom(16,8, ((bcd>>0)&0x0F), 1, LCD_WHITE, BackGroundColor); 
-        
+        v.digitsOffset = 0;
+        uint16_t bcd = ConvertToBCD(v.tXX[0]); //show X
+        LCD_ShowText(1,2, "\xC8\0", 2, LCD_BLACK, LCD_WHITE);
+        LCD_ShowImage2FromRom(53,2,  ((bcd>>8)&0x0F), 2, LCD_BLACK, LCD_WHITE);
+        LCD_ShowImage2FromRom(79,2,  ((bcd>>4)&0x0F), 2, LCD_BLACK, LCD_WHITE);
+        LCD_ShowImage2FromRom(105,2, ((bcd>>0)&0x0F), 2, LCD_BLACK, LCD_WHITE);
+  
+        bcd = ConvertToBCD(v.tYY[0]); //show Y
+        LCD_ShowText(1,35, "\xD3\0", 2, LCD_BLACK, LCD_WHITE);
+        LCD_ShowImage2FromRom(53,35,  ((bcd>>8)&0x0F), 2, LCD_BLACK, LCD_WHITE);
+        LCD_ShowImage2FromRom(79,35,  ((bcd>>4)&0x0F), 2, LCD_BLACK, LCD_WHITE);
+        LCD_ShowImage2FromRom(105,35, ((bcd>>0)&0x0F), 2, LCD_BLACK, LCD_WHITE);
+#endif        
         v.tObjectID = 0;
         
         if (flags.systemState == 10) //выбор дней будильника
@@ -1520,9 +1542,15 @@ void ProcessTouching()
             }
           }
         }
-        
-//        LCD_ShowImage2FromRom(00,16, v.tObjectID / 10, 1, LCD_YELLOW, BackGroundColor); 
-//        LCD_ShowImage2FromRom(8,16, v.tObjectID % 10, 1, LCD_YELLOW, BackGroundColor);
+
+#ifdef LCD_CALIB
+  bcd = ConvertToBCD(v.tObjectID);
+  LCD_ShowText(180+26*0,2, "\xCE\0", 2, LCD_BLACK, LCD_WHITE);
+  LCD_ShowImage2FromRom(180+26*2,2, ((bcd>>8)&0x0F), 2, LCD_BLACK, LCD_WHITE);
+  LCD_ShowImage2FromRom(180+26*3,2, ((bcd>>4)&0x0F), 2, LCD_BLACK, LCD_WHITE);
+  LCD_ShowImage2FromRom(180+26*4,2, ((bcd>>0)&0x0F), 2, LCD_BLACK, LCD_WHITE);
+  v.tObjectID = 0;
+#endif
     }
 }
 
@@ -1710,10 +1738,11 @@ void HardwareInitialization()
   WRITE_REG(SPI1->CR1, (SPI_CR1_MSTR | SPI_CR1_SSM | SPI_CR1_SSI | SPI_CR1_SPE)); //Master mode, Fpclk/2 = 48/2, SPI on
   WRITE_REG(SPI1->CR2, 0x0700 | SPI_CR2_FRXTH); //8bit FIFO buffer, 8bit data size, NSS pin disabled, no interrupts
   
-  //--- инициализация TOUCH
+  //--- инициализация TOUCH (любое чтение)
+  //пакет передачи 3 байта: 1байт-управляющий код,2-3-данные. Ниже побитное составляющее управляющего кода
   /*S(tart).AAA(ddress).M(ode).S(er/dfr).PP(ower)
   Start= 1
-  Address= 101(X), 001(Y)
+  Address= 101(X) или 001(Y)
   Mode= 1(8-bits), 0(12-bits)
   Ser/dfr= 0(difference), 1(single-ended)
   Power= 00(IRQ on)*/
@@ -1754,7 +1783,9 @@ void HardwareInitialization()
 
   //--- начальный вывод на экран
   Time_Show(1, 1, (TS_HH | TS_MM));
+#ifndef LCD_CALIB
   Date_Show();
+#endif
   
   //--- настройка внешних прерываний: RTC (Alarm A), GPIO PA9(power failure)
   SYSCFG->EXTICR[3] = SYSCFG_EXTICR3_EXTI9_PA; // EXTI line 9 for GPIOA port
