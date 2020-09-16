@@ -74,6 +74,12 @@ int main()
 
   while (true)
   { 
+    // если вдруг прерывание не сработало на пропадание питания
+//    if (READ_BIT(GPIOA->IDR, GPIO_IDR_9) != GPIO_IDR_9)
+//    {
+//      flags.pendingSleep = true;
+//    }
+    
     // проверим нет ли запроса на переход в режим сна
     if (flags.pendingSleep)
     {
@@ -92,6 +98,7 @@ int main()
       __DSB(); 
       __WFI();
       // на выходе из сна заново проиницилизируем систему
+      for (int i=0; i<10000; i++); // стабилизируем систему после выхода
       HardwareInitialization();
     }
     
@@ -1768,6 +1775,20 @@ void HardwareInitialization()
   SET_BIT(RCC->APB2ENR, (RCC_APB2ENR_SPI1EN | RCC_APB2ENR_SYSCFGEN)); //включить тактирование SPI1, SYSCFG
   SET_BIT(RCC->APB1ENR, (RCC_APB1ENR_PWREN)); //включить тактирование интерфейса power
   
+  //--- настройка внешних прерываний: RTC (Alarm A), GPIO PA9(power failure)
+  SYSCFG->EXTICR[3] = SYSCFG_EXTICR3_EXTI9_PA; // EXTI line 9 for GPIOA port
+  SET_BIT(EXTI->IMR, (EXTI_IMR_IM17 | EXTI_IMR_IM9)); //17я линия это Alarm A, 9я-GPIOx9
+  SET_BIT(EXTI->RTSR, (EXTI_RTSR_RT17 | EXTI_RTSR_RT9)); // rising ednge of signal
+  SET_BIT(EXTI->FTSR, (EXTI_FTSR_FT9)); // falling edge of signal
+  
+  //--- на всякий случай проверим не от батарейки ли мы запустились
+  if (READ_BIT(GPIOA->IDR, GPIO_IDR_9) != GPIO_IDR_9)
+  {
+    NVIC_EnableIRQ(EXTI4_15_IRQn);
+    flags.pendingSleep = true;
+    return;
+  }
+  
   //--- настройка SysTick (1милисек)
   v.bStatus = 0;
   SysTick->LOAD = (48000UL & SysTick_LOAD_RELOAD_Msk) - 1;
@@ -1851,15 +1872,10 @@ void HardwareInitialization()
   Date_Show();
 #endif
   
-  //--- настройка внешних прерываний: RTC (Alarm A), GPIO PA9(power failure)
-  SYSCFG->EXTICR[3] = SYSCFG_EXTICR3_EXTI9_PA; // EXTI line 9 for GPIOA port
-  SET_BIT(EXTI->IMR, (EXTI_IMR_IM17 | EXTI_IMR_IM9)); //17я линия это Alarm A, 9я-GPIOx9
-  SET_BIT(EXTI->RTSR, (EXTI_RTSR_RT17 | EXTI_RTSR_RT9)); // rising ednge of signal
-  SET_BIT(EXTI->FTSR, (EXTI_FTSR_FT9)); // falling edge of signal
-  
   //--- включить прерывания
   NVIC_EnableIRQ(RTC_IRQn);
   NVIC_EnableIRQ(EXTI4_15_IRQn);
+  SET_BIT(EXTI->IMR, EXTI_IMR_IM9);
   
   NVIC_SetPriority(EXTI4_15_IRQn, 0);
   NVIC_SetPriority(SysTick_IRQn, 1);
