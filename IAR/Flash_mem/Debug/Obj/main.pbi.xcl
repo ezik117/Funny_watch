@@ -1,21 +1,21 @@
-"C:\SYSTEM\_PROJECTS\MCU\Funny_watch\IAR\Flash_mem\main.c"
+"D:\PROJECTS\MCU\___\PROJECTS\Funny_watch\VISUAL_STUDIO\Flash memory programmator\IAR\main.c"
 -std=c11
 -ferror-limit=0
 -fbracket-depth=512
 -I
-C:\SYSTEM\_PROJECTS\MCU\Funny_watch\IAR\Flash_mem
+D:\PROJECTS\MCU\___\PROJECTS\Funny_watch\VISUAL_STUDIO\Flash memory programmator\IAR
 -I
-C:\SYSTEM\_PROJECTS\MCU\Funny_watch\IAR\Flash_mem/Drivers
+D:\PROJECTS\MCU\___\PROJECTS\Funny_watch\VISUAL_STUDIO\Flash memory programmator\IAR/Drivers
 -I
-C:\SYSTEM\_PROJECTS\MCU\Funny_watch\IAR\Flash_mem/CMSIS
+D:\PROJECTS\MCU\___\PROJECTS\Funny_watch\VISUAL_STUDIO\Flash memory programmator\IAR/CMSIS
 -I
 C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.2\arm\inc
 -I
 C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.2\arm\inc\c
 -I
-C:\SYSTEM\_PROJECTS\MCU\Funny_watch\IAR\Flash_mem\Drivers
+D:\PROJECTS\MCU\___\PROJECTS\Funny_watch\VISUAL_STUDIO\Flash memory programmator\IAR\Drivers
 -I
-C:\SYSTEM\_PROJECTS\MCU\Funny_watch\IAR\Flash_mem\CMSIS
+D:\PROJECTS\MCU\___\PROJECTS\Funny_watch\VISUAL_STUDIO\Flash memory programmator\IAR\CMSIS
 -D__CHAR_BITS__=8
 -D__CHAR_MAX__=0xff
 -D__CHAR_MIN__=0
