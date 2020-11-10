@@ -1,0 +1,497 @@
+
+ClapDetector.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         0000020e  00000000  00000000  00000074  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         00000000  00800060  00800060  00000282  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .bss          0000000a  00800060  00800060  00000282  2**0
+                  ALLOC
+  3 .comment      00000030  00000000  00000000  00000282  2**0
+                  CONTENTS, READONLY
+  4 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  000002b4  2**2
+                  CONTENTS, READONLY
+  5 .debug_aranges 00000060  00000000  00000000  000002f0  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_info   000007b6  00000000  00000000  00000350  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_abbrev 000004f2  00000000  00000000  00000b06  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_line   0000047c  00000000  00000000  00000ff8  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_frame  000000ec  00000000  00000000  00001474  2**2
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_str    000003f2  00000000  00000000  00001560  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_loc    00000287  00000000  00000000  00001952  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 12 .debug_ranges 00000050  00000000  00000000  00001bd9  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	09 c0       	rjmp	.+18     	; 0x14 <__ctors_end>
+   2:	21 c0       	rjmp	.+66     	; 0x46 <__bad_interrupt>
+   4:	8c c0       	rjmp	.+280    	; 0x11e <__vector_2>
+   6:	1f c0       	rjmp	.+62     	; 0x46 <__bad_interrupt>
+   8:	1e c0       	rjmp	.+60     	; 0x46 <__bad_interrupt>
+   a:	1d c0       	rjmp	.+58     	; 0x46 <__bad_interrupt>
+   c:	5f c0       	rjmp	.+190    	; 0xcc <__vector_6>
+   e:	1b c0       	rjmp	.+54     	; 0x46 <__bad_interrupt>
+  10:	1a c0       	rjmp	.+52     	; 0x46 <__bad_interrupt>
+  12:	19 c0       	rjmp	.+50     	; 0x46 <__bad_interrupt>
+
+00000014 <__ctors_end>:
+  14:	11 24       	eor	r1, r1
+  16:	1f be       	out	0x3f, r1	; 63
+  18:	cf e9       	ldi	r28, 0x9F	; 159
+  1a:	cd bf       	out	0x3d, r28	; 61
+
+0000001c <__do_copy_data>:
+  1c:	10 e0       	ldi	r17, 0x00	; 0
+  1e:	a0 e6       	ldi	r26, 0x60	; 96
+  20:	b0 e0       	ldi	r27, 0x00	; 0
+  22:	ee e0       	ldi	r30, 0x0E	; 14
+  24:	f2 e0       	ldi	r31, 0x02	; 2
+  26:	02 c0       	rjmp	.+4      	; 0x2c <__do_copy_data+0x10>
+  28:	05 90       	lpm	r0, Z+
+  2a:	0d 92       	st	X+, r0
+  2c:	a0 36       	cpi	r26, 0x60	; 96
+  2e:	b1 07       	cpc	r27, r17
+  30:	d9 f7       	brne	.-10     	; 0x28 <__do_copy_data+0xc>
+
+00000032 <__do_clear_bss>:
+  32:	20 e0       	ldi	r18, 0x00	; 0
+  34:	a0 e6       	ldi	r26, 0x60	; 96
+  36:	b0 e0       	ldi	r27, 0x00	; 0
+  38:	01 c0       	rjmp	.+2      	; 0x3c <.do_clear_bss_start>
+
+0000003a <.do_clear_bss_loop>:
+  3a:	1d 92       	st	X+, r1
+
+0000003c <.do_clear_bss_start>:
+  3c:	aa 36       	cpi	r26, 0x6A	; 106
+  3e:	b2 07       	cpc	r27, r18
+  40:	e1 f7       	brne	.-8      	; 0x3a <.do_clear_bss_loop>
+  42:	ca d0       	rcall	.+404    	; 0x1d8 <main>
+  44:	e2 c0       	rjmp	.+452    	; 0x20a <_exit>
+
+00000046 <__bad_interrupt>:
+  46:	dc cf       	rjmp	.-72     	; 0x0 <__vectors>
+
+00000048 <ResetProgram>:
+}
+
+// ----------------------------------------------------------------------------
+void ResetProgram()
+{
+	ticks = 0;
+  48:	10 92 66 00 	sts	0x0066, r1	; 0x800066 <ticks+0x1>
+  4c:	10 92 65 00 	sts	0x0065, r1	; 0x800065 <ticks>
+	PrgStep = 0;
+  50:	10 92 64 00 	sts	0x0064, r1	; 0x800064 <PrgStep+0x1>
+  54:	10 92 63 00 	sts	0x0063, r1	; 0x800063 <PrgStep>
+  58:	08 95       	ret
+
+0000005a <ConfigureTimer>:
+
+// ----------------------------------------------------------------------------
+/* Конфигурирование и запуск таймера */
+void ConfigureTimer(TimerTypes TimerType)
+{
+	SignalMode = SHUTDOWN; // временно отключили измерение сигналов
+  5a:	93 e0       	ldi	r25, 0x03	; 3
+  5c:	90 93 68 00 	sts	0x0068, r25	; 0x800068 <SignalMode>
+	
+	switch (TimerType)
+  60:	88 23       	and	r24, r24
+  62:	19 f0       	breq	.+6      	; 0x6a <ConfigureTimer+0x10>
+  64:	83 30       	cpi	r24, 0x03	; 3
+  66:	70 f5       	brcc	.+92     	; 0xc4 <__stack+0x25>
+  68:	16 c0       	rjmp	.+44     	; 0x96 <ConfigureTimer+0x3c>
+			// (2) ШИМ на пине OC0B отключен
+			// (3) CTC режим. Счет идет от 0 до значения в регистре OCR0A
+			// (4) Force Output Compare отключен
+			// (5) Запустить таймер. Источник частоты SysCLK/64
+	
+			TCCR0B = 0; // отключить таймер
+  6a:	13 be       	out	0x33, r1	; 51
+			TCCR0A = 0;
+  6c:	1f bc       	out	0x2f, r1	; 47
+			TimerMode = TimerType;
+  6e:	10 92 69 00 	sts	0x0069, r1	; 0x800069 <TimerMode>
+			ResetProgram();
+  72:	ea df       	rcall	.-44     	; 0x48 <ResetProgram>
+			SET_BIT(TIMSK0, OCIE0A); //включить прерывание по совпадению OCRА
+  74:	89 b7       	in	r24, 0x39	; 57
+  76:	84 60       	ori	r24, 0x04	; 4
+  78:	89 bf       	out	0x39, r24	; 57
+			OCR0A = 149; // 149 = 1мс (1кГц)
+  7a:	85 e9       	ldi	r24, 0x95	; 149
+  7c:	86 bf       	out	0x36, r24	; 54
+			OCR0B = 0;
+  7e:	19 bc       	out	0x29, r1	; 41
+			PwmDivider = 0;
+  80:	10 92 67 00 	sts	0x0067, r1	; 0x800067 <PwmDivider>
+			TCCR0A = (0<<COM0A1 | 0<<COM0A0) |       // (1)
+  84:	82 e0       	ldi	r24, 0x02	; 2
+  86:	8f bd       	out	0x2f, r24	; 47
+			         (0<<COM0B1 | 0<<COM0B0) |       // (2)
+			         (1<<WGM01 | 0<<WGM00);          // (3)
+			TCCR0B = (0<<FOC0A | 0<<FOC0B) |         // (4)
+  88:	83 e0       	ldi	r24, 0x03	; 3
+  8a:	83 bf       	out	0x33, r24	; 51
+			         (0<<WGM02) |                    // (3)
+			         (0<<CS02 | 1<<CS01 | 1<<CS00);  // (5)
+			
+			SET_BIT(PCMSK, PCINT3); // включить прерывания от порта PB3	
+  8c:	ab 9a       	sbi	0x15, 3	; 21
+			SET_BIT(GIMSK, PCIE); // включить прерывания GPIO
+  8e:	8b b7       	in	r24, 0x3b	; 59
+  90:	80 62       	ori	r24, 0x20	; 32
+  92:	8b bf       	out	0x3b, r24	; 59
+			break;
+  94:	17 c0       	rjmp	.+46     	; 0xc4 <__stack+0x25>
+			// (2) ШИМ на пине OC0B отключен
+			// (3) 8-бит Fast PWM режим 7. Duty cycle идет от 0 до значения в регистре OCR0B. Частота от 0 до OCR0A
+			// (4) Force Output Compare отключен
+			// (5) Запустить PWM. Источник частоты SysCLK
+			
+			CLEAR_BIT(GIMSK, PCIE); // выключить прерывания GPIO
+  96:	9b b7       	in	r25, 0x3b	; 59
+  98:	9f 7d       	andi	r25, 0xDF	; 223
+  9a:	9b bf       	out	0x3b, r25	; 59
+			TCCR0B = 0; // отключить таймер
+  9c:	13 be       	out	0x33, r1	; 51
+			TCCR0A = 0;
+  9e:	1f bc       	out	0x2f, r1	; 47
+			TimerMode = TimerType;
+  a0:	80 93 69 00 	sts	0x0069, r24	; 0x800069 <TimerMode>
+			SET_BIT(TIMSK0, OCIE0A); //включить прерывание по совпадению OCRА
+  a4:	99 b7       	in	r25, 0x39	; 57
+  a6:	94 60       	ori	r25, 0x04	; 4
+  a8:	99 bf       	out	0x39, r25	; 57
+			OCR0A = 239; // Частота ШИМ = 20кГц
+  aa:	9f ee       	ldi	r25, 0xEF	; 239
+  ac:	96 bf       	out	0x36, r25	; 54
+			OCR0B = 0; // Начальное значение рабочего цикла
+  ae:	19 bc       	out	0x29, r1	; 41
+			PwmDivider = 0;
+  b0:	10 92 67 00 	sts	0x0067, r1	; 0x800067 <PwmDivider>
+			TCCR0A = (TimerType == GROW ? (1<<COM0B1 | 0<<COM0B0) : (1<<COM0B1 | 1<<COM0B0)) | // (1)
+  b4:	81 30       	cpi	r24, 0x01	; 1
+  b6:	11 f0       	breq	.+4      	; 0xbc <__stack+0x1d>
+  b8:	83 e3       	ldi	r24, 0x33	; 51
+  ba:	01 c0       	rjmp	.+2      	; 0xbe <__stack+0x1f>
+  bc:	83 e2       	ldi	r24, 0x23	; 35
+  be:	8f bd       	out	0x2f, r24	; 47
+			         (0<<COM0A1 | 0<<COM0A0) |       // (2)
+			         (1<<WGM01 | 1<<WGM00);          // (3)
+			TCCR0B = (0<<FOC0A | 0<<FOC0B) |         // (4)
+  c0:	89 e0       	ldi	r24, 0x09	; 9
+  c2:	83 bf       	out	0x33, r24	; 51
+			         (1<<WGM02) |                    // (3)
+			         (0<<CS02 | 0<<CS01 | 1<<CS00);  // (5)
+			break;
+	}
+	
+	SignalMode = NONE; // включили измерение сигналов
+  c4:	82 e0       	ldi	r24, 0x02	; 2
+  c6:	80 93 68 00 	sts	0x0068, r24	; 0x800068 <SignalMode>
+  ca:	08 95       	ret
+
+000000cc <__vector_6>:
+}
+
+// ----------------------------------------------------------------------------
+/* Прерывание по таймеру */
+ISR(TIM0_COMPA_vect)
+{	
+  cc:	1f 92       	push	r1
+  ce:	0f 92       	push	r0
+  d0:	0f b6       	in	r0, 0x3f	; 63
+  d2:	0f 92       	push	r0
+  d4:	11 24       	eor	r1, r1
+  d6:	8f 93       	push	r24
+  d8:	9f 93       	push	r25
+	if (SignalMode == SHUTDOWN) return;
+  da:	80 91 68 00 	lds	r24, 0x0068	; 0x800068 <SignalMode>
+  de:	83 30       	cpi	r24, 0x03	; 3
+  e0:	b9 f0       	breq	.+46     	; 0x110 <__vector_6+0x44>
+	
+	if (TimerMode == NORMAL)
+  e2:	80 91 69 00 	lds	r24, 0x0069	; 0x800069 <TimerMode>
+  e6:	81 11       	cpse	r24, r1
+  e8:	13 c0       	rjmp	.+38     	; 0x110 <__vector_6+0x44>
+	{
+		// отсчет длительности сигнала/тишины. сброс по переполнению
+		ticks++;
+  ea:	80 91 65 00 	lds	r24, 0x0065	; 0x800065 <ticks>
+  ee:	90 91 66 00 	lds	r25, 0x0066	; 0x800066 <ticks+0x1>
+  f2:	01 96       	adiw	r24, 0x01	; 1
+  f4:	90 93 66 00 	sts	0x0066, r25	; 0x800066 <ticks+0x1>
+  f8:	80 93 65 00 	sts	0x0065, r24	; 0x800065 <ticks>
+		if (resetCounter)
+  fc:	80 91 60 00 	lds	r24, 0x0060	; 0x800060 <__data_end>
+ 100:	88 23       	and	r24, r24
+ 102:	31 f0       	breq	.+12     	; 0x110 <__vector_6+0x44>
+		{
+			ticks = 0;
+ 104:	10 92 66 00 	sts	0x0066, r1	; 0x800066 <ticks+0x1>
+ 108:	10 92 65 00 	sts	0x0065, r1	; 0x800065 <ticks>
+			resetCounter = FALSE;
+ 10c:	10 92 60 00 	sts	0x0060, r1	; 0x800060 <__data_end>
+				//}
+				//ConfigureTimer(NORMAL);
+			//}
+		//}
+	}
+}
+ 110:	9f 91       	pop	r25
+ 112:	8f 91       	pop	r24
+ 114:	0f 90       	pop	r0
+ 116:	0f be       	out	0x3f, r0	; 63
+ 118:	0f 90       	pop	r0
+ 11a:	1f 90       	pop	r1
+ 11c:	18 95       	reti
+
+0000011e <__vector_2>:
+
+// ----------------------------------------------------------------------------
+/* Прерывание по фронту сигнала */
+ISR (PCINT0_vect)
+{
+ 11e:	1f 92       	push	r1
+ 120:	0f 92       	push	r0
+ 122:	0f b6       	in	r0, 0x3f	; 63
+ 124:	0f 92       	push	r0
+ 126:	11 24       	eor	r1, r1
+ 128:	8f 93       	push	r24
+ 12a:	9f 93       	push	r25
+	if (SignalMode == SHUTDOWN) return;
+ 12c:	80 91 68 00 	lds	r24, 0x0068	; 0x800068 <SignalMode>
+ 130:	83 30       	cpi	r24, 0x03	; 3
+ 132:	a9 f0       	breq	.+42     	; 0x15e <__vector_2+0x40>
+	
+	dbgFlag = ticks;
+ 134:	80 91 65 00 	lds	r24, 0x0065	; 0x800065 <ticks>
+ 138:	90 91 66 00 	lds	r25, 0x0066	; 0x800066 <ticks+0x1>
+ 13c:	90 93 62 00 	sts	0x0062, r25	; 0x800062 <dbgFlag+0x1>
+ 140:	80 93 61 00 	sts	0x0061, r24	; 0x800061 <dbgFlag>
+	
+	// -- определение текущего состояния входа: звук или тишина
+	if ((PINB & 8) == 8) // PIN3
+ 144:	b3 9b       	sbis	0x16, 3	; 22
+ 146:	05 c0       	rjmp	.+10     	; 0x152 <__vector_2+0x34>
+	{
+		// HI
+		SignalMode = SILENCE_DETECTED;
+ 148:	81 e0       	ldi	r24, 0x01	; 1
+ 14a:	80 93 68 00 	sts	0x0068, r24	; 0x800068 <SignalMode>
+		SET_BIT(PORTB, PORTB4);
+ 14e:	c4 9a       	sbi	0x18, 4	; 24
+ 150:	03 c0       	rjmp	.+6      	; 0x158 <__vector_2+0x3a>
+	}
+	else
+	{
+		// LO
+		SignalMode = SIGNAL_DETECTED;
+ 152:	10 92 68 00 	sts	0x0068, r1	; 0x800068 <SignalMode>
+		CLEAR_BIT(PORTB, PORTB4);
+ 156:	c4 98       	cbi	0x18, 4	; 24
+		//ResetProgram();
+		//SignalMode = NONE;
+		//return;
+	//}
+	
+	resetCounter = TRUE;
+ 158:	81 e0       	ldi	r24, 0x01	; 1
+ 15a:	80 93 60 00 	sts	0x0060, r24	; 0x800060 <__data_end>
+    }	
+	
+	// -- перезапуск отсчета
+	ticks = 0;
+	SignalMode = NONE;
+}
+ 15e:	9f 91       	pop	r25
+ 160:	8f 91       	pop	r24
+ 162:	0f 90       	pop	r0
+ 164:	0f be       	out	0x3f, r0	; 63
+ 166:	0f 90       	pop	r0
+ 168:	1f 90       	pop	r1
+ 16a:	18 95       	reti
+
+0000016c <delay5>:
+		DbgSend(dbgData[ii], 16);
+}
+
+void delay5(uint8_t fives)
+{
+	while (fives--)
+ 16c:	88 23       	and	r24, r24
+ 16e:	41 f0       	breq	.+16     	; 0x180 <delay5+0x14>
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
+
+	__builtin_avr_delay_cycles(__ticks_dc);
+ 170:	ef ed       	ldi	r30, 0xDF	; 223
+ 172:	fe e2       	ldi	r31, 0x2E	; 46
+ 174:	31 97       	sbiw	r30, 0x01	; 1
+ 176:	f1 f7       	brne	.-4      	; 0x174 <delay5+0x8>
+ 178:	00 c0       	rjmp	.+0      	; 0x17a <delay5+0xe>
+ 17a:	00 00       	nop
+ 17c:	81 50       	subi	r24, 0x01	; 1
+ 17e:	c1 f7       	brne	.-16     	; 0x170 <delay5+0x4>
+ 180:	08 95       	ret
+
+00000182 <DbgSend>:
+пауза ("0") между импульсами 10мс
+
+200мс - начало последовательности
+*/
+void DbgSend(uint16_t data, uint8_t bits)
+{
+ 182:	0f 93       	push	r16
+ 184:	1f 93       	push	r17
+ 186:	cf 93       	push	r28
+ 188:	df 93       	push	r29
+ 18a:	ec 01       	movw	r28, r24
+ 18c:	06 2f       	mov	r16, r22
+	// начало фрейма
+	SET_BIT(PORTB, PORTB4);
+ 18e:	c4 9a       	sbi	0x18, 4	; 24
+	delay5(15/5);
+ 190:	83 e0       	ldi	r24, 0x03	; 3
+ 192:	ec df       	rcall	.-40     	; 0x16c <delay5>
+	
+	CLEAR_BIT(PORTB, PORTB4);
+ 194:	c4 98       	cbi	0x18, 4	; 24
+	delay5(10/5);
+ 196:	82 e0       	ldi	r24, 0x02	; 2
+ 198:	e9 df       	rcall	.-46     	; 0x16c <delay5>
+	
+	// данные
+	for (uint8_t i=0; i<bits; i++)
+ 19a:	00 23       	and	r16, r16
+ 19c:	91 f0       	breq	.+36     	; 0x1c2 <DbgSend+0x40>
+ 19e:	10 e0       	ldi	r17, 0x00	; 0
+	{
+		if ( (data & 1) == 1)
+ 1a0:	c0 ff       	sbrs	r28, 0
+ 1a2:	04 c0       	rjmp	.+8      	; 0x1ac <DbgSend+0x2a>
+		{
+			SET_BIT(PORTB, PORTB4);
+ 1a4:	c4 9a       	sbi	0x18, 4	; 24
+			delay5(50/5);
+ 1a6:	8a e0       	ldi	r24, 0x0A	; 10
+ 1a8:	e1 df       	rcall	.-62     	; 0x16c <delay5>
+ 1aa:	03 c0       	rjmp	.+6      	; 0x1b2 <DbgSend+0x30>
+		}
+		else
+		{
+			SET_BIT(PORTB, PORTB4);
+ 1ac:	c4 9a       	sbi	0x18, 4	; 24
+			delay5(25/5);
+ 1ae:	85 e0       	ldi	r24, 0x05	; 5
+ 1b0:	dd df       	rcall	.-70     	; 0x16c <delay5>
+		}
+		
+		data >>= 1;
+ 1b2:	d6 95       	lsr	r29
+ 1b4:	c7 95       	ror	r28
+		
+		CLEAR_BIT(PORTB, PORTB4);
+ 1b6:	c4 98       	cbi	0x18, 4	; 24
+		delay5(10/5);
+ 1b8:	82 e0       	ldi	r24, 0x02	; 2
+ 1ba:	d8 df       	rcall	.-80     	; 0x16c <delay5>
+	
+	CLEAR_BIT(PORTB, PORTB4);
+	delay5(10/5);
+	
+	// данные
+	for (uint8_t i=0; i<bits; i++)
+ 1bc:	1f 5f       	subi	r17, 0xFF	; 255
+ 1be:	01 13       	cpse	r16, r17
+ 1c0:	ef cf       	rjmp	.-34     	; 0x1a0 <DbgSend+0x1e>
+		CLEAR_BIT(PORTB, PORTB4);
+		delay5(10/5);
+	}
+	
+	// конец фрейма
+	SET_BIT(PORTB, PORTB4);
+ 1c2:	c4 9a       	sbi	0x18, 4	; 24
+	delay5(100/5);
+ 1c4:	84 e1       	ldi	r24, 0x14	; 20
+ 1c6:	d2 df       	rcall	.-92     	; 0x16c <delay5>
+	CLEAR_BIT(PORTB, PORTB4);
+ 1c8:	c4 98       	cbi	0x18, 4	; 24
+	delay5(10/5);
+ 1ca:	82 e0       	ldi	r24, 0x02	; 2
+ 1cc:	cf df       	rcall	.-98     	; 0x16c <delay5>
+}
+ 1ce:	df 91       	pop	r29
+ 1d0:	cf 91       	pop	r28
+ 1d2:	1f 91       	pop	r17
+ 1d4:	0f 91       	pop	r16
+ 1d6:	08 95       	ret
+
+000001d8 <main>:
+#include "main.h"
+
+
+int main(void)
+{
+	sei();
+ 1d8:	78 94       	sei
+	
+	// настройка GPIO
+	CLEAR_BIT(DDRB, DD3); // PB3 - вход
+ 1da:	bb 98       	cbi	0x17, 3	; 23
+	SET_BIT(DDRB, DD4); // PB4 - выход отладчика
+ 1dc:	bc 9a       	sbi	0x17, 4	; 23
+	
+	//ConfigureTimer(GROW);
+	ConfigureTimer(NORMAL);
+ 1de:	80 e0       	ldi	r24, 0x00	; 0
+ 1e0:	3c df       	rcall	.-392    	; 0x5a <ConfigureTimer>
+	{
+		if (dbgFlag != 0)
+		{
+			DbgSend(dbgFlag, 16);
+			dbgFlag = 0;
+			SignalMode = NONE;
+ 1e2:	c2 e0       	ldi	r28, 0x02	; 2
+	
+	
+	
+    while (1)
+	{
+		if (dbgFlag != 0)
+ 1e4:	80 91 61 00 	lds	r24, 0x0061	; 0x800061 <dbgFlag>
+ 1e8:	90 91 62 00 	lds	r25, 0x0062	; 0x800062 <dbgFlag+0x1>
+ 1ec:	89 2b       	or	r24, r25
+ 1ee:	d1 f3       	breq	.-12     	; 0x1e4 <main+0xc>
+		{
+			DbgSend(dbgFlag, 16);
+ 1f0:	80 91 61 00 	lds	r24, 0x0061	; 0x800061 <dbgFlag>
+ 1f4:	90 91 62 00 	lds	r25, 0x0062	; 0x800062 <dbgFlag+0x1>
+ 1f8:	60 e1       	ldi	r22, 0x10	; 16
+ 1fa:	c3 df       	rcall	.-122    	; 0x182 <DbgSend>
+			dbgFlag = 0;
+ 1fc:	10 92 62 00 	sts	0x0062, r1	; 0x800062 <dbgFlag+0x1>
+ 200:	10 92 61 00 	sts	0x0061, r1	; 0x800061 <dbgFlag>
+			SignalMode = NONE;
+ 204:	c0 93 68 00 	sts	0x0068, r28	; 0x800068 <SignalMode>
+ 208:	ed cf       	rjmp	.-38     	; 0x1e4 <main+0xc>
+
+0000020a <_exit>:
+ 20a:	f8 94       	cli
+
+0000020c <__stop_program>:
+ 20c:	ff cf       	rjmp	.-2      	; 0x20c <__stop_program>
