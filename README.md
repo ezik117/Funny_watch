@@ -12,4 +12,4 @@
  - функция будильника с возможностью выбора дней срабатывания (время одно и то же)
  - смена цифр экранов: стандартный цифровой и забавные цифры (детский режим)
 
-![Screen view](https://github.com/ezik117/Funny_watch/blob/main/001.jpg)
+![Screen view](https://github.com/ezik117/Funny_watch/blob/master/DOCs/001.jpeg)
