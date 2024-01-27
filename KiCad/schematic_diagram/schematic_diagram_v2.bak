@@ -1,6 +1,6 @@
 EESchema Schematic File Version 4
 LIBS:schematic_diagram_v2-cache
-EELAYER 26 0
+EELAYER 29 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
@@ -539,11 +539,11 @@ F 3 "~" H 3850 5700 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Device:Battery_Cell BT1
+L Device:Battery_Cell Cbak
 U 1 1 5F568343
 P 3050 6400
-F 0 "BT1" H 3168 6496 50  0000 L CNN
-F 1 "CR2035" H 3168 6405 50  0000 L CNN
+F 0 "Cbak" H 3168 6496 50  0000 L CNN
+F 1 "Ionistor" H 3168 6405 50  0000 L CNN
 F 2 "" V 3050 6460 50  0001 C CNN
 F 3 "~" V 3050 6460 50  0001 C CNN
 	1    3050 6400
@@ -1314,7 +1314,7 @@ Wire Wire Line
 Wire Wire Line
 	5750 4800 6650 4800
 $Comp
-L MCU_Microchip_ATtiny:ATtiny13A-SSU U4
+L schematic_diagram_v2-rescue:ATtiny13A-SSU-MCU_Microchip_ATtiny U4
 U 1 1 5F9AB5F9
 P 10400 5450
 F 0 "U4" H 10850 6000 50  0000 R CNN
@@ -1472,6 +1472,17 @@ Wire Wire Line
 	8650 6200 10400 6200
 Wire Wire Line
 	9100 5450 9800 5450
+$Comp
+L Switch:SW_Push SW?
+U 1 1 5FAE7370
+P 9100 5250
+F 0 "SW?" H 9100 5535 50  0000 C CNN
+F 1 "SW_Push" H 9100 5444 50  0000 C CNN
+F 2 "" H 9100 5450 50  0001 C CNN
+F 3 "" H 9100 5450 50  0001 C CNN
+	1    9100 5250
+	1    0    0    -1  
+$EndComp
 Wire Bus Line
 	7650 900  7650 4050
 Wire Bus Line

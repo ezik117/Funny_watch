@@ -1,6 +1,6 @@
 EESchema Schematic File Version 4
 LIBS:schematic_diagram_v2-cache
-EELAYER 26 0
+EELAYER 29 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
@@ -483,11 +483,8 @@ F 3 "~" H 1100 6350 50  0001 C CNN
 	1    1100 6350
 	1    0    0    -1  
 $EndComp
-Connection ~ 3050 6650
 Wire Wire Line
 	3850 6650 3850 5850
-Wire Wire Line
-	3050 6650 3850 6650
 Connection ~ 3050 5400
 Wire Wire Line
 	3050 5400 3850 5400
@@ -498,13 +495,9 @@ Wire Wire Line
 	3050 5400 3050 5800
 Wire Wire Line
 	2500 5400 3050 5400
-Wire Wire Line
-	2500 6650 3050 6650
 Connection ~ 2500 6650
 Wire Wire Line
 	2500 6500 2500 6650
-Wire Wire Line
-	3050 6650 3050 6500
 Wire Wire Line
 	2100 6650 2500 6650
 Wire Wire Line
@@ -536,17 +529,6 @@ F 1 "47uF" H 3968 5655 50  0000 L CNN
 F 2 "" H 3888 5550 50  0001 C CNN
 F 3 "~" H 3850 5700 50  0001 C CNN
 	1    3850 5700
-	1    0    0    -1  
-$EndComp
-$Comp
-L Device:Battery_Cell BT1
-U 1 1 5F568343
-P 3050 6400
-F 0 "BT1" H 3168 6496 50  0000 L CNN
-F 1 "CR2035" H 3168 6405 50  0000 L CNN
-F 2 "" V 3050 6460 50  0001 C CNN
-F 3 "~" V 3050 6460 50  0001 C CNN
-	1    3050 6400
 	1    0    0    -1  
 $EndComp
 $Comp
@@ -1314,7 +1296,7 @@ Wire Wire Line
 Wire Wire Line
 	5750 4800 6650 4800
 $Comp
-L MCU_Microchip_ATtiny:ATtiny13A-SSU U4
+L schematic_diagram_v2-rescue:ATtiny13A-SSU-MCU_Microchip_ATtiny U4
 U 1 1 5F9AB5F9
 P 10400 5450
 F 0 "U4" H 10850 6000 50  0000 R CNN
@@ -1472,12 +1454,6 @@ Wire Wire Line
 	8650 6200 10400 6200
 Wire Wire Line
 	9100 5450 9800 5450
-Wire Bus Line
-	7650 900  7650 4050
-Wire Bus Line
-	5200 900  5200 4050
-Wire Bus Line
-	4500 900  4500 6950
 $Comp
 L Switch:SW_Push SW?
 U 1 1 5FAE7370
@@ -1489,4 +1465,28 @@ F 3 "" H 9100 5450 50  0001 C CNN
 	1    9100 5250
 	1    0    0    -1  
 $EndComp
+$Comp
+L ez_library:Ionistor Cbak
+U 1 1 65B75F4C
+P 3050 6400
+F 0 "Cbak" H 3236 6446 50  0000 L CNN
+F 1 "Ionistor" H 3236 6355 50  0000 L CNN
+F 2 "" H 3088 6250 50  0001 C CNN
+F 3 "" H 3050 6400 50  0001 C CNN
+	1    3050 6400
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	2500 6650 3050 6650
+Wire Wire Line
+	3050 6600 3050 6650
+Wire Bus Line
+	7650 900  7650 4050
+Wire Bus Line
+	5200 900  5200 4050
+Wire Bus Line
+	4500 900  4500 6950
+Connection ~ 3050 6650
+Wire Wire Line
+	3050 6650 3850 6650
 $EndSCHEMATC
