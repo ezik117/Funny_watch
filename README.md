@@ -15,8 +15,5 @@
 ![Screen view](https://github.com/ezik117/Funny_watch/blob/master/DOCs/003.jpg)
 ![Screen view](https://github.com/ezik117/Funny_watch/blob/master/DOCs/001.jpg)
 ![Screen view](https://github.com/ezik117/Funny_watch/blob/master/DOCs/002.jpg)
-<<<<<<< HEAD
 ![Screen view](https://github.com/ezik117/Funny_watch/blob/master/DOCs/schematic.png)
-=======
-![Screen view](https://github.com/ezik117/Funny_watch/blob/master/DOCs/schematic.png)
->>>>>>> 2d6bdd9efd526223e1fccddbe66315570d37fad5
+
